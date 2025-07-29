@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Provider Profile | HandyHelp</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .profile-section {
+      background: #fff8ed;
+      padding: 60px 0 40px 0;
+    }
+    .profile-card {
+      border-radius: 1.5rem;
+      background: #fff;
+      box-shadow: 0 4px 22px #e5a03b18;
+      padding: 2.5rem 2rem 2rem 2rem;
+      margin-bottom: 2.5rem;
+    }
+    .profile-avatar {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 2px 18px #e5a03b34;
+      background: #ffe6c4;
+    }
+    .profile-name {
+      font-weight: 900;
+      font-size: 2rem;
+      margin-bottom: .25em;
+      color: #e5a03b;
+    }
+    .profile-role {
+      color: #684e17;
+      font-weight: 600;
+      font-size: 1.18rem;
+      margin-bottom: .45em;
+    }
+    .profile-rating i {
+      color: #ffd46b;
+      font-size: 1.2em;
+      margin-right: 2px;
+    }
+    .profile-actions .btn {
+      border-radius: 2rem;
+      font-weight: bold;
+      margin-right: .5rem;
+      margin-bottom: 0.5rem;
+    }
+    .profile-bio {
+      margin-top: 1.6rem;
+      margin-bottom: 2.2rem;
+      color: #54481f;
+      font-size: 1.08rem;
+      line-height: 1.6;
+    }
+    .profile-tags .badge {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-right: .6em;
+      margin-bottom: .5em;
+      background: #ffe6c4;
+      color: #b38126;
+      border-radius: 1em;
+      padding: .45em 1.08em;
+    }
+    .profile-contact-btn {
+      background: #e5a03b;
+      color: #fff;
+      border: none;
+      font-weight: 700;
+      border-radius: 2rem;
+    }
+    .profile-contact-btn:hover {
+      background: #cc8a33;
+      color: #fff;
+    }
+    .profile-location {
+      color: #4074c0;
+      font-weight: 500;
+      font-size: 1.05rem;
+      margin-top: 1.1em;
+      margin-bottom: 2.2em;
+    }
+    /* Reviews styles */
+    .review-section {
+      margin-bottom: 3rem;
+    }
+    .review-card {
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 2px 12px #e5a03b27;
+      padding: 1.4rem 1.3rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .review-card .reviewer-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 1rem;
+      background: #faf2e1;
+    }
+    .review-card .reviewer-name {
+      font-weight: 700;
+      font-size: 1.04rem;
+    }
+    .review-card .review-stars {
+      color: #ffd46b;
+      font-size: 1.04rem;
+      margin-left: 0.15em;
+    }
+    .review-date {
+      color: #a29a88;
+      font-size: 0.96em;
+      margin-top: 0.2em;
+    }
+    .review-body {
+      font-size: 1.01rem;
+      color: #5f5439;
+      margin-top: 0.4em;
+    }
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      .profile-card { padding: 1.2rem 0.4rem 1.2rem 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-light sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="logo.png" alt="HandyHelp Logo" style="width:32px; height:32px; margin-right: 10px;">
+        <span id="Handy1">Handy</span><span id="Help2">Help</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item ms-lg-3">
+            <a class="btn btn-accent" href="#">Login/Sign Up</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Section -->
+  <section class="profile-section">
+    <div class="container">
+      <div class="profile-card mx-auto" style="max-width: 640px;">
+        <div class="d-flex flex-column align-items-center">
+          <img src="provider_avatar.png" class="profile-avatar mb-4" alt="Provider Photo">
+          <div class="profile-name">Sophia Carter</div>
+          <div class="profile-role">Certified Interior Designer</div>
+          <div class="profile-rating mb-2">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-half"></i>
+            <span class="ms-1 text-muted">(4.8/5 · 125 reviews)</span>
+          </div>
+          <div class="profile-location"><i class="bi bi-geo-alt"></i> San Francisco, CA</div>
+          <div class="profile-bio text-center">
+            I'm a passionate interior designer with over 5 years of experience, specializing in creating functional and beautiful spaces. <br>
+            My expertise includes space planning, color consultation, furniture selection, and project management.<br>
+            I'm committed to delivering personalized designs that reflect my clients' unique styles and needs.
+          </div>
+          <div class="profile-tags mb-3">
+            <span class="badge">Space Planning</span>
+            <span class="badge">Color Consultation</span>
+            <span class="badge">Furniture Selection</span>
+            <span class="badge">Lighting Design</span>
+            <span class="badge">Project Management</span>
+          </div>
+          <div class="profile-actions mb-3">
+            <a href="tel:9999999999" class="btn btn-accent profile-contact-btn">
+              <i class="bi bi-telephone"></i> Call Now
+            </a>
+            <a href="mailto:sophia.carter@example.com" class="btn btn-outline-primary profile-contact-btn">
+              <i class="bi bi-envelope"></i> Send Email
+            </a>
+            <a href="#" class="btn btn-outline-success profile-contact-btn">
+              <i class="bi bi-whatsapp"></i> WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="review-section">
+        <h4 class="fw-bold mb-4"><i class="bi bi-chat-left-text text-accent"></i> Recent Reviews</h4>
+
+        <div class="review-card d-flex">
+          <img src="avatar1.png" class="reviewer-avatar" alt="Ethan Harper">
+          <div>
+            <span class="reviewer-name">Ethan Harper</span>
+            <span class="review-stars">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star"></i>
+            </span>
+            <div class="review-date">2 months ago</div>
+            <div class="review-body">
+              Sophia transformed my living room into a stunning and functional space. Her attention to detail and creative ideas were exceptional. Highly recommend!
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card d-flex">
+          <img src="avatar2.png" class="reviewer-avatar" alt="Olivia Bennett">
+          <div>
+            <span class="reviewer-name">Olivia Bennett</span>
+            <span class="review-stars">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </span>
+            <div class="review-date">3 months ago</div>
+            <div class="review-body">
+               Sophia provided excellent color consultation and helped me choose the perfect palette. She was professional and easy to work with.
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card d-flex">
+          <img src="avatar3.png" class="reviewer-avatar" alt="Noah Turner">
+          <div>
+            <span class="reviewer-name">Noah Turner</span>
+            <span class="review-stars">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+            </span>
+            <div class="review-date">4 months ago</div>
+            <div class="review-body">
+              Sophia's furniture selection was spot-on, and she managed the project seamlessly. I'm thrilled with the final result and would hire her again.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Maps Embed or Static Location (optional) -->
+      <div class="mt-4 d-flex justify-content-center">
+        <iframe
+          src="https://www.google.com/maps?q=San+Francisco,+CA&output=embed"
+          width="95%" height="290" style="border-radius:1rem;border:0;"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-bg pt-5 pb-3 mt-0">
+    <div class="container">
+      <div class="row text-center text-md-start">
+        <div class="col-md-3 mb-3">
+          <h5 class="text-accent fw-bold mb-2">HandyHelp</h5>
+          <div class="fs-6 text-dark">Get things done. Stress-free.</div>
+        </div>
+        <div class="col-md-2 mb-3">
+          <h6 class="text-accent">Product</h6>
+          <ul class="list-unstyled">
+            <li><a href="services.html" class="footer-link">Categories</a></li>
+            <li><a href="#" class="footer-link">Pricing</a></li>
+            <li><a href="#" class="footer-link">Book Now</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 mb-3">
+          <h6 class="text-accent">Company</h6>
+          <ul class="list-unstyled">
+            <li><a href="about.html" class="footer-link">About</a></li>
+            <li><a href="contact.html" class="footer-link">Contact</a></li>
+            <li><a href="#" class="footer-link">Careers</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 mb-3">
+          <h6 class="text-accent">Support</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="footer-link">FAQ</a></li>
+            <li><a href="#" class="footer-link">Help Center</a></li>
+            <li><a href="#" class="footer-link">Feedback</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h6 class="text-accent">Legal</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+            <li><a href="#" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="bg-accent opacity-30" />
+      <p class="mb-0 text-center text-dark">&copy; 2025 HandyHelp. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

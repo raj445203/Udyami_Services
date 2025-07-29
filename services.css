@@ -1,0 +1,74 @@
+/* Services Page Hero */
+.services-hero {
+  background: url('services_hero_bg.jpg') center center / cover no-repeat;
+  min-height: 320px;
+  padding: 80px 0 50px 0;
+  border-radius: 0 0 1.5rem 1.5rem;
+}
+
+/* Service Cards Section */
+.services-grid-section {
+  background: #fff8ed;
+}
+
+.service-card {
+  border-radius: 1rem;
+  box-shadow: 0 4px 22px #e5a03b18;
+  border: none;
+  transition: box-shadow 0.17s, transform 0.16s;
+}
+.service-card:hover {
+  box-shadow: 0 8px 32px #e5a03b44;
+  transform: translateY(-6px) scale(1.025);
+}
+
+.img-container {
+  background: #ffe6c4;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px #f8cb8155;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 102px;
+  height: 102px;
+}
+.service-img {
+  width: 78px;
+  height: 78px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.btn-accent {
+  background-color: #e5a03b;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 2rem;
+  border: none;
+  transition: background-color 0.2s;
+}
+.btn-accent:hover,
+.btn-accent:focus {
+  background-color: #cc8a33;
+  color: #fff;
+}
+
+.text-accent {
+  color: #e5a03b !important;
+}
+
+.footer-bg {
+  background: #faf6ee;
+  color: #4a3a15;
+}
+
+/* Responsive tune-up for cards */
+@media (max-width: 767px) {
+  .services-hero {
+    min-height: 180px;
+    padding: 40px 0 25px 0;
+  }
+  .img-container { width: 78px; height: 78px; }
+  .service-img { width: 56px; height: 56px; }
+}
