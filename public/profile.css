@@ -1,0 +1,54 @@
+/* style/main.css */
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #fdfdfd;
+  color: #333;
+}
+
+.navbar-brand {
+  font-weight: 700;
+}
+
+h2, h3 {
+  color: #2c3e50;
+}
+
+.badge {
+  font-size: 0.9rem;
+  padding: 0.6em 1em;
+  border-radius: 50rem;
+  background: linear-gradient(135deg, #ffa726, #fb8c00);
+  color: #fff;
+  font-weight: 500;
+}
+
+.card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.05);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  border: none;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #66bb6a, #43a047);
+  border: none;
+}
+
+.btn-outline-primary {
+  border-color: #2196f3;
+  color: #2196f3;
+}
+
+.btn-outline-primary:hover {
+  background-color: #2196f3;
+  color: #fff;
+}
