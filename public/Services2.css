@@ -1,0 +1,210 @@
+:root {
+    --handyhelp-orange: #7dc9e0; /* Original brand orange from Tailwind */
+    --handyhelp-dark-orange: #4fafad; /* Darker orange for hover */
+    --handyhelp-light-gray: #F9FAFB; /* bg-gray-50 from Tailwind */
+    --handyhelp-text-dark: #1f2937; /* text-gray-900 from Tailwind */
+    --handyhelp-text-medium: #4b5563; /* text-gray-700 */
+    --handyhelp-text-light: #6b7280; /* text-gray-500 */
+    --subtle-background: #abd7ec; /* A slightly darker, off-white for body background */
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--subtle-background);
+}
+
+/* Header Section */
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+.navbar-brand img {
+    margin-right: 8px;
+}
+
+.btn-outline-success {
+    color: var(--handyhelp-orange);
+    border-color: var(--handyhelp-orange);
+    transition: all 0.3s ease;
+}
+
+.btn-outline-success:hover {
+    background-color: var(--handyhelp-orange);
+    color: #fff;
+}
+
+/* Hero Section (Main Content) */
+.hero-main-content {
+    position: relative;
+    background-image: url(images/hero.png);
+    color: var(--handyhelp-text-dark);
+    padding-top: 4rem;
+    padding-bottom: 6rem;
+    text-align: center;
+}
+
+.hero-main-content h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+     color: #fff;
+}
+
+.hero-main-content p {
+    margin-top: 1rem;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.125rem;
+   text-decoration-color: #fff;
+}
+
+.hero-search-bar {
+    margin-top: 2rem;
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+.hero-search-bar .form-control {
+    width: 100%;
+    padding-left: 1.25rem;
+    padding-right: 4rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--handyhelp-text-medium);
+    background-color: #fff;
+    border: 2px solid #e5e7eb;
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+}
+
+.hero-search-bar .form-control:focus {
+    border-color: var(--handyhelp-orange);
+    box-shadow: 0 0 0 3px rgba(125, 201, 224, 0.2);
+}
+
+.hero-search-bar .search-button {
+    position: absolute;
+    top: 0.375rem;
+    right: 0.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: calc(100% - 0.75rem);
+    color: #fff;
+    background-color: var(--handyhelp-orange);
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.hero-search-bar .search-button:hover {
+    background-color: var(--handyhelp-dark-orange);
+}
+
+.hero-search-bar .search-button svg {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+
+
+/* Services Grid Section */
+.services-grid-section {
+    background-color: #a6e1ef;
+    padding-top: 4rem;
+    padding-bottom: 5rem;
+}
+
+.services-grid-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--handyhelp-text-dark);
+    margin-bottom: 1.5rem;
+}
+
+.service-card-bootstrap {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    text-align: center;
+}
+
+.service-card-bootstrap:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+}
+
+.service-card-bootstrap .icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    width: 4rem;
+    border-radius: 9999px;
+    background-color: rgba(125, 201, 224, 0.1);
+    margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.service-card-bootstrap .icon-container svg {
+    height: 2rem;
+    width: 2rem;
+    color: var(--handyhelp-orange);
+}
+
+.service-card-bootstrap h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--handyhelp-text-dark);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.service-card-bootstrap p {
+    margin-top: 0.5rem;
+    color: var(--handyhelp-text-light);
+    font-size: 0.875rem;
+    margin-bottom: 0;
+}
+
+/* Footer */
+.footer-bootstrap {
+    background-color: #fff;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    text-align: center;
+    color: var(--handyhelp-text-light);
+}
+
+.footer-bootstrap .footer-links a {
+    color: var(--handyhelp-text-light);
+    text-decoration: none;
+    margin: 0 0.75rem;
+    transition: color 0.3s ease;
+}
+
+.footer-bootstrap .footer-links a:hover {
+    color: var(--handyhelp-orange);
+}
+
+.footer-bootstrap .copyright-text {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+}

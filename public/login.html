@@ -1,155 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>HandyHelp - Login / Signup</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Segoe UI', sans-serif;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HandyHelp - Login & Signup</title>
+    <!-- Bootstrap CSS for layout and components -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f4f8; /* A light, clean background color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 75px; /* Add padding to the top to prevent content from being hidden by the fixed navbar */
+        }
 
-.bg-image {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: url(images/hero.png) no-repeat center center/cover;
-  z-index: -2;
-}
+        /* Container for the entire login/signup card */
+        .login-container {
+            max-width: 450px;
+            width: 90%;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Heading style */
+        .login-container h2 {
+            font-weight: 700;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
 
-.overlay {
-  background: rgba(0, 0, 0, 0.6);
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  z-index: -1;
-}
+        /* Subtitle style */
+        .login-container p {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
 
-.glass-card {
-  background: rgba(32, 97, 127, 0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  color: white;
-  width: 500px;
-  
-}
+        /* Button styling for social logins */
+        .btn-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
 
-.logo {
-  width: 70px;
-  height: 70px;
-  align-items: center;
-  object-fit: contain;
-  margin-left: 190px;
-}
+        /* Google button specific styles */
+        .btn-google {
+            background-color: #ffffff;
+            color: #2c3e50;
+            border: 1px solid #dcdde1;
+        }
+        .btn-google:hover {
+            background-color: #f5f6fa;
+        }
 
-.auth-form input {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
+        /* Separator line with text */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #bdc3c7;
+            margin: 25px 0;
+        }
 
-.auth-form input::placeholder {
-  color: #ccc;
-}
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #bdc3c7;
+        }
 
-  </style>
+        .divider:not(:empty)::before {
+            margin-right: .25em;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: .25em;
+        }
+
+        /* Form input and button styles */
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: #3498db; /* A friendly blue */
+            border-color: #3498db;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        /* Link styles */
+        .link-text {
+            color: #3498db;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .link-text:hover {
+            text-decoration: underline;
+        }
+
+        /* Navbar fixed to top */
+        .navbar-fixed-top {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1030;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Background -->
-  <div class="bg-image">
-    <div class="overlay"></div>
-  </div>
-
-  <!-- Auth Card -->
-  <div class="container d-flex align-items-center justify-content-center min-vh-100">
-    <div class="card p-4 glass-card text-center shadow-lg" style="max-width: 500px;">
-      <img src="images/logo2.png" alt="HandyHelp Logo" class="logo mb-3">
-      <h2 class="fw-bold mb-4">HandyHelp</h2>
-
-      <!-- Form Toggle Buttons -->
-      <div class="d-flex justify-content-center mb-3">
-        <button class="btn btn-outline-light me-2" id="show-login">Login</button>
-        <button class="btn btn-outline-light" id="show-signup">Sign Up</button>
-      </div>
-
-      <!-- Login Form -->
-      <form id="login-form" class="auth-form">
-        <input type="text" id="login-username" class="form-control mb-2" placeholder="Username" required>
-        <input type="password" id="login-password" class="form-control mb-3" placeholder="Password" required>
-        <button type="submit" class="btn btn-success w-100">Login</button>
-        <p class="text-danger mt-2" id="login-error"></p>
-      </form>
-
-      <!-- Signup Form -->
-      <form id="signup-form" class="auth-form d-none">
-        <input type="text" id="signup-username" class="form-control mb-2" placeholder="Choose Username" required>
-        <input type="password" id="signup-password" class="form-control mb-2" placeholder="Create Password" required>
-        <input type="password" id="signup-confirm" class="form-control mb-3" placeholder="Confirm Password" required>
-        <button type="submit" class="btn btn-outline-light w-100">Sign Up</button>
-        <p class="text-danger mt-2" id="signup-error"></p>
-      </form>
+    <!-- Header -->
+    <nav class="navbar navbar-light bg-white border-bottom p-3 px-4 navbar-fixed-top">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
+            <img src="images/logo2.png" alt="HandyHelp" height="50">HandyHelp
+        </a>
+        <div class="d-flex gap-3 align-items-center">
+            <a href="Services2.html" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Services</a>
+            <a href="login.html" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Sign up / Log in</a>
+            <a href="become-a-tasker.html"><button class="btn btn-outline-success">Become a Tasker</button></a>
+            <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+    <div class="collapse navbar-collapse bg-white d-md-none" id="navbarNav">
+        <ul class="navbar-nav w-100 text-center">
+            <li class="nav-item">
+                <a class="nav-link text-dark fw-semibold" href="Services2.html">Services</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark fw-semibold" href="login.html">Sign up / Log in</a>
+            </li>
+        </ul>
     </div>
-  </div>
 
-  <script >
-    const loginForm = document.getElementById('login-form');
-const signupForm = document.getElementById('signup-form');
-const showLogin = document.getElementById('show-login');
-const showSignup = document.getElementById('show-signup');
+    <div class="login-container text-center">
 
-showLogin.addEventListener('click', () => {
-  loginForm.classList.remove('d-none');
-  signupForm.classList.add('d-none');
-});
+        <!-- Login Form Container -->
+        <div id="login-form">
+            <h2>Log in to HandyHelp</h2>
+            <p>Or <span id="show-signup" class="link-text">sign up for a new account</span></p>
 
-showSignup.addEventListener('click', () => {
-  signupForm.classList.remove('d-none');
-  loginForm.classList.add('d-none');
-});
+            <button class="btn btn-social btn-google">
+                <i class="fab fa-google me-2"></i> Log in with Google
+            </button>
+            
 
-// Signup logic
-signupForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const username = document.getElementById('signup-username').value;
-  const password = document.getElementById('signup-password').value;
-  const confirm = document.getElementById('signup-confirm').value;
-  const error = document.getElementById('signup-error');
+            <div class="divider">or</div>
 
-  if (password !== confirm) {
-    error.textContent = 'Passwords do not match!';
-    return;
-  }
+            <form action="#" method="post">
+                <input type="email" class="form-control" placeholder="Email address" required>
+                <input type="password" class="form-control" placeholder="Password" required>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">
+                            Remember me
+                        </label>
+                    </div>
+                    <a href="#" class="link-text">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Log in</button>
+            </form>
+        </div>
 
-  localStorage.setItem(username, password);
-  alert('Signup successful! You can now log in.');
-  signupForm.reset();
-  showLogin.click();
-});
+        <!-- Signup Form Container (initially hidden) -->
+        <div id="signup-form" class="d-none">
+            <h2>Sign up for HandyHelp</h2>
+            <p>Or <span id="show-login" class="link-text">log in to your existing account</span></p>
 
-// Login logic
-loginForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const username = document.getElementById('login-username').value;
-  const password = document.getElementById('login-password').value;
-  const error = document.getElementById('login-error');
+            <button class="btn btn-social btn-google">
+                <i class="fab fa-google me-2"></i> Sign up with Google
+            </button>
+            
+            <div class="divider">or</div>
 
-  const storedPassword = localStorage.getItem(username);
+            <form action="#" method="post">
+                <input type="text" class="form-control" placeholder="Full name" required>
+                <input type="email" class="form-control" placeholder="Email address" required>
+                <input type="password" class="form-control" placeholder="Password" required>
+                <button type="submit" class="btn btn-primary w-100">Sign up</button>
+            </form>
+        </div>
 
-  if (storedPassword && storedPassword === password) {
-    alert(`Welcome, ${username}! 🎉`);
-    loginForm.reset();
-  } else {
-    error.textContent = 'Invalid credentials!';
-  }
-});
+    </div>
 
-  </script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // JavaScript to toggle between login and signup forms
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const showSignupLink = document.getElementById('show-signup');
+            const showLoginLink = document.getElementById('show-login');
+
+            // Function to show the signup form and hide the login form
+            function showSignup() {
+                loginForm.classList.add('d-none');
+                signupForm.classList.remove('d-none');
+            }
+
+            // Function to show the login form and hide the signup form
+            function showLogin() {
+                signupForm.classList.add('d-none');
+                loginForm.classList.remove('d-none');
+            }
+
+            // Add event listeners to the toggle links
+            if (showSignupLink) {
+                showSignupLink.addEventListener('click', showSignup);
+            }
+            if (showLoginLink) {
+                showLoginLink.addEventListener('click', showLogin);
+            }
+
+            // Prevent default form submission for demonstration
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    console.log('Form submitted. This is a demo.');
+                    // In a real application, you would handle the form data here
+                });
+            });
+        });
+    </script>
 </body>
 </html>
