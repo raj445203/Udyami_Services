@@ -10,7 +10,7 @@ include('header.php');
       <div class="col-md-6 text-center text-md-start">
         <h1 class="fw-bold display-4">Become a HandyHelp Tasker</h1>
         <p class="lead mt-3">Earn money by helping people with everyday home services like cleaning, repairs, moving, and more.</p>
-        <a href="#signup" class="btn btn-success btn-lg mt-4">Start Earning</a>
+        <a href="register-tasker.php" class="btn btn-success btn-lg mt-4">Register here !</a>
       </div>
       <div class="col-md-6 text-center mt-4 mt-md-0">
         <img src="images/mechanic_working.png" alt="Become a Tasker" class="img-fluid" />
@@ -128,7 +128,7 @@ include('header.php');
   <div class="container">
     <h2 class="mb-3">Ready to Become a HandyHelp Tasker?</h2>
     <p class="mb-4">Join our growing community of skilled professionals.</p>
-    <a href="register-tasker.html" class="btn btn-light btn-lg">Join Now</a>
+    <a href="register-tasker.php" class="btn btn-light btn-lg">Join Now</a>
   </div>
 </section>
 

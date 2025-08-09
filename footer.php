@@ -10,7 +10,7 @@
                     <ul class="list-unstyled">
                         <li><a href="#" class="footer-link">About</a></li>
                         <li><a href="#" class="footer-link">How it Works</a></li>
-                        <li><a href="become-a-tasker.html" class="footer-link">Become a Tasker</a></li>
+                        <li><a href="become-a-tasker.php" class="footer-link">Become a Tasker</a></li>
                         <li><a href="#" class="footer-link">Contact</a></li>
                     </ul>
                 </div>
