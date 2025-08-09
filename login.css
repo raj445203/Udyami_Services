@@ -1,0 +1,120 @@
+ body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f4f8; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 75px; /* Add padding to the top to prevent content from being hidden by the fixed navbar */
+        }
+
+        /* Container for the entire login/signup card */
+        .login-container {
+            max-width: 450px;
+            width: 80%;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Heading style */
+        .login-container h2 {
+            font-weight: 700;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        /* Subtitle style */
+        .login-container p {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        /* Button styling for social logins */
+        .btn-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        /* Google button specific styles */
+        .btn-google {
+            background-color: #ffffff;
+            color: #2c3e50;
+            border: 1px solid #dcdde1;
+        }
+        .btn-google:hover {
+            background-color: #f5f6fa;
+        }
+
+        /* Separator line with text */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #bdc3c7;
+            margin: 25px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #bdc3c7;
+        }
+
+        .divider:not(:empty)::before {
+            margin-right: .25em;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: .25em;
+        }
+
+        /* Form input and button styles */
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: #3498db; /* A friendly blue */
+            border-color: #3498db;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        /* Link styles */
+        .link-text {
+            color: #3498db;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .link-text:hover {
+            text-decoration: underline;
+        }
+
+        /* Navbar fixed to top */
+        .navbar-fixed-top {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1030;
+        }
