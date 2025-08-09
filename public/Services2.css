@@ -1,11 +1,11 @@
 :root {
-    --handyhelp-orange: #7dc9e0; /* Original brand orange from Tailwind */
-    --handyhelp-dark-orange: #4fafad; /* Darker orange for hover */
-    --handyhelp-light-gray: #F9FAFB; /* bg-gray-50 from Tailwind */
-    --handyhelp-text-dark: #1f2937; /* text-gray-900 from Tailwind */
-    --handyhelp-text-medium: #4b5563; /* text-gray-700 */
-    --handyhelp-text-light: #6b7280; /* text-gray-500 */
-    --subtle-background: #abd7ec; /* A slightly darker, off-white for body background */
+    --handyhelp-orange: #7dc9e0; 
+    --handyhelp-dark-orange: #4fafad; 
+    --handyhelp-light-gray: #F9FAFB; 
+    --handyhelp-text-dark: #1f2937; 
+    --handyhelp-text-medium: #4b5563; 
+    --handyhelp-text-light: #6b7280; 
+    --subtle-background: #abd7ec;
 }
 
 body {

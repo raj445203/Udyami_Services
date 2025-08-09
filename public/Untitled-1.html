@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HandyHelp Options</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0d1e34;
+        }
+        .text-handyhelp {
+            color: #485563;
+        }
+        .bg-handyhelp-card {
+            background-color: #172d4a;
+        }
+        .border-handyhelp-card:hover {
+            border-color: #5a7395;
+        }
+        .text-handyhelp-light {
+            color: #b0c4de;
+        }
+    </style>
+</head>
+<body class="bg-[#0d1e34] text-white flex items-center justify-center min-h-screen p-4">
+
+    <div class="container mx-auto max-w-2xl text-center">
+        <h1 class="text-4xl sm:text-5xl font-semibold mb-4 animate-fade-in">Welcome to HandyHelp</h1>
+        <p class="text-lg sm:text-xl text-handyhelp-light mb-10 animate-fade-in" style="animation-delay: 0.2s;">Please select an option to get started.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Find Help Card -->
+            <a href="#" class="no-underline">
+                <div class="bg-handyhelp-card p-8 rounded-2xl shadow-lg border border-transparent transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl border-handyhelp-card cursor-pointer animate-slide-up" style="animation-delay: 0.4s;">
+                    <h3 class="text-2xl font-semibold mb-3">Find Help</h3>
+                    <p class="text-handyhelp-light">Get connected with skilled and reliable helpers for your tasks.</p>
+                </div>
+            </a>
+
+            <!-- Become a Helper Card -->
+            <a href="#" class="no-underline">
+                <div class="bg-handyhelp-card p-8 rounded-2xl shadow-lg border border-transparent transition-all duration-300 transform hover:-translate-y-2 hover:shadow-xl border-handyhelp-card cursor-pointer animate-slide-up" style="animation-delay: 0.6s;">
+                    <h3 class="text-2xl font-semibold mb-3">Become a Helper</h3>
+                    <p class="text-handyhelp-light">Use your skills to help others and earn money on your own terms.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- AOS (Animate On Scroll) Library -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>

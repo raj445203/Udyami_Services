@@ -6,10 +6,11 @@ body {
 /* --- Hero Section --- */
 .hero-section-custom {
     background-color: #59a7b4;
+    height: 650px;
 }
 
 .image-collage {
-    margin-top: 20px;
+    margin-top: 60px;
     max-width: 500px;
     margin: auto;
 }
@@ -28,6 +29,21 @@ body {
 
 .search-bar input::placeholder {
     color: #999;
+}
+
+/* Dropdown Styling */
+#suggestionsList {
+  background: white;
+  border-radius: 0 0 15px 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+#suggestionsList li {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+#suggestionsList li:hover {
+  background-color: #f8f9fa;
 }
 
 @media (max-width: 767.98px) {
@@ -107,34 +123,126 @@ body {
 }
 
 /* --- How It Works Section --- */
-.how-it-works-section .rounded-4.shadow {
-    max-height: 450px;
-    object-fit: cover;
+.how-it-works {
+    font-family: sans-serif;
+    background-color: #065b6c;
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    height: 600px;
+    overflow: hidden;
 }
 
-.step-icon {
+.how-it-works .main-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 50px;
+}
+
+.how-it-works .process-flow-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+}
+
+.how-it-works .process-step {
+    flex: 1;
+    max-width: 300px;
+    text-align: center;
+    position: relative;
+    padding-top: 100px;
+    opacity: 0;
+}
+
+.how-it-works .process-step .process-number {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 4rem;
+    font-weight: 800;
+    color: #e9ecef;
+    z-index: 0;
+}
+
+.how-it-works .process-step .process-icon {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.how-it-works .process-step .process-icon svg {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
+    color: #9dd5d2;
 }
 
-.bg-step1 {
-    background-color: #d3c0d8;
+.how-it-works .process-step h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #a0dce8;
+    margin-bottom: 10px;
 }
 
-.bg-step2 {
-    background-color: #fff6c9;
+.how-it-works .process-step p {
+    font-size: 1rem;
+    color: #9cd7e9;
 }
 
-.bg-step3 {
-    background-color: #e4faed;
+.how-it-works .process-line {
+    position: absolute;
+    top: 50px;
+    height: 3px;
+    background: linear-gradient(to right, #e9ecef, #adb5bd);
+    z-index: 0;
+    width: 0;
 }
 
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes drawLine {
+    to {
+        width: 30%;
+    }
+}
+
+.animate-draw {
+    animation: drawLine 1s ease-out forwards;
+}
+
+/* Specific line animations to create the staggered effect */
+.process-flow-container .process-line:nth-of-type(1) {
+    left: 10%;
+}
+
+.process-flow-container .process-line:nth-of-type(2) {
+    left: 50%;
+}
 /* --- Call to Action Section --- */
 .cta-bar {
     background: linear-gradient(135deg, #3599b2, #4fa8ba);
@@ -162,22 +270,106 @@ body {
 }
 
 /* --- Guarantee Section --- */
-.guarantee-section {
-    background-color: #cfe8ed;
-}
+ .guarantee-section {
+            background-color: #0a3b53;
+            text-align: center;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
 
-.text-highlight {
-    color: #7c5dff;
-}
+      
 
-.guarantee-section a {
-    text-decoration: underline;
-    font-weight: 500;
-}
 
-.guarantee-section img {
-    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
-}
+        .guarantee-section h1 {
+            font-size: 3rem;
+            font-weight: 500;
+            margin-top: 80px;
+            line-height: 1.2;
+        }
+
+        .guarantee-section h1 .asterisk {
+            vertical-align: super;
+            font-size: 0.5em;
+        }
+
+        .guarantee-section .sub-section {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .guarantee-section .sub-section .item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 250px;
+        }
+
+        .guarantee-section .sub-section .item .icon-circle {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            background-color: transparent;
+        }
+
+        .guarantee-section .sub-section .item p {
+            margin-top: 10px;
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0.8;
+        }
+
+        .guarantee-section .sub-section .item .help-icon {
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        
+        .guarantee-section .sub-section .item .help-icon .fa-question-circle {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .background-stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+            background-size: 150px 150px;
+            opacity: 0.3;
+            animation: move-stars 10s linear infinite;
+        }
+
+
+          .sub-section {
+        color: white; /* Makes all text inside white */
+    }
+    .sub-section h5,
+    .sub-section p {
+        color: white; /* Ensures headings & paragraphs stay white */
+    }
+
+        @keyframes move-stars {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: 150px 150px;
+            }
+        }
 
 /* --- Get Help Today Section --- */
 .get-help-section {
@@ -233,4 +425,24 @@ body {
 
 .social-icon:hover {
     color: #40c18f;
+}
+
+/* Animation base */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animate-on-scroll.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Optional: Different effect for left/right */
+.animate-left {
+  transform: translateX(-40px);
+}
+.animate-right {
+  transform: translateX(40px);
 }
