@@ -22,17 +22,18 @@ session_start();
         <img src="images/logo2.png" alt="HandyHelp" height="50">HandyHelp
     </a>
     <div class="d-flex gap-3 align-items-center">
+          <a href="index.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Home</a>
         <a href="Services2.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Services</a>
 
         <?php if (isset($_SESSION['user_id'])): ?>
             <!-- User is logged in -->
             <a href="dashboard.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Dashboard</a>
             <a href="history.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">History</a>
-            <a href="logout.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Logout</a>
+            <a href="logout.html" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Logout</a>
             <a href="become-a-tasker.php"><button class="btn btn-outline-success">Become a Tasker</button></a>
         <?php else: ?>
             <!-- User not logged in -->
-            <a href="login.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Sign up / Log in</a>
+            <a href="login.html" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Sign up / Log in</a>
             <a href="become-a-tasker.php"><button class="btn btn-outline-success">Become a Tasker</button></a>
         <?php endif; ?>
 
