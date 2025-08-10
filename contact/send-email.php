@@ -3,9 +3,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 // Include PHPMailer
-require 'src/Exception.php';
-require 'src/PHPMailer.php';
-require 'src/SMTP.php';
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = htmlspecialchars($_POST["name"]);
@@ -20,14 +20,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';  // SMTP server
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'salunkeraj098@gmail.com'; // Your Gmail
-        $mail->Password   = 'yczk rvjt zcbc vixr';  // Gmail App Password
+        $mail->Username   = 'udyamiservices@gmail.com'; // Your Gmail
+        $mail->Password   = 'cqvw yakv yorb ssbc';  // Gmail App Password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
         // Sender & Recipient
-        $mail->setFrom('salunkeraj098@gmail.com', 'HandyHelp');
-        $mail->addAddress('support@handyhelp.com', 'HandyHelp Support');
+        $mail->setFrom($email, $name);
+        $mail->addAddress( 'udyamiservices@gmail.com', 'HandyHelp Support');
         $mail->addReplyTo($email, $name);
 
         // Email Content
@@ -37,10 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->AltBody = "Name: $name\nEmail: $email\nMessage:\n$message";
 
         $mail->send();
-        echo "<h2>✅ Message sent successfully!</h2>";
-
+        header("Location: contact.php?success=1");
+        exit;
     } catch (Exception $e) {
-        echo "<h2>❌ Message could not be sent. Error: {$mail->ErrorInfo}</h2>";
+        header("Location: contact.php?error=1");
+        exit;
     }
 }
 ?>

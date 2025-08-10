@@ -1,10 +1,7 @@
-<<<<<<< HEAD:index.php
 <?php
-// session_start();
-include('header.php');
+
+  include('header.php');
 ?>
-    <section class="hero-section-custom py-5">
-=======
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,38 +14,15 @@ include('header.php');
 </head>
 <body>
 
- <nav class="navbar navbar-light bg-white border-bottom p-3 px-4 animate-on-scroll">
-        <a class="navbar-brand d-flex align-items-center fw-bold animate-on-scroll animate-left" href="#">
-            <img src="images/logo2.png" alt="HandyHelp" height="50">HandyHelp
-        </a>
-        <div class="d-flex gap-3 align-items-center animate-on-scroll animate-right">
-            <a href="Services2.html" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Services</a>
-            <a href="login.html" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Sign up / Log in</a>
-            <a href="become-a-tasker.html"><button class="btn btn-outline-success">Become a Tasker</button></a>
-            <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-    </nav>
+
 
     <!-- Hero Section -->
     <section class="hero-section-custom py-5 animate-on-scroll">
->>>>>>> b0ef80426188291eb65ef8c4528f650bbd7f498b:public/index.html
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 text-start mb-4 mb-lg-0 animate-on-scroll animate-left">
                     <h1 class="fw-bold display-5">Book trusted help<br>for home tasks</h1>
                     <p class="lead text-muted mt-3">From furniture assembly to home repairs, we’ve got you covered.</p>
-<<<<<<< HEAD:index.php
-               
-<div class="search-container mt-4 position-relative">
-  <div class="d-flex">
-    <input type="text" id="service-search" class="form-control form-control-lg rounded-start-pill" placeholder="What service do you need?">
-    <button id="search-button" class="btn btn-custom-orange btn-lg rounded-end-pill px-4">🔍</button>
-  </div>
-  <div id="autocomplete-results" class="autocomplete-dropdown-content"></div>
-</div>
-=======
                     <div class="position-relative mt-4" style="max-width: 100%;">
                       <div class="search-bar d-flex">
                         <input type="text" id="serviceSearch" class="form-control form-control-lg rounded-start-pill" placeholder="What do you need help with?">
@@ -56,7 +30,6 @@ include('header.php');
                       </div>
                       <ul id="suggestionsList" class="list-group position-absolute mt-1 w-100" style="z-index: 1000; display: none;"></ul>
                     </div>
->>>>>>> b0ef80426188291eb65ef8c4528f650bbd7f498b:public/index.html
                 </div>
                 <div class="col-lg-6 animate-on-scroll animate-right">
                     <div class="image-collage d-flex flex-wrap justify-content-center gap-2">
@@ -80,117 +53,87 @@ include('header.php');
         <div class="container text-center">
             <h2 class="section-title mb-4 animate-on-scroll">Explore Task Categories</h2>
             <div class="d-flex flex-wrap justify-content-center gap-4">
-                <a href="Services2.html" class="category-card animate-on-scroll animate-left text-decoration-none text-dark">
+                <a href="Services2.php" class="category-card animate-on-scroll animate-left text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-fire fa-2x"></i></div>
                     <h3>Popular</h3>
                     <p>Top-rated and trending tasks people love.</p>
                 </a>
-                <a href="Services2.html" class="category-card animate-on-scroll text-decoration-none text-dark">
+                <a href="Services2.php" class="category-card animate-on-scroll text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-tools fa-2x"></i></div>
                     <h3>Household & Maintenance</h3>
                     <p>Repairs, cleaning, assembly, and more at home.</p>
                 </a>
-                <a href="Services2.html" class="category-card animate-on-scroll animate-right text-decoration-none text-dark">
+                <a href="Services2.php" class="category-card animate-on-scroll animate-right text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-hard-hat fa-2x"></i></div>
                     <h3>Construction & Renovation</h3>
                     <p>Skilled work for home improvement and remodeling.</p>
                 </a>
-                <a href="Services2.html" class="category-card animate-on-scroll text-decoration-none text-dark">
+                <a href="Services2.php" class="category-card animate-on-scroll text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-user-friends fa-2x"></i></div>
                     <h3>Personal & Lifestyle</h3>
                     <p>Support for wellness, beauty, shopping, and errands.</p>
                 </a>
-                <a href="Services2.html" class="category-card animate-on-scroll animate-left text-decoration-none text-dark">
+                <a href="Services2.php" class="category-card animate-on-scroll animate-left text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-lightbulb fa-2x"></i></div>
                     <h3>Decorations</h3>
                     <p>Home, event, and seasonal decor setup and design.</p>
                 </a>
-                <a href="Services2.html" class="category-card animate-on-scroll text-decoration-none text-dark">
+                <a href="Services2.php" class="category-card animate-on-scroll text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-calendar-alt fa-2x"></i></div>
                     <h3>Events</h3>
                     <p>From setup to support – events done right.</p>
                 </a>
-                <a href="Services2.html" class="category-card animate-on-scroll animate-right text-decoration-none text-dark">
+                <a href="Services2.php" class="category-card animate-on-scroll animate-right text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-truck-moving fa-2x"></i></div>
                     <h3>Movers</h3>
                     <p>Quick and reliable moving and shifting help.</p>
                 </a>
             </div>
-<<<<<<< HEAD:index.php
-            <div class="mt-5">
-                <a href="Services2.php" class="btn btn-custom-orange px-4 py-2">View All Categories</a>
-=======
             <div class="mt-5 animate-on-scroll">
-                <a href="Services2.html" class="btn btn-custom-orange px-4 py-2">View All Categories</a>
->>>>>>> b0ef80426188291eb65ef8c4528f650bbd7f498b:public/index.html
+                <a href="Services2.php" class="btn btn-custom-orange px-4 py-2">View All Categories</a>
             </div>
         </div>
     </section>
 
-<<<<<<< HEAD:index.php
-   <section class="how-it-works-section">
-    <div class="container">
-        <div class="row align-items-center justify-content-center g-5">
-            <div class="col-lg-5 col-md-10 mb-4 mb-lg-0">
-                <div class="how-it-works-card">
-                    <h4 class="fw-bold mb-4">How it works</h4>
-                    <div class="step-item">
-                        <div class="step-icon">
-                            <span>1</span>
-                        </div>
-                        <div class="step-content">
-                            <p>Choose a **Tasker** by price, skills, and reviews. Browse detailed profiles and confidently select the right professional for your needs.</p>
-                        </div>
-                    </div>
-                    <div class="step-item">
-                        <div class="step-icon">
-                            <span>2</span>
-                        </div>
-                        <div class="step-content">
-                            <p>Schedule a **Tasker** as early as today. Use our intuitive calendar to book a service at a time that's most convenient for you.</p>
-                        </div>
-                    </div>
-                    <div class="step-item">
-                        <div class="step-icon">
-                            <span>3</span>
-                        </div>
-                        <div class="step-content">
-                            <p> Review all in one place. Our platform provides a seamless, secure experience from start to finish.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-10 text-center how-it-works-image">
-                <img src="https://via.placeholder.com/600x400.png?text=Image+of+Happy+Workers" alt="How it works" class="img-fluid">
-=======
-    <!-- Process Section -->
-    <section class="how-it-works animate-on-scroll">
+    <!-- How it works Section -->
+    <section class="how-it-works-section">
         <div class="container">
-            <h2 class="main-title animate-on-scroll">How it works</h2>
-            <div class="process-flow-container">
-                <div class="process-step animate-on-scroll animate-left">
-                    <div class="process-number">1</div>
-                    <h3>General concept</h3>
-                     <p>Far far away, behind mountains, far from the countries Vokalia.</p>
+            <div class="row align-items-center justify-content-center g-5">
+                <div class="col-lg-5 col-md-10 mb-4 mb-lg-0">
+                    <div class="how-it-works-card">
+                        <h4 class="fw-bold mb-4">How it works</h4>
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <span>1</span>
+                            </div>
+                            <div class="step-content">
+                                <p>Choose a <strong>Tasker</strong> by price, skills, and reviews. Browse detailed profiles and confidently select the right professional for your needs.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <span>2</span>
+                            </div>
+                            <div class="step-content">
+                                <p>Schedule a <strong>Tasker</strong> as early as today. Use our intuitive calendar to book a service at a time that's most convenient for you.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <span>3</span>
+                            </div>
+                            <div class="step-content">
+                                <p>Review all in one place. Our platform provides a seamless, secure experience from start to finish.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="process-line animate-on-scroll"></div>
-                <div class="process-step animate-on-scroll">
-                    <div class="process-number">2</div>
-                    <h3>Post product</h3>
-                    <p>Far far away, behind mountains, far from the countries Vokalia.</p>
+                <div class="col-lg-6 col-md-10 text-center how-it-works-image">
+                    <img src="https://via.placeholder.com/600x400.png?text=Image+of+Happy+Workers" alt="How it works" class="img-fluid">
                 </div>
-                <div class="process-line animate-on-scroll"></div>
-                <div class="process-step animate-on-scroll animate-right">
-                    <div class="process-number">3</div>
-                    <h3>Design process</h3>
-                    <p>Far far away, behind mountains, far from the countries Vokalia.</p>
-                </div>
->>>>>>> b0ef80426188291eb65ef8c4528f650bbd7f498b:public/index.html
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
 
     <!-- CTA -->
     <section class="cta-bar text-white text-center py-5 animate-on-scroll" style="background: rgb(4, 171, 160);">
@@ -202,28 +145,25 @@ include('header.php');
 
     <!-- Guarantee -->
     <section class="guarantee-section">
-    <div class="background-stars"></div>
-    <div class="container position-relative">
-       
-        <h1 class="text-white">
-           GUARANTEE
-        </h1>
-        <div class="sub-section">
-    <div class="item">
-        <h5 class="fw-bold">Happiness Pledge</h5>
-        <p>If you’re not satisfied, we’ll work to make it right.</p>
-    </div>
-    <div class="item">
-        <h5 class="fw-bold">Vetted Taskers</h5>
-        <p>Taskers are always background checked before joining the platform.</p>
-    </div>
-    <div class="item">
-        <h5 class="fw-bold">Dedicated Support</h5>
-        <p>Friendly service when you need us – every day of the week.</p>
-    </div>
-</div>
-    </div>
-</section>
+        <div class="background-stars"></div>
+        <div class="container position-relative">
+            <h1 class="text-white">GUARANTEE</h1>
+            <div class="sub-section">
+                <div class="item">
+                    <h5 class="fw-bold">Happiness Pledge</h5>
+                    <p>If you’re not satisfied, we’ll work to make it right.</p>
+                </div>
+                <div class="item">
+                    <h5 class="fw-bold">Vetted Taskers</h5>
+                    <p>Taskers are always background checked before joining the platform.</p>
+                </div>
+                <div class="item">
+                    <h5 class="fw-bold">Dedicated Support</h5>
+                    <p>Friendly service when you need us – every day of the week.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Get Help -->
     <section class="get-help-section py-5 animate-on-scroll">
@@ -233,102 +173,67 @@ include('header.php');
         </div>
     </section>
 
-<<<<<<< HEAD:index.php
-   <?php
-include('footer.php');
-?>
+    <?php
+    include('footer.php');
+    ?>
 
-=======
-    <!-- Footer -->
-    <footer class="footer-section bg-dark text-white pt-5 pb-4 animate-on-scroll">
-        <div class="container">
-            <div class="row gy-4">
-                <div class="col-lg-4 col-md-6 animate-on-scroll animate-left">
-                    <h5>About HandyHelp</h5>
-                    <p>Your go-to platform for hiring trusted professionals for any home task.</p>
-                </div>
-                <div class="col-lg-2 col-md-3 animate-on-scroll">
-                    <h5>Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white text-decoration-none">Home</a></li>
-                        <li><a href="#" class="text-white text-decoration-none">Services</a></li>
-                        <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3 col-md-3 animate-on-scroll">
-                    <h5>Contact</h5>
-                    <p>Email: support@handyhelp.com</p>
-                    <p>Phone: +1 234 567 890</p>
-                </div>
-                <div class="col-lg-3 col-md-6 animate-on-scroll animate-right">
-                    <h5>Follow Us</h5>
-                    <div class="d-flex gap-3">
-                        <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
->>>>>>> b0ef80426188291eb65ef8c4528f650bbd7f498b:public/index.html
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-// Service list
-const services = [
-  "Electrician", "Plumber", "Carpenter", "Painter", "Mehendi Artist", 
-  "Catering Service", "Home Cleaning", "Gardener", "Photographer",
-  "Event Planner", "Makeup Artist", "Yoga Trainer", "Tutor"
-];
+    <script>
+    // Service list
+    const services = [
+      "Electrician", "Plumber", "Carpenter", "Painter", "Mehendi Artist", 
+      "Catering Service", "Home Cleaning", "Gardener", "Photographer",
+      "Event Planner", "Makeup Artist", "Yoga Trainer", "Tutor"
+    ];
 
-const searchInput = document.getElementById("serviceSearch");
-const suggestionsList = document.getElementById("suggestionsList");
-const searchBtn = document.getElementById("searchBtn");
+    const searchInput = document.getElementById("serviceSearch");
+    const suggestionsList = document.getElementById("suggestionsList");
+    const searchBtn = document.getElementById("searchBtn");
 
-// Show suggestions while typing
-searchInput.addEventListener("input", function() {
-  const query = this.value.toLowerCase();
-  suggestionsList.innerHTML = "";
-  
-  if (query.trim() === "") {
-    suggestionsList.style.display = "none";
-    return;
-  }
+    // Show suggestions while typing
+    searchInput.addEventListener("input", function() {
+      const query = this.value.toLowerCase();
+      suggestionsList.innerHTML = "";
+      
+      if (query.trim() === "") {
+        suggestionsList.style.display = "none";
+        return;
+      }
 
-  const filteredServices = services.filter(service => service.toLowerCase().includes(query));
+      const filteredServices = services.filter(service => service.toLowerCase().includes(query));
 
-  if (filteredServices.length > 0) {
-    suggestionsList.style.display = "block";
-    filteredServices.forEach(service => {
-      const li = document.createElement("li");
-      li.classList.add("list-group-item");
-      li.textContent = service;
-      li.addEventListener("click", function() {
-        window.location.href = `taskers.html?service=${encodeURIComponent(service)}`;
-      });
-      suggestionsList.appendChild(li);
+      if (filteredServices.length > 0) {
+        suggestionsList.style.display = "block";
+        filteredServices.forEach(service => {
+          const li = document.createElement("li");
+          li.classList.add("list-group-item");
+          li.textContent = service;
+          li.addEventListener("click", function() {
+            window.location.href = `taskers.php?service=${encodeURIComponent(service)}`;
+          });
+          suggestionsList.appendChild(li);
+        });
+      } else {
+        suggestionsList.style.display = "none";
+      }
     });
-  } else {
-    suggestionsList.style.display = "none";
-  }
-});
 
-// Redirect when search button clicked
-searchBtn.addEventListener("click", function() {
-  const service = searchInput.value.trim();
-  if (service !== "") {
-    window.location.href = `taskers.html?service=${encodeURIComponent(service)}`;
-  }
-});
+    // Redirect when search button clicked
+    searchBtn.addEventListener("click", function() {
+      const service = searchInput.value.trim();
+      if (service !== "") {
+        window.location.href = `taskers.php?service=${encodeURIComponent(service)}`;
+      }
+    });
 
-// Hide suggestions when clicking outside
-document.addEventListener("click", function(e) {
-  if (!searchInput.contains(e.target) && !suggestionsList.contains(e.target)) {
-    suggestionsList.style.display = "none";
-  }
-});
-</script>
- <script>
+    // Hide suggestions when clicking outside
+    document.addEventListener("click", function(e) {
+      if (!searchInput.contains(e.target) && !suggestionsList.contains(e.target)) {
+        suggestionsList.style.display = "none";
+      }
+    });
+    </script>
+    <script>
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {

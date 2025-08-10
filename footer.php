@@ -43,7 +43,7 @@
     </footer>
     <script>
     document.querySelector(".email-link").addEventListener("focus", function() {
-        window.location.href = "contact.php"; // Change to your Contact Us page link
+        window.location.href = "contact/contact.php"; // Change to your Contact Us page link
     });
 </script>
 <style>

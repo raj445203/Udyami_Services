@@ -57,7 +57,7 @@
 
      <nav class="navbar navbar-light bg-white border-bottom p-3 px-4">
     <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
-        <img src="images/logo2.png" alt="HandyHelp" height="50">HandyHelp
+        <img src="HandyHelp\images\logo2.png" alt="HandyHelp" height="50">HandyHelp
     </a>
     <div class="d-flex gap-3 align-items-center">
         <a href="Services2.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Services</a>
@@ -95,26 +95,34 @@
             <!-- Contact Form -->
             <div class="col-lg-7">
                 <div class="contact-form p-4 shadow-sm rounded">
+                    <?php if (isset($_GET['success'])): ?>
+    <div class="alert alert-success">✅ Your message has been sent successfully!</div>
+<?php elseif (isset($_GET['error'])): ?>
+    <div class="alert alert-danger">❌ Something went wrong. Please try again.</div>
+<?php endif; ?>
+
                     <h4 class="mb-4">Send Us a Message</h4>
-                  <form action="send_email.php" method="POST">
+                <form action="send-email.php" method="POST">
+
     <div class="mb-3">
-        <label>Your Name</label>
+        <label class="form-label">Your Name</label>
         <input type="text" name="name" class="form-control" required>
     </div>
     <div class="mb-3">
-        <label>Your Email</label>
+        <label class="form-label">Your Email</label>
         <input type="email" name="email" class="form-control" required>
     </div>
     <div class="mb-3">
-        <label>Subject</label>
+        <label class="form-label">Subject</label>
         <input type="text" name="subject" class="form-control" required>
     </div>
     <div class="mb-3">
-        <label>Message</label>
+        <label class="form-label">Message</label>
         <textarea name="message" class="form-control" rows="5" required></textarea>
     </div>
     <button type="submit" class="btn btn-custom-orange w-100">Send Message</button>
 </form>
+
 
                 </div>
             </div>
@@ -123,9 +131,9 @@
             <div class="col-lg-5">
                 <div class="contact-info p-4 shadow-sm rounded">
                     <h4 class="mb-4">Contact Information</h4>
-                    <p><i class="fas fa-map-marker-alt me-2 text-custom-orange"></i> 123 HandyHelp Street, Mumbai, India</p>
+                    <p><i class="fas fa-map-marker-alt me-2 text-custom-orange"></i>MGM's college of CS & IT, Nanded</p>
                     <p><i class="fas fa-phone-alt me-2 text-custom-orange"></i> +91 98765 43210</p>
-                    <p><i class="fas fa-envelope me-2 text-custom-orange"></i> support@handyhelp.com</p>
+                    <p><i class="fas fa-envelope me-2 text-custom-orange"></i> udyamiservices@gmail.com</p>
                     
                     <div class="mt-4">
                         <h5>Follow Us</h5>
