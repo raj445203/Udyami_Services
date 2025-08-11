@@ -1,95 +1,138 @@
+<?php
+// Include the database connection file.
+require 'db.php';
+
+// Check if the database connection was successful.
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Safely retrieve the 'category' URL parameter.
+$category_to_fetch = $_GET['category'] ?? '';
+$taskers = [];
+
+
+// Use a prepared statement with a WHERE clause to filter by category.
+// We use the LOWER() function to ensure a case-insensitive search.
+if (!empty($category_to_fetch)) {
+    $sql .= " WHERE LOWER(t.category) = LOWER(?)";
+}
+
+// Group the results by tasker to get all skills for each tasker in one row.
+$sql .= " GROUP BY t.id ORDER BY t.fullname ASC";
+
+// Prepare the SQL statement for execution.
+$stmt = $conn->prepare($sql);
+
+// Add an error check for the prepared statement.
+if ($stmt === false) {
+    die('SQL prepare failed: ' . $conn->error);
+}
+
+// Bind the category parameter if it exists.
+// We are binding the lowercase version of the variable.
+if (!empty($category_to_fetch)) {
+    $lowercase_category = strtolower($category_to_fetch);
+    $stmt->bind_param("s", $lowercase_category);
+}
+
+// Execute the prepared statement.
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Fetch all the results into an associative array.
+while ($row = $result->fetch_assoc()) {
+    $taskers[] = $row;
+}
+
+// Close the statement and the database connection to free up resources.
+$stmt->close();
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Taskers List</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <style>
-    .tasker-card {
-      border: 1px solid #0e5a6b;
-      border-radius: 10px;
-      background-color: #bde8f2;
-      padding: 15px;
-      margin-bottom: 20px;
-      transition: all 0.3s ease;
-    }
-    .tasker-card:hover {
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <?php
+        echo !empty($category_to_fetch) ? htmlspecialchars($category_to_fetch) . " Taskers" : "All Taskers";
+        ?>
+    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .tasker-card {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .tasker-card:hover {
+            transform: translateY(-5px);
+        }
+        .skill-badge {
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin-right: 5px;
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
+    <?php include('header.php'); // Include your header file ?>
 
-
-   <nav class="navbar navbar-light bg-white border-bottom p-3 px-4">
-    <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
-      <img src="images/logo2.png" alt="TaskRabbit" height="50">HandyHelp
-    </a>
-    <div class="d-flex gap-3 align-items-center">
-      <a href="Services2.html" class="text-dark fw-semibold text-decoration-none">Services</a>
-      <a href="login.html" class="text-dark fw-semibold text-decoration-none">Sign up / Log in</a>
-     <a href="become-a-tasker.html"> <button class="btn btn-outline-success">Become a Tasker</button></a>
+    <div class="container my-5">
+        <h2 class="mb-4 text-center">
+            <?php
+            // Display the title based on whether a category was selected
+            if (!empty($category_to_fetch)) {
+                echo htmlspecialchars($category_to_fetch) . " Taskers";
+            } else {
+                echo "All Taskers";
+            }
+            ?>
+        </h2>
+        <div class="row">
+            <?php if (!empty($taskers)): ?>
+                <?php foreach ($taskers as $tasker): ?>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 tasker-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= htmlspecialchars($tasker['fullname']) ?></h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><?= htmlspecialchars($tasker['category']) ?></h6>
+                                <p class="card-text">
+                                    <strong>Experience:</strong> <?= htmlspecialchars($tasker['experience_years']) ?> years<br>
+                                    <strong>Location:</strong> <?= htmlspecialchars($tasker['preferred_location']) ?><br>
+                                    <strong>Email:</strong> <a href="mailto:<?= htmlspecialchars($tasker['email']) ?>"><?= htmlspecialchars($tasker['email']) ?></a>
+                                </p>
+                                <div class="mt-3">
+                                    <h6>Skills:</h6>
+                                    <?php
+                                    if (!empty($tasker['skills_list'])) {
+                                        $skills_array = explode(', ', $tasker['skills_list']);
+                                        foreach ($skills_array as $skill) {
+                                            echo '<span class="skill-badge">' . htmlspecialchars($skill) . '</span>';
+                                        }
+                                    } else {
+                                        echo "<p>No skills listed</p>";
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col-12">
+                    <p class="text-center text-muted">No taskers found for this category.</p>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
-  </nav>
 
-  
-  <div class="container my-5">
-    <h2 id="category-heading" class="mb-4 text-center"></h2>
-    <div id="tasker-list" class="row justify-content-center"></div>
-  </div>
-
-  <script>
-    // Step 1: Read category from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const selectedCategory = urlParams.get("category");
-
-    // Step 2: All taskers (full list)
-    const taskers = [
-      { name: "Ravi Mehta", category: "Mehandi Artist", location: "Pune", rating: 4.8 },
-      { name: "Kiran Tailor", category: "Mehandi Artist", location: "Mumbai", rating: 4.6 },
-      { name: "Anita Sharma", category: "Cleaning", location: "Nashik", rating: 4.9 },
-      { name: "Sahil Electrician", category: "Cleaning", location: "Nagpur", rating: 4.7 },
-      { name: "Deepak Kumar", category: "Assembly", location: "Delhi", rating: 4.5 },
-      { name: "Nisha Events", category: "Events", location: "Bhopal", rating: 4.9 },
-      { name: "Manoj Movers", category: "Moving", location: "Hyderabad", rating: 4.2 },
-      { name: "Rupa Mehendi", category: "Mehandi", location: "Jaipur", rating: 4.8 },
-      { name: "Vikas Mount", category: "Mounting", location: "Lucknow", rating: 4.4 },
-      { name: "Pooja Decor", category: "Decorations", location: "Chandigarh", rating: 4.7 },
-      // Add more taskers here
-    ];
-
-    // Step 3: Filter taskers by selected category
-    const filteredTaskers = selectedCategory 
-      ? taskers.filter(t => t.category.toLowerCase() === selectedCategory.toLowerCase()) 
-      : taskers;
-
-    // Step 4: Render heading
-    const heading = document.getElementById("category-heading");
-    heading.innerText = selectedCategory 
-      ? `Available Taskers for "${selectedCategory}"`
-      : "All Available Taskers";
-
-    // Step 5: Render taskers
-    const taskerList = document.getElementById("tasker-list");
-
-    if (filteredTaskers.length === 0) {
-      taskerList.innerHTML = `<p class="text-center text-danger">No taskers found for "${selectedCategory}".</p>`;
-    } else {
-      filteredTaskers.forEach(t => {
-        const card = `
-          <div class="col-md-4">
-            <div class="tasker-card">
-              <h4>${t.name}</h4>
-              <p><strong>Category:</strong> ${t.category}</p>
-              <p><strong>Location:</strong> ${t.location}</p>
-              <p><strong>Rating:</strong> ${t.rating} ⭐</p>
-              <button class="btn btn-primary">Book Now</button>
-            </div>
-          </div>
-        `;
-        taskerList.innerHTML += card;
-      });
-    }
-  </script>
+    <?php include('footer.php'); // Include your footer file ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
