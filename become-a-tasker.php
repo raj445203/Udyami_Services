@@ -11,6 +11,7 @@ include('header.php');
         <h1 class="fw-bold display-4">Become a HandyHelp Tasker</h1>
         <p class="lead mt-3">Earn money by helping people with everyday home services like cleaning, repairs, moving, and more.</p>
         <a href="register-tasker.php" class="btn btn-success btn-lg mt-4">Register here !</a>
+         <a href="login_tasker.php" class="btn btn-success btn-lg mt-4">Login</a>
       </div>
       <div class="col-md-6 text-center mt-4 mt-md-0">
         <img src="images/mechanic_working.png" alt="Become a Tasker" class="img-fluid" />

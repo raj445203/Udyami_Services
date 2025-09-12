@@ -6,10 +6,10 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding-top: 75px; /* Add padding to the top to prevent content from being hidden by the fixed navbar */
+            padding-top: 75px; 
         }
 
-        /* Container for the entire login/signup card */
+      
         .login-container {
             max-width: 450px;
             width: 80%;
@@ -32,7 +32,7 @@
             margin-bottom: 30px;
         }
 
-        /* Button styling for social logins */
+       
         .btn-social {
             display: flex;
             align-items: center;
@@ -87,7 +87,7 @@
         }
 
         .btn-primary {
-            background-color: #3498db; /* A friendly blue */
+            background-color: #3498db; 
             border-color: #3498db;
             padding: 12px;
             border-radius: 8px;
