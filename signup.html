@@ -17,14 +17,14 @@
         <div class="d-flex gap-3 align-items-center">
             <a href="index.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Home</a>
             <a href="Services2.php" class="text-dark fw-semibold text-decoration-none">Services</a>
-            <a href="login.php" class="text-dark fw-semibold text-decoration-none">Log in</a>
+            <a href="login.html" class="text-dark fw-semibold text-decoration-none">Log in</a>
             <a href="become-a-tasker.php" class="btn btn-outline-success">Become a Tasker</a>
         </div>
     </nav>
 
     <div class="login-container text-center mt-5">
         <h2>Sign up for HandyHelp</h2>
-        <p>Or <a href="login.php" class="link-text">log in to your existing account</a></p>
+        <p>Or <a href="login.html" class="link-text">log in to your existing account</a></p>
 
         <div id="message-container" class="mt-4"></div>
 
@@ -47,16 +47,15 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-       const firebaseConfig = {
-      apiKey: "AIzaSyD-84LrmbOuwIRfi6Olj9LbFi_EVAc_Jew",
-      authDomain: "udyami-2cf62.firebaseapp.com",
-      projectId: "udyami-2cf62",
-      storageBucket: "udyami-2cf62.firebasestorage.app",
-      messagingSenderId: "404146319005",
-      appId: "1:404146319005:web:2226ea2b10bac68da86e74",
-      measurementId: "G-CYY61V2DRE"
-    };
-
+        const firebaseConfig = {
+          apiKey: "AIzaSyD-84LrmbOuwIRfi6Olj9LbFi_EVAc_Jew",
+          authDomain: "udyami-2cf62.firebaseapp.com",
+          projectId: "udyami-2cf62",
+          storageBucket: "udyami-2cf62.firebasestorage.app",
+          messagingSenderId: "404146319005",
+          appId: "1:404146319005:web:2226ea2b10bac68da86e74",
+          measurementId: "G-CYY61V2DRE"
+        };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -66,7 +65,6 @@
             messageContainer.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
         }
 
-        // Handle Email/Password Signup
         const signupForm = document.getElementById('signup-form');
         signupForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -96,7 +94,7 @@
                     .then(data => {
                         if (data.success) {
                             showMessage("Signup successful! You can now log in.", "success");
-                            setTimeout(() => { window.location.href = 'login.php'; }, 3000);
+                            setTimeout(() => { window.location.href = 'login.html'; }, 3000);
                         } else {
                             showMessage("Signup failed: " + data.message, "danger");
                         }
@@ -125,7 +123,6 @@
                 });
         });
 
-        // Handle Google Sign up
         const googleSignupBtn = document.getElementById('google-signup-btn');
         const provider = new GoogleAuthProvider();
 
@@ -151,7 +148,7 @@
                     .then(data => {
                         if (data.success) {
                             showMessage("Signup with Google successful! Redirecting...", "success");
-                            setTimeout(() => { window.location.href = 'dashboard.php'; }, 1000);
+                            setTimeout(() => { window.location.href = 'login.html'; }, 1000);
                         } else {
                             showMessage("Signup failed: " + data.message, "danger");
                         }

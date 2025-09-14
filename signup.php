@@ -34,7 +34,6 @@ if ($data && !empty($data['email'])) {
     $sql = "INSERT INTO users (fullname, email, firebase_uid, google_id) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     
-    // Check for a prepared statement error
     if (!$stmt) {
         echo json_encode(['success' => false, 'message' => 'SQL prepare error: ' . $conn->error]);
         exit();
@@ -43,10 +42,7 @@ if ($data && !empty($data['email'])) {
     $stmt->bind_param("ssss", $fullname, $email, $firebase_uid, $google_id);
 
     if ($stmt->execute()) {
-        // Log the user in by setting session variables
-        $_SESSION['user_id']  = $stmt->insert_id;
-        $_SESSION['fullname'] = $fullname;
-        echo json_encode(['success' => true, 'message' => 'Signup successful']);
+        echo json_encode(['success' => true, 'message' => 'Signup successful. Redirecting to login.']);
     } else {
         echo json_encode(['success' => false, 'message' => 'Database error: ' . $stmt->error]);
     }
