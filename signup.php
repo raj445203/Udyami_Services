@@ -1,44 +1,51 @@
 <?php
+// signup.php
+session_start();
 require 'db.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fullname = trim($_POST['fullname']);
-    $email = trim($_POST['email']);
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+// JSON response header
+header('Content-Type: application/json');
 
-    if ($password !== $confirm_password) {
-        die("Passwords do not match. <a href='signup.html'>Go back</a>");
-    }
+// Get the raw POST data
+$data = json_decode(file_get_contents('php://input'), true);
 
+if ($data && !empty($data['email'])) {
+    $fullname     = trim($data['fullname'] ?? '');
+    $email        = trim($data['email']);
+    $firebase_uid = $data['firebase_uid'] ?? null;
+    $google_id    = $data['google_id'] ?? null;
+
+    // Check if user already exists
     $checkSql = "SELECT id FROM users WHERE email = ?";
     $checkStmt = $conn->prepare($checkSql);
     $checkStmt->bind_param("s", $email);
     $checkStmt->execute();
     $checkStmt->store_result();
+
     if ($checkStmt->num_rows > 0) {
-        die("Email already registered. <a href='login.html'>Login here</a>");
+        echo json_encode(['success' => false, 'message' => 'Email already registered.']);
+        $checkStmt->close();
+        $conn->close();
+        exit();
     }
     $checkStmt->close();
 
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-   $sql = "INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)";
+    // Insert new user
+    $sql = "INSERT INTO users (fullname, email, firebase_uid, google_id) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        die("SQL error: " . $conn->error);
-    }
-
-    $stmt->bind_param("sss", $fullname, $email, $hashedPassword);
+    $stmt->bind_param("ssss", $fullname, $email, $firebase_uid, $google_id);
 
     if ($stmt->execute()) {
-        echo "Signup successful. <a href='login.html'>Login here</a>";
+        $_SESSION['user_id']  = $stmt->insert_id;
+        $_SESSION['fullname'] = $fullname;
+        echo json_encode(['success' => true, 'message' => 'Signup successful']);
     } else {
-        echo "Error: " . $stmt->error;
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . $stmt->error]);
     }
 
     $stmt->close();
+} else {
+    echo json_encode(['success' => false, 'message' => 'Invalid data provided.']);
 }
 
 $conn->close();

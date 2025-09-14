@@ -49,8 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="login.css">
+    
 </head>
 <body>
+
+    
+
 
     <nav class="navbar navbar-light bg-white border-bottom p-3 px-4 navbar-fixed-top">
         <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
@@ -95,4 +99,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
 </body>
+
+
+<script type="module">
+    // Import the required Firebase services
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD-84LrmbOuwIRfi6Olj9LbFi_EVAc_Jew",
+      authDomain: "udyami-2cf62.firebaseapp.com",
+      projectId: "udyami-2cf62",
+      storageBucket: "udyami-2cf62.firebasestorage.app",
+      messagingSenderId: "404146319005",
+      appId: "1:404146319005:web:2226ea2b10bac68da86e74",
+      measurementId: "G-CYY61V2DRE"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // Get the Google login button from the DOM
+    const googleLoginBtn = document.querySelector('.btn-social.btn-google');
+
+    // Add a click event listener to the button
+    googleLoginBtn.addEventListener('click', () => {
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token.
+                const user = result.user;
+                const email = user.email;
+                const uid = user.uid; // This is the unique Google User ID
+                const fullName = user.displayName;
+
+                // Send this user info to your PHP backend to handle
+                fetch('google_auth_handler.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        google_id: uid,
+                        fullname: fullName
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = 'dashboard.php'; // Redirect on success
+                    } else {
+                        console.error('Login failed on backend:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error sending data to backend:', error);
+                });
+            })
+            .catch((error) => {
+                // Handle Errors here
+                console.error("Google sign-in error:", error.message);
+            });
+    });
+</script>
 </html>
