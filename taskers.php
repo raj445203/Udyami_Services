@@ -1,6 +1,7 @@
 <?php
 require 'db.php'; 
 
+
 $skills = $_GET['skills'] ?? '';
 
 if ($skills) {
@@ -135,7 +136,6 @@ if ($skills) {
                 <div class="tasker-details-col p-3 d-flex flex-column justify-content-between">
                   <div>
                     <h5 class="text-green"><?php echo htmlspecialchars($row['fullname']); ?></h5>
-                    <p class="mb-1"><strong>Skill:</strong> <?php echo htmlspecialchars($row['skills']); ?></p>
                     <p class="mb-1"><strong>Experience:</strong> <?php echo htmlspecialchars($row['experience_years']); ?> years</p>
                     <p class="mb-2"><strong>Location:</strong> <?php echo htmlspecialchars($row['preferred_location']); ?></p>
                   </div>

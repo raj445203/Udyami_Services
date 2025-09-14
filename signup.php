@@ -33,9 +33,17 @@ if ($data && !empty($data['email'])) {
     // Insert new user
     $sql = "INSERT INTO users (fullname, email, firebase_uid, google_id) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
+    
+    // Check for a prepared statement error
+    if (!$stmt) {
+        echo json_encode(['success' => false, 'message' => 'SQL prepare error: ' . $conn->error]);
+        exit();
+    }
+
     $stmt->bind_param("ssss", $fullname, $email, $firebase_uid, $google_id);
 
     if ($stmt->execute()) {
+        // Log the user in by setting session variables
         $_SESSION['user_id']  = $stmt->insert_id;
         $_SESSION['fullname'] = $fullname;
         echo json_encode(['success' => true, 'message' => 'Signup successful']);
@@ -49,4 +57,3 @@ if ($data && !empty($data['email'])) {
 }
 
 $conn->close();
-?>
