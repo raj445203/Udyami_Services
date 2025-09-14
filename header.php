@@ -24,7 +24,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <nav class="navbar navbar-light bg-white border-bottom p-2 px-4">
     <a class="navbar-brand d-flex align-items-center fw-bold" href="index.php">
-        <img src="images/logo2.png" alt="HandyHelp" height="50">HandyHelp
+        <img src="images/logo2.png" alt="HandyHelp" height="50">Udyami Services
     </a>
     <div class="d-flex gap-3 align-items-center">
         <a href="index.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Home</a>

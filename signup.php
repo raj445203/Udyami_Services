@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-   $sql = "INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
@@ -33,7 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sss", $fullname, $email, $hashedPassword);
 
     if ($stmt->execute()) {
-        echo "Signup successful. <a href='login.html'>Login here</a>";
+        header('Location: login.html');
+        exit;
     } else {
         echo "Error: " . $stmt->error;
     }
@@ -42,4 +43,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $conn->close();
-?>

@@ -461,12 +461,12 @@ include('header.php');
                             </a>
                         </div>
                         <div class="col">
-                            <a href="taskers.php?skills=Mehndi Artist" class="service-card-bootstrap-link">
+                            <a href="taskers.php?skills=Mehandi Artist" class="service-card-bootstrap-link">
                                 <div class="service-card-bootstrap">
                                     <div class="icon-container">
                                         <i class="fa-solid fa-paintbrush-pencil"></i>
                                     </div>
-                                    <h3>Mehndi Artist</h3>
+                                    <h3>Mehandi Artist</h3>
                                     <p>Beautiful and intricate henna designs for all occasions.</p>
                                 </div>
                             </a>
