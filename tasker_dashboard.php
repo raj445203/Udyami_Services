@@ -7,11 +7,12 @@ if (!isset($_SESSION['tasker_id'])) {
     exit();
 }
 
-require 'db.php';
+require 'db.php'; // Database connection
 
 $tasker_id = $_SESSION['tasker_id'];
 $tasker_data = null;
 
+// Fetch tasker profile data
 $stmt = $conn->prepare("SELECT * FROM taskers WHERE id = ?");
 $stmt->bind_param("i", $tasker_id);
 $stmt->execute();
@@ -26,7 +27,42 @@ if ($result->num_rows > 0) {
 }
 
 $stmt->close();
-$conn->close();
+
+// Query to get ALL orders for this tasker, joining with users table
+$all_orders_stmt = $conn->prepare("
+    SELECT b.*, u.fullname AS user_name
+    FROM bookings b
+    JOIN users u ON b.user_id = u.id
+    WHERE b.tasker_id = ?
+    ORDER BY b.created_at DESC
+");
+$all_orders_stmt->bind_param("i", $tasker_id);
+$all_orders_stmt->execute();
+$all_orders_result = $all_orders_stmt->get_result();
+
+// Query to get PENDING orders
+$pending_orders_stmt = $conn->prepare("
+    SELECT b.*, u.fullname AS user_name
+    FROM bookings b
+    JOIN users u ON b.user_id = u.id
+    WHERE b.tasker_id = ? AND b.status = 'Pending'
+    ORDER BY b.created_at DESC
+");
+$pending_orders_stmt->bind_param("i", $tasker_id);
+$pending_orders_stmt->execute();
+$pending_orders_result = $pending_orders_stmt->get_result();
+
+// Query to get COMPLETED & REJECTED orders (history)
+$history_stmt = $conn->prepare("
+    SELECT b.*, u.fullname AS user_name
+    FROM bookings b
+    JOIN users u ON b.user_id = u.id
+    WHERE b.tasker_id = ? AND b.status IN ('Completed', 'Rejected')
+    ORDER BY b.created_at DESC
+");
+$history_stmt->bind_param("i", $tasker_id);
+$history_stmt->execute();
+$history_result = $history_stmt->get_result();
 
 $success = $_SESSION['success'] ?? '';
 unset($_SESSION['success']);
@@ -42,7 +78,6 @@ include('header.php');
     <?php endif; ?>
 
     <div class="row">
-        <!-- Sidebar -->
         <div class="col-md-3 col-lg-2 mb-4">
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-header bg-info text-white rounded-top-4">
@@ -68,10 +103,8 @@ include('header.php');
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="col-md-9 col-lg-10">
             <div class="tab-content">
-                <!-- Profile Tab -->
                 <div class="tab-pane fade show active" id="profile">
                     <div class="card shadow-lg border-0 rounded-4 mb-4">
                         <div class="card-header bg-info text-white rounded-top-4">
@@ -101,38 +134,142 @@ include('header.php');
                     </div>
                 </div>
 
-                <!-- Orders Tab -->
                 <div class="tab-pane fade" id="orders">
                     <div class="card shadow-lg border-0 rounded-4 mb-4">
                         <div class="card-header bg-primary text-white rounded-top-4">
                             <h5 class="mb-0">All Orders</h5>
                         </div>
                         <div class="card-body">
-                            <div class="alert alert-info">You currently have no orders.</div>
+                            <?php if ($all_orders_result->num_rows > 0): ?>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Customer</th>
+                                                <th>Date & Time</th>
+                                                <th>Message</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php while ($booking = $all_orders_result->fetch_assoc()): ?>
+                                                <tr>
+                                                    <td><?= htmlspecialchars($booking['user_name']) ?></td>
+                                                    <td><?= date('M d, Y \a\t h:i A', strtotime($booking['scheduled_datetime'])) ?></td>
+                                                    <td><?= nl2br(htmlspecialchars($booking['message'])) ?></td>
+                                                    <td>
+                                                        <form action="update_booking_status.php" method="POST">
+                                                            <input type="hidden" name="booking_id" value="<?= htmlspecialchars($booking['id']) ?>">
+                                                            <select name="status" class="form-select" onchange="this.form.submit()">
+                                                                <option value="Pending" <?= ($booking['status'] == 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                                                                <option value="Accepted" <?= ($booking['status'] == 'Accepted') ? 'selected' : ''; ?>>Accepted</option>
+                                                                <option value="Rejected" <?= ($booking['status'] == 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                                                                <option value="Completed" <?= ($booking['status'] == 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                                                            </select>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            <?php endwhile; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php else: ?>
+                                <div class="alert alert-info">You currently have no orders.</div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
 
-                <!-- Pending Orders Tab -->
                 <div class="tab-pane fade" id="pending-orders">
                     <div class="card shadow-lg border-0 rounded-4 mb-4">
                         <div class="card-header bg-warning text-white rounded-top-4">
                             <h5 class="mb-0">Pending Orders</h5>
                         </div>
                         <div class="card-body">
-                            <div class="alert alert-info">You currently have no pending orders.</div>
+                            <?php if ($pending_orders_result->num_rows > 0): ?>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Customer</th>
+                                                <th>Date & Time</th>
+                                                <th>Message</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php while ($booking = $pending_orders_result->fetch_assoc()): ?>
+                                                <tr>
+                                                    <td><?= htmlspecialchars($booking['user_name']) ?></td>
+                                                    <td><?= date('M d, Y \a\t h:i A', strtotime($booking['scheduled_datetime'])) ?></td>
+                                                    <td><?= nl2br(htmlspecialchars($booking['message'])) ?></td>
+                                                    <td>
+                                                        <form action="update_booking_status.php" method="POST">
+                                                            <input type="hidden" name="booking_id" value="<?= htmlspecialchars($booking['id']) ?>">
+                                                            <select name="status" class="form-select" onchange="this.form.submit()">
+                                                                <option value="Pending" <?= ($booking['status'] == 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                                                                <option value="Accepted" <?= ($booking['status'] == 'Accepted') ? 'selected' : ''; ?>>Accepted</option>
+                                                                <option value="Rejected" <?= ($booking['status'] == 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                                                                <option value="Completed" <?= ($booking['status'] == 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                                                            </select>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            <?php endwhile; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php else: ?>
+                                <div class="alert alert-info">You currently have no pending orders.</div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
 
-                <!-- History Tab -->
                 <div class="tab-pane fade" id="history">
                     <div class="card shadow-lg border-0 rounded-4 mb-4">
                         <div class="card-header bg-secondary text-white rounded-top-4">
                             <h5 class="mb-0">Order History</h5>
                         </div>
                         <div class="card-body">
-                            <div class="alert alert-secondary">Your order history is currently empty.</div>
+                            <?php if ($history_result->num_rows > 0): ?>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Customer</th>
+                                                <th>Date & Time</th>
+                                                <th>Message</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php while ($booking = $history_result->fetch_assoc()): ?>
+                                                <tr>
+                                                    <td><?= htmlspecialchars($booking['user_name']) ?></td>
+                                                    <td><?= date('M d, Y \a\t h:i A', strtotime($booking['scheduled_datetime'])) ?></td>
+                                                    <td><?= nl2br(htmlspecialchars($booking['message'])) ?></td>
+                                                    <td>
+                                                        <span class="badge 
+                                                            <?php
+                                                            switch($booking['status']) {
+                                                                case 'Accepted': echo 'bg-success'; break;
+                                                                case 'Rejected': echo 'bg-danger'; break;
+                                                                case 'Completed': echo 'bg-info'; break;
+                                                                default: echo 'bg-warning'; break;
+                                                            }
+                                                            ?>">
+                                                            <?= htmlspecialchars($booking['status']) ?>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            <?php endwhile; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php else: ?>
+                                <div class="alert alert-info">Your order history is currently empty.</div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -141,7 +278,13 @@ include('header.php');
     </div>
 </div>
 
-<!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-<?php include('footer.php'); ?>
+<?php 
+// Close all prepared statements and the database connection at the end
+$all_orders_stmt->close();
+$pending_orders_stmt->close();
+$history_stmt->close();
+$conn->close();
+
+include('footer.php'); ?>

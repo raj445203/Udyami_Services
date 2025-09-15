@@ -46,14 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
     } else {
         $fullname = $_POST['fullname'] ?? $user['fullname'];
         $email = $_POST['email'] ?? $user['email'];
-        
+
         $update_stmt = $conn->prepare("UPDATE users SET fullname = ?, email = ? WHERE id = ?");
         if (!$update_stmt) {
             $message = "Database prepare error: " . $conn->error;
             $message_type = 'danger';
         } else {
             $update_stmt->bind_param("ssi", $fullname, $email, $user_id);
-        
+
             if ($update_stmt->execute()) {
                 $message = "Profile updated successfully!";
                 $message_type = 'success';
@@ -76,6 +76,31 @@ $user_fullname = htmlspecialchars($user['fullname']);
 // Determine which tab is active based on the URL parameter
 $active_tab = $_GET['tab'] ?? 'dashboard';
 
+// --- BOOKING STATUS LOGIC ---
+$booking_status_message = '';
+if ($active_tab === 'booking-status') {
+    // Fetch bookings for the logged-in user
+    $bookings_stmt = $conn->prepare("
+        SELECT 
+            b.scheduled_datetime, 
+            b.message, 
+            b.status,
+            t.fullname AS tasker_name
+        FROM bookings b
+        JOIN taskers t ON b.tasker_id = t.id
+        WHERE b.user_id = ?
+        ORDER BY b.created_at DESC
+    ");
+    $bookings_stmt->bind_param("i", $user_id);
+    $bookings_stmt->execute();
+    $bookings_result = $bookings_stmt->get_result();
+
+    if (isset($_GET['booking_status'])) {
+        $status_type = $_GET['booking_status'] === 'success' ? 'success' : 'danger';
+        $booking_status_message = '<div class="alert alert-' . $status_type . ' alert-dismissible fade show" role="alert">Booking request sent successfully! <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+    }
+}
+
 // Close the database connection
 $conn->close();
 ?>
@@ -86,12 +111,10 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HandyHelp - Dashboard</title>
-    
-    <!-- Bootstrap CSS for layout and styling -->
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons for professional-looking icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    
+
     <style>
         body {
             background-color: #f9fdfc;
@@ -188,6 +211,20 @@ $conn->close();
             background-color: #c82333;
             color: white;
         }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f9fdfc;
+        }
+        .status-badge {
+            padding: .3em .6em;
+            border-radius: 1rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .status-Pending { background-color: #fff3cd; color: #664d03; }
+        .status-Accepted { background-color: #d1e7dd; color: #0a362b; }
+        .status-Rejected { background-color: #f8d7da; color: #58151c; }
+        .status-Completed { background-color: #cff4fc; color: #055160; }
+
         @media (max-width: 768px) {
             .dashboard-wrapper {
                 flex-direction: column;
@@ -209,7 +246,6 @@ $conn->close();
     <?php include('header.php'); ?>
 
     <div class="dashboard-wrapper">
-        <!-- Sidebar Navigation -->
         <div class="sidebar" id="dashboard-sidebar">
             <h6 class="text-uppercase fw-bold mb-4">Dashboard Menu</h6>
             <a href="dashboard.php?tab=dashboard" class="sidebar-link <?php echo ($active_tab === 'dashboard' ? 'active' : ''); ?>">
@@ -221,28 +257,26 @@ $conn->close();
             <a href="dashboard.php?tab=become-a-tasker" class="sidebar-link <?php echo ($active_tab === 'become-a-tasker' ? 'active' : ''); ?>">
                 <i class="bi bi-briefcase"></i> Become a Tasker
             </a>
+            <a href="dashboard.php?tab=booking-status" class="sidebar-link <?php echo ($active_tab === 'booking-status' ? 'active' : ''); ?>">
+                <i class="bi bi-journal-check"></i> Booking Status
+            </a>
             <hr class="my-3">
             <a href="logout.php" class="sidebar-link text-danger">
                 <i class="bi bi-box-arrow-right"></i> Logout
             </a>
         </div>
 
-        <!-- Main Content Area -->
         <div class="main-content">
-            <!-- Main Content Header -->
             <div class="main-header d-flex justify-content-between align-items-center">
                 <button class="btn toggle-btn d-md-none" id="sidebar-toggle-btn">
                     <i class="bi bi-list"></i> Menu
                 </button>
-                <h3 class="h4 mb-0 text-custom-green"><?php echo htmlspecialchars(ucfirst($active_tab)); ?></h3>
-                <!-- Logout button for small screens -->
+                <h3 class="h4 mb-0 text-custom-green"><?php echo htmlspecialchars(ucfirst(str_replace('-', ' ', $active_tab))); ?></h3>
                 <a href="logout.php" class="btn btn-logout d-md-none">Logout</a>
             </div>
 
-            <!-- Dynamic content will load here based on the active tab -->
             <?php if ($active_tab === 'dashboard'): ?>
-                <!-- Content for the main dashboard overview -->
-                <h4 class="text-custom-green mb-4">Welcome, <?php echo $user_fullname; ?>!</h4>
+                <h4 class="text-custom-green mb-4">Welcome, <?php echo $user_fullname; ?>! </h4>
                 <div class="row g-4 mt-3">
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 border-0 shadow-sm rounded-3">
@@ -276,7 +310,6 @@ $conn->close();
                     </div>
                 </div>
             <?php elseif ($active_tab === 'profile'): ?>
-                <!-- Content for the Profile tab -->
                 <h4 class="text-custom-green">Edit Profile</h4>
                 <?php if ($message): ?>
                     <div class="alert alert-<?php echo $message_type; ?> mt-4" role="alert">
@@ -285,7 +318,6 @@ $conn->close();
                 <?php endif; ?>
                 <div class="card p-4 rounded-3 shadow-sm">
                     <form method="POST" action="dashboard.php?tab=profile" enctype="multipart/form-data">
-                        <!-- Add a hidden CSRF token field -->
                         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                         <div class="d-flex flex-column align-items-center mb-4">
                             <label for="profile_image_upload" class="profile-img-container mb-3">
@@ -303,20 +335,54 @@ $conn->close();
                                 <label for="email" class="form-label">Email address</label>
                                 <input type="email" name="email" class="form-control" id="email" value="<?php echo htmlspecialchars($user['email']); ?>">
                             </div>
-                            <!-- Phone and Location fields removed -->
-                        </div>
+                            </div>
                         <button type="submit" name="update_profile" class="btn btn-primary mt-3">Save Changes</button>
                     </form>
                 </div>
             <?php elseif ($active_tab === 'become-a-tasker'): ?>
-                <!-- Content for Become a Tasker tab -->
                 <h4 class="text-custom-green">Become a Tasker</h4>
                 <div class="card p-4 rounded-3 shadow-sm">
                     <p class="text-muted">Ready to offer your skills? Join our platform now to become a tasker.</p>
                     <a href="register-tasker.php" class="btn btn-link-action mt-3">Join Now</a>
                 </div>
+            <?php elseif ($active_tab === 'booking-status'): ?>
+                <h4 class="text-custom-green">My Booking Status</h4>
+                <div class="mt-4">
+                    <?php echo $booking_status_message; ?>
+                    <?php if ($bookings_result->num_rows > 0): ?>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Tasker</th>
+                                        <th>Date & Time</th>
+                                        <th>Message</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while ($booking = $bookings_result->fetch_assoc()): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($booking['tasker_name']); ?></td>
+                                            <td><?php echo date('M d, Y \a\t h:i A', strtotime($booking['scheduled_datetime'])); ?></td>
+                                            <td><?php echo htmlspecialchars($booking['message']); ?></td>
+                                            <td>
+                                                <span class="status-badge status-<?php echo htmlspecialchars($booking['status']); ?>">
+                                                    <?php echo htmlspecialchars($booking['status']); ?>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php else: ?>
+                        <div class="alert alert-info" role="alert">
+                            You have no booking requests yet.
+                        </div>
+                    <?php endif; ?>
+                </div>
             <?php else: ?>
-                <!-- Fallback content if the tab is not recognized -->
                 <h4 class="text-custom-green">Error</h4>
                 <div class="card p-4 rounded-3 shadow-sm">
                     <p>The requested tab was not found.</p>
@@ -325,7 +391,6 @@ $conn->close();
         </div>
     </div>
 
-    <!-- Bootstrap JS Bundle for responsive features and card functionality -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('sidebar-toggle-btn').addEventListener('click', function() {
@@ -338,12 +403,12 @@ $conn->close();
                 }
             }
         });
-        
+
         // This script handles the click event on the profile image
         document.querySelector('.profile-img-container').addEventListener('click', function() {
             document.getElementById('profile_image_upload').click();
         });
-        
+
         // This script updates the displayed image when a new file is selected
         document.getElementById('profile_image_upload').addEventListener('change', function(event) {
             const [file] = event.target.files;
