@@ -5,8 +5,8 @@ require 'db.php';
 // Define the service categories and their respective services
 $service_categories = [
     "Personal & Lifestyle" => [
-        "Mehandi Artist", "Makeup Artist", "Photography & Videography", "Tour Agent",
-        "Caterer / Halwai", "Home Decorator", "Movers / Packers", "Painter",
+        "Mehandi Artist", "Makeup Artist", 
+       
         "Beautician", "Tattoo Artist", "Hair Stylist / Barber", "Massage Therapist",
         "Tailor / Stitching", "Dog Walker / Pet Groomer"
     ],
@@ -25,11 +25,11 @@ $service_categories = [
     ],
     "Event Services" => [
         "Event Planner", "Birthday Decorator", "Balloon Artist", "DJ / Sound System",
-        "Caterer / Halwai", "Dhol / Tasha Party", "Tent House", "Photography & Videography", "Anchor"
+        "Caterer / Halwai", "Dhol / Tasha Party", "Tent House", "Photography & Videography", "Anchor","Home Decorator",  "Painter",
     ],
     "Movers & Transport" => [
         "Home Shifting (Local)", "Intercity Movers & Packers", "Truck / Tempo on Hire",
-        "Bike / Car Transport", "Goods Transport Help", "Driver on Demand"
+        "Bike / Car Transport", "Goods Transport Help", "Driver on Demand","Movers / Packers"
     ]
 ];
 
