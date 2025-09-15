@@ -3,7 +3,7 @@ session_start();
 
 // Redirect to login if not logged in
 if (!isset($_SESSION['tasker_id'])) {
-    header("Location: login-tasker.php");
+    header("Location: login_tasker.php");
     exit();
 }
 
@@ -21,7 +21,7 @@ if ($result->num_rows > 0) {
     $tasker_data = $result->fetch_assoc();
 } else {
     session_destroy();
-    header("Location: login-tasker.php");
+    header("Location: login_tasker.php");
     exit();
 }
 
