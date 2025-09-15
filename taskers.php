@@ -5,7 +5,7 @@ require 'db.php';
 // Define the service categories and their respective services
 $service_categories = [
     "Personal & Lifestyle" => [
-        "Mehandi Artist", "Makeup Artist", 
+        "Mehandi Artist", "Makeup Artist", "Physiotherapist","Gym Trainer",
        
         "Beautician", "Tattoo Artist", "Hair Stylist / Barber", "Massage Therapist",
         "Tailor / Stitching", "Dog Walker / Pet Groomer"
