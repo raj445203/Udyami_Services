@@ -17,13 +17,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-        
+
         if ($result->num_rows > 0) {
             $tasker = $result->fetch_assoc();
             // Verify the hashed password
             if (password_verify($password, $tasker['password'])) {
                 $_SESSION['tasker_id'] = $tasker['id'];
                 $_SESSION['tasker_email'] = $email;
+                $_SESSION['tasker_logged_in'] = true; // Set the logged-in session variable
                 $_SESSION['success'] = "Login successful! Welcome to your dashboard.";
                 $stmt->close();
                 $conn->close();

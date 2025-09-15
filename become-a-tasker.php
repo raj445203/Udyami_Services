@@ -8,10 +8,10 @@ include('header.php');
   <div class="container">
     <div class="row align-items-center">
       <div class="col-md-6 text-center text-md-start">
-        <h1 class="fw-bold display-4">Become a HandyHelp Tasker</h1>
+        <h1 class="fw-bold display-4">Become a Udyami Services Tasker</h1>
         <p class="lead mt-3">Earn money by helping people with everyday home services like cleaning, repairs, moving, and more.</p>
         <a href="register-tasker.php" class="btn btn-success btn-lg mt-4">Register here !</a>
-         <a href="login_tasker.php" class="btn btn-success btn-lg mt-4">Login</a>
+        <a href="login_tasker.php" class="btn btn-success btn-lg mt-4">Login</a>
       </div>
       <div class="col-md-6 text-center mt-4 mt-md-0">
         <img src="images/mechanic_working.png" alt="Become a Tasker" class="img-fluid" />
@@ -23,7 +23,7 @@ include('header.php');
 <!-- Why Join Section -->
 <section class="why-join py-5 bg-light">
   <div class="container text-center">
-    <h2 class="mb-4">Why Join HandyHelp?</h2>
+    <h2 class="mb-4">Why Join Udyami Services?</h2>
     <div class="row g-4">
       <div class="col-md-4">
         <div class="p-3 border rounded bg-white shadow-sm">
@@ -52,7 +52,7 @@ include('header.php');
   <div class="container">
     <h2 class="text-center fw-bold mb-5">Getting Started</h2>
     <div class="row text-center gy-5">
-      
+
       <!-- Step 1 -->
       <div class="col-md-4">
         <img src="images/add-user.png" alt="Sign up" class="mb-3 step-icon">
@@ -103,40 +103,41 @@ include('header.php');
 <section class="testimonial-section py-5">
   <div class="container">
     <div class="row align-items-center">
-      
+
       <!-- Text Side -->
       <div class="col-md-6">
         <div class="testimonial-text">
           <div class="quote-icon mb-3 fs-1 text-success">❝</div>
           <p class="fs-4 fw-semibold">
-            I love HandyHelp! I was able to get out of debt, tackle bills, provide for my family, and still have enough room to save for future goals.
+            I love Udyami Services! I was able to get out of debt, tackle bills, provide for my family, and still have enough room to save for future goals.
           </p>
-          <p class="mt-4 fw-medium">Karsheem W., New York, NY</p>
+          <p class="mt-4 fw-medium">Nikhil S., Nanded, ind</p>
         </div>
       </div>
 
       <!-- Image Side -->
       <div class="col-md-6">
-        <img src="images/testimonial-779c1bf4e9d375692264bddc09568995.jpg" alt="Testimonial Image" class="img-fluid rounded shadow">
+        <img src="images/nikhilsangewar.jpeg" alt="Testimonial Image" class="img-fluid rounded shadow">
       </div>
 
     </div>
   </div>
 </section>
- 
+
 <!-- Signup CTA Section -->
 <section id="signup" class="signup-section bg-success text-dark text-center py-5">
   <div class="container">
-    <h2 class="mb-3">Ready to Become a HandyHelp Tasker?</h2>
+    <h2 class="mb-3">Ready to Become a Udyami Services Tasker?</h2>
     <p class="mb-4">Join our growing community of skilled professionals.</p>
     <a href="register-tasker.php" class="btn btn-light btn-lg">Join Now</a>
   </div>
 </section>
 
 <!-- Footer -->
-  <?php
+<?php
 include('footer.php');
 ?>
 
 </body>
+
 </html>

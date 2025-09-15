@@ -107,6 +107,7 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -121,28 +122,35 @@ $conn->close();
             font-family: 'Segoe UI', sans-serif;
             min-height: 100vh;
         }
+
         .dashboard-wrapper {
             display: flex;
-            min-height: calc(100vh - 76px); /* Adjust based on your header height */
+            min-height: calc(100vh - 76px);
+            /* Adjust based on your header height */
         }
+
         .sidebar {
             width: 280px;
             background-color: #fff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             padding: 20px;
             transition: transform 0.3s ease-in-out;
             transform: translateX(0);
         }
+
         .sidebar.collapsed {
             transform: translateX(-100%);
         }
+
         .main-content {
             flex-grow: 1;
             padding: 30px;
         }
+
         .text-custom-green {
             color: #084650ff !important;
         }
+
         .sidebar-link {
             display: flex;
             align-items: center;
@@ -153,21 +161,26 @@ $conn->close();
             border-radius: 8px;
             transition: background-color 0.2s, color 0.2s;
         }
-        .sidebar-link:hover, .sidebar-link.active {
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
             background-color: #084650ff;
             color: #fff;
         }
+
         .sidebar-link .bi {
             font-size: 1.2rem;
             margin-right: 15px;
         }
+
         .main-header {
             background-color: #fff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             margin-bottom: 30px;
         }
+
         .toggle-btn {
             background-color: #084650ff;
             color: white;
@@ -175,6 +188,7 @@ $conn->close();
             padding: 8px 15px;
             border-radius: 8px;
         }
+
         .profile-img-container {
             position: relative;
             width: 150px;
@@ -184,64 +198,92 @@ $conn->close();
             border: 3px solid #084650ff;
             cursor: pointer;
         }
+
         .profile-img-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
         .card-icon {
             font-size: 2.5rem;
             color: #084650ff;
         }
+
         .btn-link-action {
             background-color: #084650ff;
             color: white;
             transition: background-color 0.3s;
         }
+
         .btn-link-action:hover {
             background-color: #14566cff;
             color: white;
         }
+
         .btn-logout {
             background-color: #dc3545;
             color: white;
             transition: background-color 0.3s;
         }
+
         .btn-logout:hover {
             background-color: #c82333;
             color: white;
         }
+
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: #f9fdfc;
         }
+
         .status-badge {
             padding: .3em .6em;
             border-radius: 1rem;
             font-weight: bold;
             display: inline-block;
         }
-        .status-Pending { background-color: #fff3cd; color: #664d03; }
-        .status-Accepted { background-color: #d1e7dd; color: #0a362b; }
-        .status-Rejected { background-color: #f8d7da; color: #58151c; }
-        .status-Completed { background-color: #cff4fc; color: #055160; }
+
+        .status-Pending {
+            background-color: #fff3cd;
+            color: #664d03;
+        }
+
+        .status-Accepted {
+            background-color: #d1e7dd;
+            color: #0a362b;
+        }
+
+        .status-Rejected {
+            background-color: #f8d7da;
+            color: #58151c;
+        }
+
+        .status-Completed {
+            background-color: #cff4fc;
+            color: #055160;
+        }
 
         @media (max-width: 768px) {
             .dashboard-wrapper {
                 flex-direction: column;
             }
+
             .sidebar {
                 width: 100%;
                 position: relative;
             }
+
             .sidebar.collapsed {
                 display: none;
             }
+
             .main-content {
                 padding-top: 20px;
             }
         }
     </style>
 </head>
+
 <body>
     <?php include('header.php'); ?>
 
@@ -335,7 +377,7 @@ $conn->close();
                                 <label for="email" class="form-label">Email address</label>
                                 <input type="email" name="email" class="form-control" id="email" value="<?php echo htmlspecialchars($user['email']); ?>">
                             </div>
-                            </div>
+                        </div>
                         <button type="submit" name="update_profile" class="btn btn-primary mt-3">Save Changes</button>
                     </form>
                 </div>
@@ -418,4 +460,5 @@ $conn->close();
         });
     </script>
 </body>
+
 </html>

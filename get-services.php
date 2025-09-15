@@ -53,6 +53,8 @@ $services = [
     "Personal Trainer",
     "Yoga Instructor",
     "Massage Therapist",
+    "Physiotherapist", 
+    "Gym Trainer",
     "Tailor / Stitching",
     "Dog Walker / Pet Groomer",
     "Tattoo Artist",

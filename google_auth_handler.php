@@ -40,13 +40,12 @@ if ($data && isset($data['email']) && isset($data['google_id'])) {
             $stmt_update = $conn->prepare($sql_update);
             $stmt_update->bind_param("si", $google_id, $user_email_match['id']);
             $stmt_update->execute();
-            
+
             // Log the user in
             $_SESSION['user_id'] = $user_email_match['id'];
             $_SESSION['fullname'] = $user_email_match['fullname'];
             echo json_encode(['success' => true]);
             exit();
-
         } else {
             // No account exists, create a new one.
             $sql_insert = "INSERT INTO users (fullname, email, google_id) VALUES (?, ?, ?)";
@@ -70,4 +69,3 @@ if ($data && isset($data['email']) && isset($data['google_id'])) {
 }
 
 $conn->close();
-?>

@@ -35,6 +35,7 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -91,12 +92,12 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
             font-weight: 500;
             margin-bottom: 30px;
         }
-        
+
         .form-group {
             text-align: left;
             margin-bottom: 20px;
         }
-        
+
         .form-group label {
             display: block;
             font-weight: 600;
@@ -160,15 +161,18 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
             .booking-container {
                 padding: 30px;
             }
+
             h1 {
                 font-size: 24px;
             }
+
             h2 {
                 font-size: 18px;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="booking-container">
         <h1>Book Now</h1>
@@ -180,26 +184,27 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
 
         <form action="process_booking.php" method="POST">
             <input type="hidden" name="tasker_id" value="<?php echo htmlspecialchars($tasker_id); ?>">
-            
+
             <div class="form-group">
                 <label for="date">Date</label>
                 <input type="date" id="date" name="booking_date" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="time">Time</label>
                 <input type="time" id="time" name="booking_time" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="message">Your Message</label>
                 <textarea id="message" name="booking_message" placeholder="Provide details about the service you need..." required></textarea>
             </div>
-            
+
             <button type="submit" class="btn-submit">
                 <i class="fas fa-paper-plane"></i> Send Booking Request
             </button>
         </form>
     </div>
 </body>
+
 </html>

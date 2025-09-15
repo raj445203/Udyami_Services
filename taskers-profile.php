@@ -52,12 +52,16 @@ $social_media = [
 
 // Define the service categories for the filter links
 $service_categories = [
-    'Plumbing', 'Carpentry', 'Cleaning', 'Electrician'
+    'Plumbing',
+    'Carpentry',
+    'Cleaning',
+    'Electrician'
 ];
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,7 +92,7 @@ $service_categories = [
             margin: 0;
             padding: 20px;
         }
-        
+
         .profile-container {
             display: flex;
             gap: 20px;
@@ -147,7 +151,7 @@ $service_categories = [
             background-size: cover;
             background-position: center;
         }
-        
+
         .profile-image-circle:empty::before {
             content: '<?php echo htmlspecialchars(substr($tasker['fullname'], 0, 1) . substr(strstr($tasker['fullname'], ' '), 1, 1)); ?>';
             color: white;
@@ -176,7 +180,8 @@ $service_categories = [
             color: var(--text-medium);
         }
 
-        .profile-meta .rating, .profile-meta .verified {
+        .profile-meta .rating,
+        .profile-meta .verified {
             display: flex;
             align-items: center;
         }
@@ -211,7 +216,7 @@ $service_categories = [
             border-radius: var(--border-radius);
             border: 1px solid #e9f5e9;
         }
-        
+
         .section-heading {
             font-size: 18px;
             font-weight: 600;
@@ -228,7 +233,7 @@ $service_categories = [
         .experience-location {
             margin-top: 20px;
         }
-        
+
         .exp-item {
             display: flex;
             align-items: center;
@@ -236,21 +241,21 @@ $service_categories = [
             font-size: 14px;
             color: var(--text-medium);
         }
-        
+
         .exp-item i {
             color: var(--primary-color);
             width: 20px;
             text-align: center;
             margin-right: 8px;
         }
-        
+
         .exp-item a {
             color: var(--primary-color);
             text-decoration: none;
             font-weight: 500;
             margin-left: 10px;
         }
-        
+
         .exp-item a:hover {
             text-decoration: underline;
         }
@@ -295,7 +300,7 @@ $service_categories = [
             margin-bottom: 20px;
             line-height: 1.5;
         }
-        
+
         .btn-group {
             display: flex;
             flex-direction: column;
@@ -316,7 +321,7 @@ $service_categories = [
             align-items: center;
             justify-content: center;
         }
-        
+
         .btn i {
             margin-right: 8px;
         }
@@ -335,7 +340,7 @@ $service_categories = [
             border: 1px solid var(--primary-color);
             color: var(--primary-color);
         }
-        
+
         .btn-secondary:hover {
             background-color: var(--primary-color);
             color: #fff;
@@ -358,7 +363,7 @@ $service_categories = [
         .social-media a:hover {
             color: #2e7d32;
         }
-        
+
         /* Sidebar Styles */
         .sidebar {
             flex: 1;
@@ -406,7 +411,7 @@ $service_categories = [
             text-decoration: none;
             transition: background-color 0.2s;
         }
-        
+
         .sidebar-filter-button.active {
             background-color: var(--primary-color);
             color: #fff;
@@ -464,39 +469,44 @@ $service_categories = [
             .profile-content {
                 flex-direction: column;
             }
-            .left-column, .right-column {
+
+            .left-column,
+            .right-column {
                 min-width: 100%;
             }
+
             .profile-card {
                 padding: 20px;
             }
         }
-        
+
         @media (max-width: 480px) {
             .profile-header {
                 flex-direction: column;
                 text-align: center;
             }
+
             .profile-image-circle {
                 margin: 0 0 15px 0;
             }
         }
     </style>
 </head>
+
 <body>
-    
+
     <div class="profile-card">
         <div class="profile-header">
             <div class="profile-image-circle"></div>
             <div class="profile-info">
                 <h1><?php echo htmlspecialchars($tasker['fullname']); ?></h1>
                 <p>
-                    <?php 
-                        if (!empty($skills_list[0])) {
-                            echo htmlspecialchars(ucwords(trim($skills_list[0]))); 
-                        } else {
-                            echo "Tasker";
-                        }
+                    <?php
+                    if (!empty($skills_list[0])) {
+                        echo htmlspecialchars(ucwords(trim($skills_list[0])));
+                    } else {
+                        echo "Tasker";
+                    }
                     ?> Specialist
                 </p>
                 <div class="profile-meta">
@@ -594,4 +604,5 @@ $service_categories = [
     </div>
 
 </body>
+
 </html>
