@@ -6,7 +6,7 @@ require 'db.php';
 // Check if the request is a POST from the email/password form
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'])) {
     $email = $_POST['email'];
-    
+
     // Find the user in the database
     $sql = "SELECT id, fullname FROM users WHERE email = ?";
     $stmt = $conn->prepare($sql);
@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'])) {
         echo json_encode(['success' => false, 'message' => 'User not found in database.']);
         exit();
     }
-} 
+}
 // Check if the request is a POST from the Google login
 else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SERVER['CONTENT_TYPE']) && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
     $data = json_decode(file_get_contents('php://input'), true);

@@ -12,6 +12,7 @@ include('header.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,6 +25,7 @@ include('header.php');
         .hero-main-content {
             color: white;
         }
+
         .hero-section {
             background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1542037105-c13f6406d28c?ixlib=rb-4.0.3&q=80&w=2070');
             background-size: cover;
@@ -33,9 +35,11 @@ include('header.php');
             align-items: center;
             justify-content: center;
         }
+
         .hero-search-bar .form-control {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+
         .search-button {
             background-color: #2cb0ca;
             color: white;
@@ -44,29 +48,35 @@ include('header.php');
             border: none;
             transition: background-color 0.3s;
         }
+
         .search-button:hover {
             background-color: #1a7e94;
         }
+
         .services-grid-section {
             margin-top: 50px;
         }
+
         .service-card-bootstrap-link {
             text-decoration: none;
         }
+
         .service-card-bootstrap {
             background: #a0e6ebff;
             border: 1px solid #e0e0e0;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
             padding: 25px;
             text-align: center;
             transition: all 0.3s ease;
             height: 100%;
         }
+
         .service-card-bootstrap:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
+
         .service-card-bootstrap .icon-container {
             width: 60px;
             height: 60px;
@@ -79,16 +89,19 @@ include('header.php');
             color: #084650ff;
             font-size: 2rem;
         }
+
         .service-card-bootstrap h3 {
             font-size: 1.25rem;
             font-weight: bold;
             color: #084650ff;
             margin-bottom: 5px;
         }
+
         .service-card-bootstrap p {
             font-size: 0.9rem;
             color: #6c757d;
         }
+
         #suggestionsList {
             position: absolute;
             top: 100%;
@@ -102,17 +115,20 @@ include('header.php');
             max-height: 200px;
             overflow-y: auto;
             border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         #suggestionsList li {
             padding: 10px 15px;
             cursor: pointer;
         }
+
         #suggestionsList li:hover {
             background-color: #f8f9fa;
         }
     </style>
 </head>
+
 <body>
     <section>
         <section class="hero-section">
@@ -120,7 +136,7 @@ include('header.php');
                 <div class="container text-center">
                     <h1 class="display-4 fw-bold">Our Services</h1>
                     <p class="lead">Explore a wide range of services tailored to your needs, from home repairs to personal care.</p>
-                
+
                     <!-- Hero Search Bar with Suggestions -->
                     <div class="hero-search-bar mt-4 position-relative mx-auto" style="max-width: 600px;">
                         <form id="searchForm" class="d-flex rounded-pill overflow-hidden">
@@ -131,7 +147,7 @@ include('header.php');
                                 </svg>
                             </button>
                         </form>
-                        <ul id="suggestionsList" class="list-group position-absolute mt-1 w-100 rounded-3 overflow-hidden" 
+                        <ul id="suggestionsList" class="list-group position-absolute mt-1 w-100 rounded-3 overflow-hidden"
                             style="z-index: 1000; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></ul>
                     </div>
                 </div>
@@ -178,7 +194,7 @@ include('header.php');
                                 </div>
                             </a>
                         </div>
-                         <div class="col">
+                        <div class="col">
                             <a href="taskers.php?skills=Tour Agent" class="service-card-bootstrap-link">
                                 <div class="service-card-bootstrap">
                                     <div class="icon-container">
@@ -189,18 +205,18 @@ include('header.php');
                                 </div>
                             </a>
                         </div>
-                       <div class="col">
+                        <div class="col">
                             <a href="taskers.php?skills=Caterer / Halwai" class="service-card-bootstrap-link">
                                 <div class="service-card-bootstrap">
                                     <div class="icon-container">
-                                       <i class="fa-solid fa-bowl-rice"></i>
+                                        <i class="fa-solid fa-bowl-rice"></i>
                                     </div>
                                     <h3>Caterer / Halwai</h3>
                                     <p>Delicious food and professional catering for all gatherings.</p>
                                 </div>
                             </a>
                         </div>
-                       <div class="col">
+                        <div class="col">
                             <a href="taskers.php?skills=Home Decorator" class="service-card-bootstrap-link">
                                 <div class="service-card-bootstrap">
                                     <div class="icon-container">
@@ -244,11 +260,11 @@ include('header.php');
                                 </div>
                             </a>
                         </div>
-                         <div class="col">
+                        <div class="col">
                             <a href="taskers.php?skills=Tattoo Artist" class="service-card-bootstrap-link">
                                 <div class="service-card-bootstrap">
                                     <div class="icon-container">
-                                      <i class="fa-solid fa-palette"></i>
+                                        <i class="fa-solid fa-palette"></i>
                                     </div>
                                     <h3>Tattoo Artist</h3>
                                     <p>Creative and professional tattooing services in a hygienic setting.</p>
@@ -320,7 +336,7 @@ include('header.php');
                             <a href="taskers.php?skills=Refrigerator Technician" class="service-card-bootstrap-link">
                                 <div class="service-card-bootstrap">
                                     <div class="icon-container">
-                                       <i class="fa-solid fa-refrigerator"></i>
+                                        <i class="fa-solid fa-refrigerator"></i>
                                     </div>
                                     <h3>Refrigerator Technician</h3>
                                     <p>Fast solutions for cooling issues and part replacements.</p>
@@ -479,6 +495,28 @@ include('header.php');
                                     </div>
                                     <h3>Massage Therapist</h3>
                                     <p>Relaxing and therapeutic massages at your home.</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="taskers.php?skills=Physiotherapist" class="service-card-bootstrap-link">
+                                <div class="service-card-bootstrap">
+                                    <div class="icon-container">
+                                        <i class="fa-solid fa-user-nurse"></i>
+                                    </div>
+                                    <h3>Physiotherapist</h3>
+                                    <p>Expert physiotherapy for pain relief, injury recovery, and mobility improvement at home.</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a href="taskers.php?skills=Gym Trainer" class="service-card-bootstrap-link">
+                                <div class="service-card-bootstrap">
+                                    <div class="icon-container">
+                                        <i class="fa-solid fa-dumbbell"></i>
+                                    </div>
+                                    <h3>Gym Trainer</h3>
+                                    <p>Personalized fitness training and workout plans for your goals.</p>
                                 </div>
                             </a>
                         </div>
@@ -783,6 +821,7 @@ include('header.php');
             "Kitchen / Bathroom Cleaning", "Civil Contractor", "Interior Designer", "POP / False Ceiling Work",
             "Fabrication / Welding", "Tiling / Marble Work", "Painter / Whitewash", "Vastu Consultant",
             "Hair Stylist / Barber", "Mehndi Artist", "Massage Therapist", "Tailor / Stitching",
+            "Physiotherapist", "Gym Trainer",
             "Dog Walker / Pet Groomer", "Tattoo Artist", "Home Decorator", "Wallpaper Installation",
             "Wall Art / Mural Painting", "Floral Decorator", "Handicraft Decor Services",
             "Light Installation (Decor)", "Wedding Stage Setup", "Event Planner", "Birthday Decorator",
@@ -791,7 +830,7 @@ include('header.php');
             "Intercity Movers & Packers", "Truck / Tempo on Hire", "Bike / Car Transport", "Goods Transport Help",
             "Driver on Demand"
         ];
-        
+
         const searchInput = document.getElementById("serviceSearch");
         const suggestionsList = document.getElementById("suggestionsList");
 
@@ -799,7 +838,7 @@ include('header.php');
         searchInput.addEventListener("input", function() {
             const query = this.value.toLowerCase();
             suggestionsList.innerHTML = "";
-            
+
             if (query.trim() === "") {
                 suggestionsList.style.display = "none";
                 return;
@@ -842,4 +881,5 @@ include('header.php');
         });
     </script>
 </body>
+
 </html>

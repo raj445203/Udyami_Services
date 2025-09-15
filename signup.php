@@ -33,7 +33,7 @@ if ($data && !empty($data['email'])) {
     // Insert new user
     $sql = "INSERT INTO users (fullname, email, firebase_uid, google_id) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    
+
     if (!$stmt) {
         echo json_encode(['success' => false, 'message' => 'SQL prepare error: ' . $conn->error]);
         exit();
