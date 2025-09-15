@@ -1,13 +1,11 @@
 <?php
-$servername = "localhost";  // Database server
-$username = "root";         // MySQL username
-$password = "";             // MySQL password (empty for XAMPP default)
-$dbname = "handyhelp";      // Your database name
+$servername = "localhost";
+$username   = "root";
+$password   = "";
+$dbname     = "handyhelp";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
