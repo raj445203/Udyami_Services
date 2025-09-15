@@ -276,7 +276,7 @@ $conn->close();
             </div>
 
             <?php if ($active_tab === 'dashboard'): ?>
-                <h4 class="text-custom-green mb-4">Welcome, <?php echo $user_fullname; ?>! 👋</h4>
+                <h4 class="text-custom-green mb-4">Welcome, <?php echo $user_fullname; ?>! </h4>
                 <div class="row g-4 mt-3">
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 border-0 shadow-sm rounded-3">
