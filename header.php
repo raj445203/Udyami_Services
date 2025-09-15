@@ -34,7 +34,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <a href="dashboard.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Dashboard</a>
             <a href="become-a-tasker.php"><button class="btn btn-outline-success">Become a Tasker</button></a>
         <?php else: ?>
-            <a href="login.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Sign up / Log in</a>
+            <a href="login.html" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Sign up / Log in</a>
             <a href="become-a-tasker.php"><button class="btn btn-outline-success">Become a Tasker</button></a>
         <?php endif; ?>
 
@@ -65,7 +65,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </li>
         <?php else: ?>
             <li class="nav-item">
-                <a class="nav-link text-dark fw-semibold" href="login.php">Sign up / Log in</a>
+                <a class="nav-link text-dark fw-semibold" href="login.html">Sign up / Log in</a>
             </li>
         <?php endif; ?>
     </ul>

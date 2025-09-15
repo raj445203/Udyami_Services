@@ -10,7 +10,6 @@ if (!isset($_SESSION['user_id'])) {
 
 require 'db.php'; // Database connection
 
-
 $tasker_id = $_GET['id'] ?? null;
 
 if (!$tasker_id) {
@@ -18,6 +17,7 @@ if (!$tasker_id) {
     exit;
 }
 
+// Fetch the main tasker's profile
 $stmt = $conn->prepare("SELECT * FROM taskers WHERE id = ?");
 $stmt->bind_param("i", $tasker_id);
 $stmt->execute();
@@ -29,18 +29,30 @@ if (!$tasker) {
     exit;
 }
 
+// Fetch other taskers in the same category
+$category = $tasker['category'] ?? 'semi-professional'; // Default category
+$other_taskers_sql = "SELECT id, fullname, category FROM taskers WHERE category = ? AND id != ? LIMIT 5";
+$other_taskers_stmt = $conn->prepare($other_taskers_sql);
+$other_taskers_stmt->bind_param("si", $category, $tasker_id);
+$other_taskers_stmt->execute();
+$other_taskers_result = $other_taskers_stmt->get_result();
+$other_taskers = $other_taskers_result->fetch_all(MYSQLI_ASSOC);
+
 // Prepare data from the database
 $image = !empty($tasker['profile_image']) ? $tasker['profile_image'] : 'images/image.png';
-$skills_list = explode(',', $tasker['skills']);
+$skills_list = explode(',', $tasker['skills'] ?? '');
 
-// Assuming you have a 'bio' or 'about' field in your taskers table
 $about_text = !empty($tasker['bio']) ? $tasker['bio'] : 'Sangewar Sangewar Adore ost atwits ad atwst vhws pallile its to tsec psd tspee yve tterzling tore. twrangire and walrickl zrated otrenstelng swiceed.';
 
-// Assuming you have social media fields like 'facebook', 'instagram', 'twitter'
 $social_media = [
     'facebook' => $tasker['facebook'] ?? '#',
     'instagram' => $tasker['instagram'] ?? '#',
     'twitter' => $tasker['twitter'] ?? '#'
+];
+
+// Define the service categories for the filter links
+$service_categories = [
+    'Plumbing', 'Carpentry', 'Cleaning', 'Electrician'
 ];
 
 ?>
@@ -71,18 +83,42 @@ $social_media = [
             background-color: #f0f4f7;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
+        }
+        
+        .profile-container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+            align-items: flex-start;
+        }
+
+        .main-content {
+            flex: 3;
+            min-width: 500px;
+        }
+
+        .sidebar {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            position: sticky;
+            top: 20px;
         }
 
         .profile-card {
             background-color: var(--secondary-color);
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            width: 100%;
-            max-width: 800px;
             padding: 30px;
             box-sizing: border-box;
             border: 1px solid #e1e1e1;
@@ -322,17 +358,115 @@ $social_media = [
         .social-media a:hover {
             color: #2e7d32;
         }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sidebar-section:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-section h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .sidebar-filter-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar-filter-button {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .sidebar-filter-button.active {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
+
+        .sidebar-filter-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .related-taskers-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .related-tasker-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: background-color 0.2s;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .related-tasker-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .related-tasker-item .tasker-initials {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #c8e6c9;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .related-tasker-item span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
 
         /* Responsive Styles */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .profile-content {
                 flex-direction: column;
             }
-            
             .left-column, .right-column {
                 min-width: 100%;
             }
-
             .profile-card {
                 padding: 20px;
             }
@@ -343,7 +477,6 @@ $social_media = [
                 flex-direction: column;
                 text-align: center;
             }
-            
             .profile-image-circle {
                 margin: 0 0 15px 0;
             }
@@ -351,6 +484,7 @@ $social_media = [
     </style>
 </head>
 <body>
+    
     <div class="profile-card">
         <div class="profile-header">
             <div class="profile-image-circle"></div>
@@ -358,8 +492,11 @@ $social_media = [
                 <h1><?php echo htmlspecialchars($tasker['fullname']); ?></h1>
                 <p>
                     <?php 
-                        // Display the first skill as the main specialty
-                        echo htmlspecialchars(ucwords(trim($skills_list[0]))); 
+                        if (!empty($skills_list[0])) {
+                            echo htmlspecialchars(ucwords(trim($skills_list[0]))); 
+                        } else {
+                            echo "Tasker";
+                        }
                     ?> Specialist
                 </p>
                 <div class="profile-meta">
@@ -367,9 +504,9 @@ $social_media = [
                         <i class="fas fa-star"></i> 4.9/5 (24 Reviews)
                     </span>
                     <?php if (isset($tasker['category']) && strtolower($tasker['category']) === 'professional'): ?>
-                      <span class="verified">
-                        <i class="fas fa-check-circle"></i> Verified Professional
-                      </span>
+                        <span class="verified">
+                            <i class="fas fa-check-circle"></i> Verified Professional
+                        </span>
                     <?php endif; ?>
                 </div>
             </div>
@@ -380,18 +517,18 @@ $social_media = [
                     <h2 class="section-heading">Experience & Location</h2>
                     <div class="exp-item">
                         <i class="fas fa-certificate"></i>
-                        <span><?php echo htmlspecialchars($tasker['experience_years']); ?>+ Years of Professional Care</span>
+                        <span><?php echo htmlspecialchars($tasker['experience_years'] ?? '0'); ?>+ Years of Professional Care</span>
                     </div>
                     <div class="exp-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span><?php echo htmlspecialchars($tasker['preferred_location']); ?></span>
+                        <span><?php echo htmlspecialchars($tasker['preferred_location'] ?? 'Not specified'); ?></span>
                     </div>
                 </div>
-                 <div class="contact-skills-section" style="margin-top: 20px;">
+                <div class="contact-skills-section" style="margin-top: 20px;">
                     <h2 class="section-heading" style="text-align: left;">Contact & Skills</h2>
                     <div class="exp-item" style="justify-content: left;">
                         <i class="fas fa-phone"></i>
-                        <span><?php echo htmlspecialchars($tasker['phone']); ?></span>
+                        <span><?php echo htmlspecialchars($tasker['phone'] ?? 'Not specified'); ?></span>
                     </div>
                     <div class="exp-item" style="justify-content: left; margin-bottom: 20px;">
                         <i class="fas fa-envelope"></i>
@@ -452,8 +589,9 @@ $social_media = [
                         </a>
                     </div>
                 </div>
-                           </div>
+            </div>
         </div>
     </div>
+
 </body>
 </html>
