@@ -159,7 +159,7 @@ include('header.php');
         <div class="services-grid-section">
             <div class="container">
                 <div class="mb-5"><br><br><br>
-                    <h2 class="text-start mb-4">Popular Services</h2>
+                    <h2 id="popular-services" class="text-start mb-4">Popular Services</h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                         <div class="col">
                             <a href="taskers.php?skills=Mehandi Artist" class="service-card-bootstrap-link">
@@ -275,7 +275,7 @@ include('header.php');
                 </div>
 
                 <div class="mb-5">
-                    <h2 class="text-start mb-4">Household & Maintenance</h2>
+                    <h2 id="household-maintenance" class="text-start mb-4">Household & Maintenance</h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                         <div class="col">
                             <a href="taskers.php?skills=Housemaid / Househelp" class="service-card-bootstrap-link">
@@ -369,7 +369,7 @@ include('header.php');
                 </div>
 
                 <div class="mb-5">
-                    <h2 class="text-start mb-4">Construction & Renovation</h2>
+                    <h2 id="construction-renovation" class="text-start mb-4">Construction & Renovation</h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                         <div class="col">
                             <a href="taskers.php?skills=Civil Contractor" class="service-card-bootstrap-link">
@@ -463,7 +463,7 @@ include('header.php');
                 </div>
 
                 <div class="mb-5">
-                    <h2 class="text-start mb-4">Personal & Lifestyle</h2>
+                    <h2 id="personal-lifestyle" class="text-start mb-4">Personal & Lifestyle</h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                         <div class="col">
                             <a href="taskers.php?skills=Hair Stylist / Barber" class="service-card-bootstrap-link">
@@ -557,7 +557,7 @@ include('header.php');
                 </div>
 
                 <div class="mb-5">
-                    <h2 class="text-start mb-4">Decoration & Art</h2>
+                    <h2 id="decoration-art" class="text-start mb-4">Decoration & Art</h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                         <div class="col">
                             <a href="taskers.php?skills=Home Decorator" class="service-card-bootstrap-link">
@@ -629,7 +629,7 @@ include('header.php');
                 </div>
 
                 <div class="mb-5">
-                    <h2 class="text-start mb-4">Event Services</h2>
+                    <h2 id="event-services" class="text-start mb-4">Event Services</h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                         <div class="col">
                             <a href="taskers.php?skills=Event Planner" class="service-card-bootstrap-link">
@@ -734,7 +734,7 @@ include('header.php');
                 </div>
 
                 <div class="mb-5">
-                    <h2 class="text-start mb-4">Movers & Transport</h2>
+                    <h2 id="movers-transport" class="text-start mb-4">Movers & Transport</h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                         <div class="col">
                             <a href="taskers.php?skills=Home Shifting" class="service-card-bootstrap-link">
