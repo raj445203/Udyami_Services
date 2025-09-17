@@ -46,13 +46,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
     } else {
         $fullname = $_POST['fullname'] ?? $user['fullname'];
         $email = $_POST['email'] ?? $user['email'];
+        $profile_image_path = $user['profile_image']; // Default to existing image
 
-        $update_stmt = $conn->prepare("UPDATE users SET fullname = ?, email = ? WHERE id = ?");
+        // Handle profile image upload
+        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == UPLOAD_ERR_OK) {
+            $target_dir = "uploads/";
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+            $target_file = $target_dir . uniqid() . "_" . basename($_FILES["profile_image"]["name"]);
+            if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file)) {
+                $profile_image_path = $target_file;
+            }
+        }
+
+        $update_stmt = $conn->prepare("UPDATE users SET fullname = ?, email = ?, profile_image = ? WHERE id = ?");
         if (!$update_stmt) {
             $message = "Database prepare error: " . $conn->error;
             $message_type = 'danger';
         } else {
-            $update_stmt->bind_param("ssi", $fullname, $email, $user_id);
+            $update_stmt->bind_param("sssi", $fullname, $email, $profile_image_path, $user_id);
 
             if ($update_stmt->execute()) {
                 $message = "Profile updated successfully!";
@@ -111,7 +124,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HandyHelp - Dashboard</title>
+    <title>Udyami Services - Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">

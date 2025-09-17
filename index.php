@@ -15,7 +15,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HandyHelp</title>
+    <title>Udyami Services</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css" />
@@ -28,6 +28,7 @@ $conn->close();
             display: flex;
             align-items: center;
             color: white;
+            padding: 20px 0; /* Added padding for smaller screens */
         }
 
         .btn-custom-orange {
@@ -41,6 +42,13 @@ $conn->close();
             background-color: #0b636fff;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px; /* Reduced gap for smaller screens */
         }
 
         .category-card {
@@ -162,12 +170,9 @@ $conn->close();
 
         /* Floating animation */
         @keyframes float {
-
-            0%,
-            100% {
+            0%, 100% {
                 transform: translateY(0);
             }
-
             50% {
                 transform: translateY(-3px);
             }
@@ -187,6 +192,22 @@ $conn->close();
             .guarantee-section h1 {
                 font-size: 48px;
             }
+            
+            .category-card-container {
+                gap: 15px;
+            }
+            
+            .category-card {
+                width: 100%;
+            }
+            
+            .how-it-works-card {
+                padding: 20px;
+            }
+            
+            .how-it-works-card h4 {
+                font-size: 2rem;
+            }
         }
 
         .collage-img {
@@ -196,14 +217,12 @@ $conn->close();
 </head>
 
 <body>
-    <!--  Hero Section -->
     <section class="hero-section-custom py-5 animate-on-scroll">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6 text-start mb-4 mb-lg-0 animate-on-scroll animate-left">
+                <div class="col-lg-6 text-center text-lg-start mb-4 mb-lg-0 animate-on-scroll animate-left">
                     <h1 class="fw-bold display-4 mb-4">Book trusted professionals <br><span class="text-green-400">for your home</span></h1>
 
-                    <!--  Search Bar -->
                     <div class="position-relative mt-5" style="max-width: 100%;">
                         <form id="searchForm" class="search-bar d-flex shadow-lg">
                             <input type="text" id="serviceSearch" name="service" class="form-control form-control-lg rounded-start-pill border-0"
@@ -215,10 +234,8 @@ $conn->close();
                         <ul id="suggestionsList" class="list-group position-absolute mt-1 w-100 rounded-3 overflow-hidden"
                             style="z-index: 1000; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></ul>
                     </div>
-
-
                 </div>
-                <div class="col-lg-6 animate-on-scroll animate-right">
+                <div class="col-lg-6 animate-on-scroll animate-right d-flex justify-content-center">
                     <div class="image-collage d-flex flex-wrap justify-content-center gap-3">
                         <img src="images/mason.jpg" class="collage-img rounded-3 floating" style="animation-delay: 0.2s;" alt="Electrician at work">
                         <img src="images/tailor_working.png" class="collage-img rounded-3 floating" style="animation-delay: 0.4s;" alt="Plumber at work">
@@ -235,42 +252,41 @@ $conn->close();
         </div>
     </section>
 
-    <!-- Categories Section -->
     <section class="task-categories py-5 bg-white animate-on-scroll">
         <div class="container text-center">
             <h2 class="section-title mb-5 animate-on-scroll" style="font-size: 2.5rem;">Explore Our Services</h2>
-            <div class="d-flex flex-wrap justify-content-center gap-4">
-                <a href="Services2.php" class="category-card animate-on-scroll animate-left text-decoration-none text-dark">
+            <div class="category-card-container">
+                <a href="Services2.php#popular-services" class="category-card animate-on-scroll animate-left text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-fire"></i></div>
                     <h3>Popular</h3>
                     <p class="text-muted">Top-rated and trending tasks people love.</p>
                 </a>
-                <a href="Services2.php" class="category-card animate-on-scroll text-decoration-none text-dark">
+                <a href="Services2.php#household-maintenance" class="category-card animate-on-scroll text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-tools"></i></div>
                     <h3>Household & Maintenance</h3>
                     <p class="text-muted">Repairs, cleaning, assembly, and more at home.</p>
                 </a>
-                <a href="Services2.php" class="category-card animate-on-scroll animate-right text-decoration-none text-dark">
+                <a href="Services2.php#construction-renovation" class="category-card animate-on-scroll animate-right text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-hard-hat"></i></div>
                     <h3>Construction & Renovation</h3>
                     <p class="text-muted">Skilled work for home improvement and remodeling.</p>
                 </a>
-                <a href="Services2.php" class="category-card animate-on-scroll text-decoration-none text-dark">
+                <a href="Services2.php#personal-lifestyle" class="category-card animate-on-scroll text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-user-friends"></i></div>
                     <h3>Personal & Lifestyle</h3>
                     <p class="text-muted">Support for wellness, beauty, shopping, and errands.</p>
                 </a>
-                <a href="Services2.php" class="category-card animate-on-scroll animate-left text-decoration-none text-dark">
+                <a href="Services2.php#decoration-art" class="category-card animate-on-scroll animate-left text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-lightbulb"></i></div>
                     <h3>Decorations</h3>
                     <p class="text-muted">Home, event, and seasonal decor setup and design.</p>
                 </a>
-                <a href="Services2.php" class="category-card animate-on-scroll text-decoration-none text-dark">
+                <a href="Services2.php#event-services" class="category-card animate-on-scroll text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-calendar-alt"></i></div>
                     <h3>Events</h3>
                     <p class="text-muted">From setup to support – events done right.</p>
                 </a>
-                <a href="Services2.php" class="category-card animate-on-scroll animate-right text-decoration-none text-dark">
+                <a href="Services2.php#movers-transport" class="category-card animate-on-scroll animate-right text-decoration-none text-dark">
                     <div class="category-icon"><i class="fas fa-truck-moving"></i></div>
                     <h3>Movers</h3>
                     <p class="text-muted">Quick and reliable moving and shifting help.</p>
@@ -284,13 +300,12 @@ $conn->close();
         </div>
     </section>
 
-    <!-- Enhanced How it works Section -->
     <section class="how-it-works-section py-5 bg-light">
         <div class="container">
             <div class="row align-items-center justify-content-center g-5">
                 <div class="col-lg-5 col-md-10 mb-4 mb-lg-0 animate-on-scroll animate-left">
                     <div class="how-it-works-card">
-                        <h4 class="fw-bold mb-4 display-5">How HandyHelp Works</h4>
+                        <h4 class="fw-bold mb-4 display-5">How Udyami Services Works</h4>
                         <div class="step-item">
                             <div class="step-icon">
                                 <span>1</span>
@@ -328,10 +343,6 @@ $conn->close();
         </div>
     </section>
 
-
-
-
-    <!-- Enhanced CTA Section -->
     <section class="py-5 animate-on-scroll" style="background: linear-gradient(135deg, #0f5c5fff 0%, #17accaff 100%);">
         <div class="container text-center text-white py-5">
             <h2 class="fw-bold mb-4 display-5">Need Help With Something?</h2>
@@ -344,7 +355,6 @@ $conn->close();
         </div>
     </section>
 
-    <!-- Enhanced Guarantee Section -->
     <section class="guarantee-section py-5 animate-on-scroll">
         <div class="container position-relative py-5">
             <h1>GUARANTEE</h1>
