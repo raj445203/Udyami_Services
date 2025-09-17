@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
             $message = "Database prepare error: " . $conn->error;
             $message_type = 'danger';
         } else {
-            $update_stmt->bind_param("sssssssi", $fullname, $email, $phone, $address, $gender, $category, $skills, $experience, $location, $tasker_id);
+            $update_stmt->bind_param("ssssssisi", $fullname, $email, $phone, $address, $gender, $category, $skills, $experience, $location, $tasker_id);
 
             if ($update_stmt->execute()) {
                 $message = "Profile updated successfully!";
