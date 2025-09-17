@@ -57,7 +57,7 @@
 
      <nav class="navbar navbar-light bg-white border-bottom p-3 px-4">
     <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
-        <img src="HandyHelp\images\logo2.png" alt="HandyHelp" height="50">HandyHelp
+        <img src="HandyHelp\images\logo2.png" alt="" height="50">Udyami Services
     </a>
     <div class="d-flex gap-3 align-items-center">
         <a href="Services2.php" class="text-dark fw-semibold text-decoration-none d-none d-md-block">Services</a>
