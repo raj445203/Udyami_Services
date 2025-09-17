@@ -568,12 +568,12 @@ $service_categories = [
                 <div class="photo-gallery">
                     <h2 class="section-heading">Photo Gallery</h2>
                     <div class="gallery-grid">
-                        <img src="https://images.unsplash.com/photo-1543462828-875f4d1e2e31?w=500&auto=format&fit=crop&q=60" alt="Dog 1">
-                        <img src="https://images.unsplash.com/photo-1596492784531-fa9143093284?w=500&auto=format&fit=crop&q=60" alt="Dog 2">
-                        <img src="https://images.unsplash.com/photo-1587300003294-19232fd9431d?w=500&auto=format&fit=crop&q=60" alt="Dog 3">
-                        <img src="https://images.unsplash.com/photo-1537151608828-ea2b12279152?w=500&auto=format&fit=crop&q=60" alt="Dog 4">
-                        <img src="https://images.unsplash.com/photo-1583511655073-77209734e568?w=500&auto=format&fit=crop&q=60" alt="Dog 5">
-                        <img src="https://images.unsplash.com/photo-1502479532551-7f9984951475?w=500&auto=format&fit=crop&q=60" alt="Dog 6">
+                        <img src="https://images.unsplash.com/photo-1543462828-875f4d1e2e31?w=500&auto=format&fit=crop&q=60" alt="image 1">
+                        <img src="https://images.unsplash.com/photo-1596492784531-fa9143093284?w=500&auto=format&fit=crop&q=60" alt="image 2">
+                        <img src="https://images.unsplash.com/photo-1587300003294-19232fd9431d?w=500&auto=format&fit=crop&q=60" alt="image 3">
+                        <img src="https://images.unsplash.com/photo-1537151608828-ea2b12279152?w=500&auto=format&fit=crop&q=60" alt="image 4">
+                        <img src="https://images.unsplash.com/photo-1583511655073-77209734e568?w=500&auto=format&fit=crop&q=60" alt="image 5">
+                        <img src="https://images.unsplash.com/photo-1502479532551-7f9984951475?w=500&auto=format&fit=crop&q=60" alt="image 6">
                     </div>
                 </div>
             </div>
