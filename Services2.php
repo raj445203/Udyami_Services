@@ -720,6 +720,17 @@ include('header.php');
                             </a>
                         </div>
                         <div class="col">
+                            <a href="taskers.php?skills=Tour Agent" class="service-card-bootstrap-link">
+                                <div class="service-card-bootstrap">
+                                    <div class="icon-container">
+                                        <i class="fa-solid fa-car"></i>
+                                    </div>
+                                    <h3>Tour Agent</h3>
+                                    <p>Plan a tour with Tour & Travel Agent.</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col">
                             <a href="taskers.php?skills=Anchor" class="service-card-bootstrap-link">
                                 <div class="service-card-bootstrap">
                                     <div class="icon-container">
@@ -826,7 +837,7 @@ include('header.php');
             "Wall Art / Mural Painting", "Floral Decorator", "Handicraft Decor Services",
             "Light Installation (Decor)", "Wedding Stage Setup", "Event Planner", "Birthday Decorator",
             "Balloon Artist", "DJ / Sound System", "Caterer / Halwai", "Dhol / Tasha Party",
-            "Tent House", "Photography / Videography", "Anchor", "Home Shifting (Local)",
+            "Tent House", "Photography / Videography", "Tour Agent", "Anchor", "Home Shifting (Local)",
             "Intercity Movers & Packers", "Truck / Tempo on Hire", "Bike / Car Transport", "Goods Transport Help",
             "Driver on Demand"
         ];

@@ -29,14 +29,7 @@ if (!$tasker) {
     exit;
 }
 
-// Fetch other taskers in the same category
-$category = $tasker['category'] ?? 'semi-professional'; // Default category
-$other_taskers_sql = "SELECT id, fullname, category FROM taskers WHERE category = ? AND id != ? LIMIT 5";
-$other_taskers_stmt = $conn->prepare($other_taskers_sql);
-$other_taskers_stmt->bind_param("si", $category, $tasker_id);
-$other_taskers_stmt->execute();
-$other_taskers_result = $other_taskers_stmt->get_result();
-$other_taskers = $other_taskers_result->fetch_all(MYSQLI_ASSOC);
+
 
 // Prepare data from the database
 $image = !empty($tasker['profile_image']) ? $tasker['profile_image'] : 'images/image.png';
@@ -656,30 +649,6 @@ $service_categories = [
                 </div>
             </div>
         </div>
-        <div class="sidebar">
-            <div class="sidebar-section">
-                <h4>Other Taskers in this Category</h4>
-                <ul class="related-taskers-list">
-                    <?php if (!empty($other_taskers)): ?>
-                        <?php foreach ($other_taskers as $other): ?>
-                            <li>
-                                <a href="taskers-profile.php?id=<?php echo htmlspecialchars($other['id']); ?>" class="related-tasker-item">
-                                    <div class="tasker-initials">
-                                        <?php echo htmlspecialchars(substr($other['fullname'], 0, 1)); ?>
-                                    </div>
-                                    <span><?php echo htmlspecialchars($other['fullname']); ?></span>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <li>
-                            <p>No other taskers found in this category.</p>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>

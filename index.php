@@ -28,7 +28,7 @@ $conn->close();
             display: flex;
             align-items: center;
             color: white;
-            padding: 20px 0; /* Added padding for smaller screens */
+            padding: 20px 0;
         }
 
         .btn-custom-orange {
@@ -43,12 +43,12 @@ $conn->close();
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         .category-card-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px; /* Reduced gap for smaller screens */
+            gap: 20px;
         }
 
         .category-card {
@@ -110,23 +110,7 @@ $conn->close();
             flex-shrink: 0;
         }
 
-        .guarantee-section {
-            background: linear-gradient(135deg, #2e7d7aff 0%, #2c7f94ff 100%);
-            padding: 80px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .guarantee-section h1 {
-            font-size: 72px;
-            font-weight: 900;
-            opacity: 0.1;
-            position: absolute;
-            top: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-        }
+     
 
         .sub-section {
             display: grid;
@@ -170,7 +154,8 @@ $conn->close();
 
         /* Floating animation */
         @keyframes float {
-            0%, 100% {
+            0%,
+            100% {
                 transform: translateY(0);
             }
             50% {
@@ -183,36 +168,57 @@ $conn->close();
         }
 
         /* Responsive adjustments */
-        @media (max-width: 768px) {
+        @media (max-width: 991px) {
             .hero-section-custom {
                 min-height: auto;
                 padding: 80px 0;
+                height: auto;
+            }
+
+            .hero-section-custom .col-lg-6 {
+                text-align: center;
+            }
+
+            .hero-section-custom .d-flex.justify-content-center {
+                display: none !important;
             }
 
             .guarantee-section h1 {
                 font-size: 48px;
             }
-            
+
             .category-card-container {
                 gap: 15px;
             }
-            
+
             .category-card {
-                width: 100%;
+                width: 45%;
+                min-width: 150px;
             }
-            
+
             .how-it-works-card {
                 padding: 20px;
             }
-            
+
             .how-it-works-card h4 {
                 font-size: 2rem;
             }
         }
 
-        .collage-img {
-            border: 2px solid white;
+        @media (max-width: 767px) {
+            .hero-section-custom h1 {
+                font-size: 2.5rem;
+            }
+
+            .category-card {
+                width: 100%;
+            }
+
+            .sub-section {
+                grid-template-columns: 1fr;
+            }
         }
+
     </style>
 </head>
 
@@ -220,7 +226,7 @@ $conn->close();
     <section class="hero-section-custom py-5 animate-on-scroll">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6 text-center text-lg-start mb-4 mb-lg-0 animate-on-scroll animate-left">
+                <div class="col-lg-12 text-center mb-4 mb-lg-0 animate-on-scroll animate-left">
                     <h1 class="fw-bold display-4 mb-4">Book trusted professionals <br><span class="text-green-400">for your home</span></h1>
 
                     <div class="position-relative mt-5" style="max-width: 100%;">
@@ -233,19 +239,6 @@ $conn->close();
                         </form>
                         <ul id="suggestionsList" class="list-group position-absolute mt-1 w-100 rounded-3 overflow-hidden"
                             style="z-index: 1000; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></ul>
-                    </div>
-                </div>
-                <div class="col-lg-6 animate-on-scroll animate-right d-flex justify-content-center">
-                    <div class="image-collage d-flex flex-wrap justify-content-center gap-3">
-                        <img src="images/mason.jpg" class="collage-img rounded-3 floating" style="animation-delay: 0.2s;" alt="Electrician at work">
-                        <img src="images/tailor_working.png" class="collage-img rounded-3 floating" style="animation-delay: 0.4s;" alt="Plumber at work">
-                        <img src="images/tabitha-turner-QrYt4_K5TIc-unsplash.jpg" class="collage-img rounded-3 floating" style="animation-delay: 0.6s;" alt="Carpenter at work">
-                        <img src="images/pestcontrol.webp" class="collage-img rounded-3 floating" style="animation-delay: 0.8s;" alt="Painter at work">
-                        <img src="images/enent planner.avif" class="collage-img rounded-3 floating" style="animation-delay: 0.3s;" alt="Handyman at work">
-                        <img src="images/samsung-memory-fxKvHGDICcQ-unsplash.jpg" class="collage-img rounded-3 floating" style="animation-delay: 0.5s;" alt="Cleaning service">
-                        <img src="images/flower.jpg" class="collage-img rounded-3 floating" style="animation-delay: 0.7s;" alt="Electrician at work">
-                        <img src="images/fridge repairing.jpg" class="collage-img rounded-3 floating" style="animation-delay: 0.9s;" alt="Gardener at work">
-                        <img src="images/mehandi artist.jpg" class="collage-img rounded-3 floating" style="animation-delay: 0.1s;" alt="Moving service">
                     </div>
                 </div>
             </div>
@@ -355,34 +348,7 @@ $conn->close();
         </div>
     </section>
 
-    <section class="guarantee-section py-5 animate-on-scroll">
-        <div class="container position-relative py-5">
-            <h1>GUARANTEE</h1>
-            <div class="sub-section">
-                <div class="item">
-                    <div class="mb-3">
-                        <i class="fas fa-heart fa-2x mb-3"></i>
-                        <h5 class="fw-bold">Happiness Pledge</h5>
-                    </div>
-                    <p>If you're not satisfied, we'll work to make it right.</p>
-                </div>
-                <div class="item">
-                    <div class="mb-3">
-                        <i class="fas fa-shield-alt fa-2x mb-3"></i>
-                        <h5 class="fw-bold">Vetted Professionals</h5>
-                    </div>
-                    <p>All professionals are background checked before joining.</p>
-                </div>
-                <div class="item">
-                    <div class="mb-3">
-                        <i class="fas fa-headset fa-2x mb-3"></i>
-                        <h5 class="fw-bold">Dedicated Support</h5>
-                    </div>
-                    <p>Friendly service when you need us – every day of the week.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <?php
     include('footer.php');
@@ -403,7 +369,7 @@ $conn->close();
             "Wall Art / Mural Painting", "Floral Decorator", "Handicraft Decor Services",
             "Light Installation (Decor)", "Wedding Stage Setup", "Event Planner", "Birthday Decorator",
             "Balloon Artist", "DJ & Sound System", "Caterer / Halwai", "Dhol / Tasha Party",
-            "Tent House", "Photography & Videography", "Anchor", "Home Shifting (Local)",
+            "Tent House", "Photography & Videography", "Tour Agent", "Anchor", "Home Shifting (Local)",
             "Intercity Movers & Packers", "Truck / Tempo on Hire", "Bike / Car Transport", "Goods Transport Help",
             "Driver on Demand"
         ];
