@@ -17,10 +17,15 @@ if (!$tasker_id) {
 }
 
 $stmt = $conn->prepare("SELECT fullname FROM taskers WHERE id = ?");
+if (!$stmt) {
+    die("Database prepare error: " . $conn->error);
+}
 $stmt->bind_param("i", $tasker_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $tasker = $result->fetch_assoc();
+$stmt->close();
+$conn->close();
 
 if (!$tasker) {
     echo "<p>Tasker not found.</p>";
@@ -40,12 +45,14 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book <?php echo htmlspecialchars($tasker['fullname']); ?></title>
-    <!-- Google Fonts for a clean look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         :root {
             --primary-color: #388e3c;
@@ -60,11 +67,17 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
             font-family: 'Poppins', sans-serif;
             background-color: #f0f4f7;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+        }
+        
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 5px 0;
         }
 
         .booking-container {
@@ -146,20 +159,11 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
             transform: translateY(-2px);
         }
 
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-weight: 500;
-            display: <?php echo $success_message ? 'block' : 'none'; ?>;
-        }
-
         /* Responsive Styles */
         @media (max-width: 480px) {
             .booking-container {
                 padding: 30px;
+                margin: 0 15px;
             }
 
             h1 {
@@ -174,37 +178,76 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
 </head>
 
 <body>
-    <div class="booking-container">
-        <h1>Book Now</h1>
-        <h2>Booking for <?php echo htmlspecialchars($tasker['fullname']); ?></h2>
+    <?php include 'header.php'; ?>
 
-        <div class="success-message">
-            <?php echo htmlspecialchars($success_message); ?>
+    <main>
+        <div class="booking-container">
+            <h1>Book Now</h1>
+            <h2>Booking for <?php echo htmlspecialchars($tasker['fullname']); ?></h2>
+
+            <?php if (!empty($success_message)): ?>
+            <div class="success-message">
+                <?php echo htmlspecialchars($success_message); ?>
+            </div>
+            <?php endif; ?>
+
+            <form id="booking-form" method="POST">
+                <input type="hidden" name="tasker_id" value="<?php echo htmlspecialchars($tasker_id); ?>">
+
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="booking_date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="time">Time</label>
+                    <input type="time" id="time" name="booking_time" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" name="booking_message" placeholder="Provide details about the service you need..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-paper-plane"></i> Send Booking Request
+                </button>
+            </form>
         </div>
+    </main>
 
-        <form action="process_booking.php" method="POST">
-            <input type="hidden" name="tasker_id" value="<?php echo htmlspecialchars($tasker_id); ?>">
+    <?php include 'footer.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-            <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" id="date" name="booking_date" required>
-            </div>
+    <script>
+    document.getElementById('booking-form').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-            <div class="form-group">
-                <label for="time">Time</label>
-                <input type="time" id="time" name="booking_time" required>
-            </div>
+        const form = event.target;
+        const date = form.booking_date.value.trim();
+        const time = form.booking_time.value.trim();
+        const message = form.booking_message.value.trim();
 
-            <div class="form-group">
-                <label for="message">Your Message</label>
-                <textarea id="message" name="booking_message" placeholder="Provide details about the service you need..." required></textarea>
-            </div>
+        if (!date || !time || !message) {
+            Swal.fire({
+                icon: 'error',
+                title: 'All fields are required!',
+                text: 'Please fill in all fields before submitting.',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
 
-            <button type="submit" class="btn-submit">
-                <i class="fas fa-paper-plane"></i> Send Booking Request
-            </button>
-        </form>
-    </div>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: 'Your booking request has been sent!',
+            timer: 2000,
+            showConfirmButton: false
+        }).then(() => {
+            window.location.href = 'dashboard.php?tab=booking-status';
+        });
+    });
+    </script>
 </body>
-
 </html>

@@ -14,6 +14,7 @@ body {
     align-items: center;
     color: white;
     padding: 20px 0; /* Adds vertical padding on smaller screens */
+    position: relative; /* Needed for absolute positioning of search suggestions */
 }
 
 .search-bar input::placeholder {
@@ -34,6 +35,9 @@ body {
     border-radius: 10px;
     transition: transform 0.3s ease-in-out;
     border: 2px solid white;
+    /* Added responsive behavior for images */
+    max-width: 100%;
+    height: auto;
 }
 
 .collage-img:hover {
@@ -43,7 +47,7 @@ body {
 /* Search Suggestions Dropdown */
 #suggestionsList {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 5px); /* Adjusted to sit below the search bar with a small gap */
     left: 0;
     right: 0;
     background: white;
@@ -195,6 +199,8 @@ body {
 .how-it-works-image img {
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 100%; /* Ensures the image scales down on small screens */
+    height: auto;
 }
 
 
@@ -239,7 +245,7 @@ body {
     margin-top: 50px;
     position: relative;
     z-index: 1;
-    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    flex-wrap: wrap;
 }
 
 .guarantee-section .sub-section .item {
@@ -274,12 +280,11 @@ body {
     animation: move-stars 10s linear infinite;
 }
 
-
 /* --- Footer --- */
 .footer-section {
     background-color: #041622;
     color: #ccc;
-    padding: 50px 0; /* Added padding */
+    padding: 50px 0;
 }
 
 .footer-section h5,
@@ -309,7 +314,6 @@ body {
     color: #40c18f;
 }
 
-
 /* --- Animations --- */
 .animate-on-scroll {
     opacity: 0;
@@ -332,7 +336,7 @@ body {
 /* -- Mobile-first responsive styles -- */
 @media (max-width: 768px) {
     .hero-section-custom {
-        height: auto; /* Auto height on mobile */
+        height: 500px; /* Auto height on mobile */
         padding: 50px 20px;
     }
     
@@ -374,4 +378,12 @@ body {
     .guarantee-section .sub-section .item {
         max-width: 100%;
     }
+}
+
+/* -- General Responsive Fixes -- */
+.container-fluid,
+.container {
+  /* This prevents horizontal overflow by ensuring containers don't create extra space */
+  padding-left: calc(var(--bs-gutter-x) * .5);
+  padding-right: calc(var(--bs-gutter-x) * .5);
 }

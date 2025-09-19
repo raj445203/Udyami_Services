@@ -110,8 +110,6 @@ $conn->close();
             flex-shrink: 0;
         }
 
-     
-
         .sub-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -175,12 +173,13 @@ $conn->close();
                 height: auto;
             }
 
-            .hero-section-custom .col-lg-6 {
+            .hero-section-custom .col-lg-12 {
                 text-align: center;
             }
-
-            .hero-section-custom .d-flex.justify-content-center {
-                display: none !important;
+            
+            .hero-section-custom .search-bar {
+                width: 90%; /* Adjust width for better mobile fit */
+                margin: 0 auto;
             }
 
             .guarantee-section h1 {
@@ -218,7 +217,6 @@ $conn->close();
                 grid-template-columns: 1fr;
             }
         }
-
     </style>
 </head>
 
@@ -231,9 +229,9 @@ $conn->close();
 
                     <div class="position-relative mt-5" style="max-width: 100%;">
                         <form id="searchForm" class="search-bar d-flex shadow-lg">
-                            <input type="text" id="serviceSearch" name="service" class="form-control form-control-lg rounded-start-pill border-0"
+                            <input type="text" id="serviceSearch" name="service" class="form-control rounded-start-pill border-0 flex-grow-1"
                                 placeholder="What do you need help with?">
-                            <button type="submit" class="btn btn-custom-orange btn-lg rounded-end-pill px-4 border-0" id="searchBtn">
+                            <button type="submit" class="btn btn-custom-orange px-4 rounded-end-pill border-0" id="searchBtn">
                                 <i class="fas fa-search"></i> Search
                             </button>
                         </form>

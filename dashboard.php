@@ -277,21 +277,21 @@ $conn->close();
         }
 
         @media (max-width: 768px) {
-            .dashboard-wrapper {
-                flex-direction: column;
-            }
-
             .sidebar {
-                width: 100%;
-                position: relative;
-            }
-
-            .sidebar.collapsed {
                 display: none;
             }
 
-            .main-content {
-                padding-top: 20px;
+            .sidebar.open {
+                display: block;
+                position: absolute;
+                z-index: 1050;
+                background: #fff;
+                width: 80%;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s;
             }
         }
     </style>
@@ -448,23 +448,36 @@ $conn->close();
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('sidebar-toggle-btn').addEventListener('click', function() {
-            var sidebar = document.getElementById('dashboard-sidebar');
-            if (window.innerWidth <= 768) {
-                if (sidebar.classList.contains('collapsed')) {
-                    sidebar.classList.remove('collapsed');
-                } else {
-                    sidebar.classList.add('collapsed');
-                }
+        // Sidebar toggle for mobile
+        const sidebar = document.getElementById('dashboard-sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle-btn');
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+        }
+        function openSidebar() {
+            sidebar.classList.add('open');
+        }
+        toggleBtn.addEventListener('click', function() {
+            if (sidebar.classList.contains('open')) {
+                closeSidebar();
+            } else {
+                openSidebar();
             }
         });
 
-        // This script handles the click event on the profile image
+        // Close sidebar when a menu item is clicked (on mobile)
+        document.querySelectorAll('#dashboard-sidebar .sidebar-link').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    closeSidebar();
+                }
+            });
+        });
+
+        // Profile image upload logic (unchanged)
         document.querySelector('.profile-img-container').addEventListener('click', function() {
             document.getElementById('profile_image_upload').click();
         });
-
-        // This script updates the displayed image when a new file is selected
         document.getElementById('profile_image_upload').addEventListener('change', function(event) {
             const [file] = event.target.files;
             if (file) {

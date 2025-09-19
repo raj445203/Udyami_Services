@@ -1,4 +1,5 @@
 <?php
+// Start the session to access user data.
 session_start();
 
 // Check if the user is logged in
@@ -19,17 +20,30 @@ if (!$tasker_id) {
 
 // Fetch the main tasker's profile
 $stmt = $conn->prepare("SELECT * FROM taskers WHERE id = ?");
+if (!$stmt) {
+    die("Database prepare error: " . $conn->error);
+}
 $stmt->bind_param("i", $tasker_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $tasker = $result->fetch_assoc();
+$stmt->close();
 
 if (!$tasker) {
     echo "<p>Tasker not found.</p>";
     exit;
 }
 
-
+// Fetch other taskers in the same category
+$category = $tasker['category'] ?? 'semi-professional'; // Default category
+$other_taskers_sql = "SELECT id, fullname, category FROM taskers WHERE category = ? AND id != ? LIMIT 5";
+$other_taskers_stmt = $conn->prepare($other_taskers_sql);
+$other_taskers_stmt->bind_param("si", $category, $tasker_id);
+$other_taskers_stmt->execute();
+$other_taskers_result = $other_taskers_stmt->get_result();
+$other_taskers = $other_taskers_result->fetch_all(MYSQLI_ASSOC);
+$other_taskers_stmt->close();
+$conn->close();
 
 // Prepare data from the database
 $image = !empty($tasker['profile_image']) ? $tasker['profile_image'] : 'images/image.png';
@@ -41,13 +55,10 @@ $social_media = [
     'twitter' => $tasker['twitter'] ?? '#'
 ];
 
-// Define the service categories for the filter links
-$service_categories = [
-    'Plumbing',
-    'Carpentry',
-    'Cleaning',
-    'Electrician'
-];
+// Set a variable to easily check if a user is logged in
+$is_user_logged_in = isset($_SESSION['user_id']);
+$is_tasker_logged_in = isset($_SESSION['tasker_logged_in']) && $_SESSION['tasker_logged_in'] === true;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,8 +72,10 @@ $service_categories = [
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
 
     <style>
+        /* --- tasker-profile.php styles --- */
         :root {
             --primary-color: #388e3c;
             --secondary-color: #f1f8e9;
@@ -78,20 +91,30 @@ $service_categories = [
             font-family: 'Poppins', sans-serif;
             background-color: #f0f4f7;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+        }
+        
+        main {
+            flex: 1; /* Pushes the footer to the bottom */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 5px 0;
         }
 
-        .profile-container {
+        .main-container {
             display: flex;
             gap: 20px;
             width: 100%;
             max-width: 1200px;
             box-sizing: border-box;
             align-items: flex-start;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
         }
 
         .main-content {
@@ -109,6 +132,7 @@ $service_categories = [
             padding: 20px;
             position: sticky;
             top: 20px;
+            height: fit-content;
         }
 
         .profile-card {
@@ -356,123 +380,19 @@ $service_categories = [
             color: #2e7d32;
         }
 
-        /* Sidebar Styles */
-        .sidebar {
-            flex: 1;
-            min-width: 250px;
-            max-width: 300px;
-            background-color: #fff;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 20px;
-            position: sticky;
-            top: 20px;
-        }
-
-        .sidebar-section {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .sidebar-section:last-child {
-            border-bottom: none;
-        }
-
-        .sidebar-section h4 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--text-dark);
-        }
-
-        .sidebar-filter-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .sidebar-filter-button {
-            background-color: #f0f0f0;
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-            border-radius: 8px;
-            font-size: 14px;
-            color: var(--text-dark);
-            text-decoration: none;
-            transition: background-color 0.2s;
-        }
-
-        .sidebar-filter-button.active {
-            background-color: var(--primary-color);
-            color: #fff;
-            border-color: var(--primary-color);
-        }
-
-        .sidebar-filter-button:hover {
-            background-color: #e0e0e0;
-        }
-
-        .related-taskers-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .related-tasker-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-decoration: none;
-            color: var(--text-dark);
-            transition: background-color 0.2s;
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .related-tasker-item:hover {
-            background-color: #f5f5f5;
-        }
-
-        .related-tasker-item .tasker-initials {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #c8e6c9;
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-        }
-
-        .related-tasker-item span {
-            font-size: 14px;
-            font-weight: 500;
-        }
-
 
         /* Responsive Styles */
         @media (max-width: 992px) {
-            .profile-container {
+            .main-container {
                 flex-direction: column;
-                padding: 0;
+                padding: 20px;
             }
-
             .main-content,
             .sidebar {
                 min-width: 100%;
                 max-width: 100%;
                 position: static;
                 margin-top: 20px;
-            }
-
-            .profile-card {
-                padding: 20px;
             }
         }
 
@@ -483,34 +403,28 @@ $service_categories = [
                 border-bottom: none;
                 padding-bottom: 0;
             }
-
             .profile-image-circle {
                 margin: 0 0 15px 0;
                 width: 80px;
                 height: 80px;
             }
-
             .profile-info {
                 border-bottom: 1px solid #e0e0e0;
                 padding-bottom: 20px;
                 width: 100%;
             }
-            
             .profile-info h1 {
                 font-size: 20px;
             }
-
             .profile-meta {
                 flex-direction: column;
                 gap: 5px;
                 margin-top: 10px;
             }
-            
             .profile-content {
                 flex-direction: column;
                 gap: 20px;
             }
-            
             .right-column {
                 padding: 20px;
             }
@@ -521,25 +435,70 @@ $service_categories = [
                 flex-direction: column;
                 text-align: center;
             }
-            
             .profile-meta {
                 flex-direction: column;
                 gap: 5px;
             }
-            
             .btn-group {
                 flex-direction: column;
             }
-            
             .profile-image-circle {
                 margin: 0 0 15px 0;
+            }
+        }
+        /* --- Footer styles (from your footer.php file) --- */
+        .footer-section {
+            background-color: #041622;
+            color: #ccc;
+            padding: 50px 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .footer-section h5, .footer-section h6 {
+            color: #ffffff;
+        }
+        .footer-link {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s;
+        }
+        .footer-link:hover {
+            color: #40c18f;
+        }
+        .social-icon {
+            font-size: 20px;
+            color: #ccc;
+            transition: color 0.3s;
+        }
+        .social-icon:hover {
+            color: #40c18f;
+        }
+        .email-link {
+            cursor: pointer;
+        }
+        .email-link:focus {
+            outline: 2px solid #40c18f;
+            background-color: #f0fdf9;
+        }
+        @media (max-width: 768px) {
+            .footer-section .row > div {
+                text-align: center;
+            }
+            .footer-section .row > div:not(:last-child) {
+                margin-bottom: 20px;
+            }
+            .footer-section .d-flex.gap-3 {
+                justify-content: center;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="profile-container">
+    <?php include('header.php'); ?>
+    <main>
+    <div class="main-container">
         <div class="main-content">
             <div class="profile-card">
                 <div class="profile-header">
@@ -649,6 +608,9 @@ $service_categories = [
                 </div>
             </div>
         </div>
+    </div>
+    </main>
+    <?php include('footer.php'); ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
