@@ -1,53 +1,47 @@
 <?php
 session_start();
-require 'db.php'; // Database connection file
+header('Content-Type: application/json');
 
-// Check if the user is logged in
+// Check for user login
 if (!isset($_SESSION['user_id'])) {
-    // If not logged in, redirect to the login page with a message
-    header("Location: login.php?message=login_required");
+    echo json_encode(['success' => false, 'message' => 'You must be logged in to book a tasker.']);
     exit();
 }
 
-// Check if the form was submitted via POST
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get and sanitize form data
+require 'db.php';
+
+$response = ['success' => false, 'message' => 'An unknown error occurred.'];
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION['user_id'];
     $tasker_id = $_POST['tasker_id'] ?? null;
     $booking_date = $_POST['booking_date'] ?? null;
     $booking_time = $_POST['booking_time'] ?? null;
-    $booking_message = $_POST['booking_message'] ?? null;
-    $status = 'Pending'; // Default status for a new booking
+    $booking_message = $_POST['booking_message'] ?? '';
 
-    // Validate input data
-    if (!$tasker_id || !$booking_date || !$booking_time || !$booking_message) {
-        // Redirect back with an error if data is missing
-        header("Location: book.php?tasker_id=" . urlencode($tasker_id) . "&status=error&message=missing_data");
-        exit();
-    }
+    // Validate the input
+    if ($tasker_id && $booking_date && $booking_time && $booking_message) {
+        $scheduled_datetime = $booking_date . ' ' . $booking_time;
 
-    // Combine date and time for database storage (optional, but good practice)
-    $scheduled_datetime = $booking_date . ' ' . $booking_time;
-
-    // Prepare and execute the SQL query to insert the booking request
-    $stmt = $conn->prepare("INSERT INTO bookings (user_id, tasker_id, scheduled_datetime, message, status) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("iisss", $user_id, $tasker_id, $scheduled_datetime, $booking_message, $status);
-
-    if ($stmt->execute()) {
-        // Successful booking: Redirect to the user's dashboard with a success message
-        header("Location: dashboard.php?status=success&message=booking_sent");
-        exit();
+        $stmt = $conn->prepare("INSERT INTO bookings (user_id, tasker_id, scheduled_datetime, message) VALUES (?, ?, ?, ?)");
+        if ($stmt) {
+            $stmt->bind_param("iiss", $user_id, $tasker_id, $scheduled_datetime, $booking_message);
+            if ($stmt->execute()) {
+                $response = ['success' => true, 'message' => 'Booking request sent successfully!'];
+            } else {
+                $response = ['success' => false, 'message' => 'Database error: ' . $stmt->error];
+            }
+            $stmt->close();
+        } else {
+            $response = ['success' => false, 'message' => 'Database prepare error: ' . $conn->error];
+        }
     } else {
-        // Failed booking: Redirect back to the booking page with an error
-        // In a real application, you'd log this error
-        header("Location: booking.php?tasker_id=" . urlencode($tasker_id) . "&status=error&message=booking_failed");
-        exit();
+        $response = ['success' => false, 'message' => 'All fields are required.'];
     }
-
-    $stmt->close();
 } else {
-    // If the request method is not POST, redirect to a safe page or show an error
-    header("Location: index.php");
-    exit();
+    $response = ['success' => false, 'message' => 'Invalid request method.'];
 }
+
 $conn->close();
+echo json_encode($response);
+?>

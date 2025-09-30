@@ -70,6 +70,7 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
             flex-direction: column;
             min-height: 100vh;
             margin: 0;
+           
         }
         
         main {
@@ -77,7 +78,7 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 5px 0;
+            padding: 10px 0;
         }
 
         .booking-container {
@@ -159,6 +160,16 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
             transform: translateY(-2px);
         }
 
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            display: <?php echo !empty($success_message) ? 'block' : 'none'; ?>;
+        }
+
         /* Responsive Styles */
         @media (max-width: 480px) {
             .booking-container {
@@ -218,34 +229,53 @@ if (isset($_GET['status']) && $_GET['status'] == 'success') {
 
     <?php include 'footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
     document.getElementById('booking-form').addEventListener('submit', function(event) {
-        event.preventDefault();
+        event.preventDefault(); // Prevent the default form submission
 
         const form = event.target;
-        const date = form.booking_date.value.trim();
-        const time = form.booking_time.value.trim();
-        const message = form.booking_message.value.trim();
+        const formData = new FormData(form);
 
-        if (!date || !time || !message) {
-            Swal.fire({
-                icon: 'error',
-                title: 'All fields are required!',
-                text: 'Please fill in all fields before submitting.',
-                confirmButtonText: 'OK'
-            });
+        // Client-side validation
+        if (!form.checkValidity()) {
+            form.reportValidity();
             return;
         }
 
-        Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: 'Your booking request has been sent!',
-            timer: 2000,
-            showConfirmButton: false
-        }).then(() => {
-            window.location.href = 'dashboard.php?tab=booking-status';
+        fetch('process_booking.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: data.message,
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                    // Redirect to the dashboard after the SweetAlert closes
+                    window.location.href = 'dashboard.php?tab=booking-status';
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: data.message,
+                    confirmButtonText: 'Try Again'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Network Error',
+                text: 'Could not connect to the server. Please try again.',
+                confirmButtonText: 'OK'
+            });
         });
     });
     </script>

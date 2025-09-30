@@ -225,7 +225,7 @@ $conn->close();
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-12 text-center mb-4 mb-lg-0 animate-on-scroll animate-left">
-                    <h1 class="fw-bold display-4 mb-4">Book trusted professionals <br><span class="text-green-400">for your home</span></h1>
+                    <h1 class="fw-bold display-4 mb-4">Book trusted professionals <br><span class="text-green-400">for every need</span></h1>
 
                     <div class="position-relative mt-5" style="max-width: 100%;">
                         <form id="searchForm" class="search-bar d-flex shadow-lg">
@@ -361,7 +361,7 @@ $conn->close();
             "Housemaid / Househelp", "Pest Control", "Washing Machine Repair",
             "AC Servicing", "Geyser Repair", "Refrigerator Technician", "RO Water Purifier Services",
             "Kitchen / Bathroom Cleaning", "Civil Contractor", "Interior Designer", "POP / False Ceiling Work",
-            "Fabrication & Welding", "Tiling & Marble Work", "Painter / Whitewash", "Vastu Consultant",
+            "Fabrication & Welding", "Tiling & Marble Work", "Vastu Consultant",
             "Hair Stylist / Barber", "Mehndi Artist", "Massage Therapist", "Physiotherapist", "Gym Trainer", "Tailor / Stitching",
             "Dog Walker / Pet Groomer", "Tattoo Artist", "Home Decorator", "Wallpaper Installation",
             "Wall Art / Mural Painting", "Floral Decorator", "Handicraft Decor Services",

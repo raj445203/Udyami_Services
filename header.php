@@ -44,7 +44,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <a class="nav-link text-dark fw-semibold" href="Services2.php">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-semibold" href="contact.php">Contact Us</a>
+                        <a class="nav-link text-dark fw-semibold" href="contact/contact.php">Contact Us</a>
                     </li>
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li class="nav-item">

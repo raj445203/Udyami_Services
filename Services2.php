@@ -427,12 +427,12 @@ include('header.php');
                             </a>
                         </div>
                         <div class="col">
-                            <a href="taskers.php?skills=Painter / Whitewash" class="service-card-bootstrap-link">
+                            <a href="taskers.php?skills=Painter" class="service-card-bootstrap-link">
                                 <div class="service-card-bootstrap">
                                     <div class="icon-container">
                                         <i class="fa-solid fa-paint-roller"></i>
                                     </div>
-                                    <h3>Painter / Whitewash</h3>
+                                    <h3>Painter</h3>
                                     <p>Interior and exterior painting for a fresh new look.</p>
                                 </div>
                             </a>
@@ -830,7 +830,7 @@ include('header.php');
             "Housemaid / Househelp", "Pest Control", "Washing Machine Repair",
             "AC Servicing", "Geyser Repair", "Refrigerator Technician", "RO Water Purifier Services",
             "Kitchen / Bathroom Cleaning", "Civil Contractor", "Interior Designer", "POP / False Ceiling Work",
-            "Fabrication / Welding", "Tiling / Marble Work", "Painter / Whitewash", "Vastu Consultant",
+            "Fabrication / Welding", "Tiling / Marble Work", "Vastu Consultant",
             "Hair Stylist / Barber", "Mehndi Artist", "Massage Therapist", "Tailor / Stitching",
             "Physiotherapist", "Gym Trainer",
             "Dog Walker / Pet Groomer", "Tattoo Artist", "Home Decorator", "Wallpaper Installation",

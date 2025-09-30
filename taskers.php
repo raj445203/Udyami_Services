@@ -17,7 +17,7 @@ $service_categories = [
     ],
     "Construction & Renovation" => [
         "Civil Contractor", "Interior Designer", "POP / False Ceiling Work", "Fabrication / Welding",
-        "Tiling & Marble Work", "Painter / Whitewash", "Vastu Consultant", "Carpenter"
+        "Tiling & Marble Work", "Painter", "Vastu Consultant", "Carpenter"
     ],
     "Decoration & Art" => [
         "Home Decorator", "Wallpaper Installation", "Wall Art / Mural Painting", "Floral Decorator",

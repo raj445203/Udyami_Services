@@ -247,6 +247,7 @@ include('header.php');
             <div class="text-center mt-4">
               <button type="submit" class="btn btn-success btn-lg px-5">Register</button>
             </div>
+            
 
           </form>
         </div>
@@ -367,11 +368,11 @@ include('footer.php');
   const skillsArray = [
     "Mehandi Artist", "Makeup Artist", "Cleaning", "Electrician", "Plumber",
     "Movers & Packers", "Painter", "Beautician", "Cook / Tiffin Services",
-    "Housemaid / Househelp", "Pest Control", "Washing Machine Repair",
+    "Housemaid / Househelp", "Pest Control", "Washing Machine Repair","Tour Agent","Gym Trainer","Physiotherapist",
     "AC Servicing", "Geyser Repair", "Refrigerator Technician",
     "RO Water Purifier Services", "Kitchen / Bathroom Cleaning",
     "Civil Contractor", "Interior Designer", "POP / False Ceiling Work",
-    "Fabrication & Welding", "Tiling & Marble Work", "Painter / Whitewash",
+    "Fabrication & Welding", "Tiling & Marble Work",
     "Vastu Consultant", "Carpenter", "Hair Stylist / Barber", "Mehndi Artist",
     "Massage Therapist", "Tailor / Stitching", "Dog Walker / Pet Groomer",
     "Tattoo Artist", "Home Decorator", "Wallpaper Installation",
@@ -379,7 +380,7 @@ include('footer.php');
     "Light Installation", "Wedding Stage Setup", "Event Planner",
     "Birthday Decorator", "Balloon Artist", "DJ & Sound System",
     "Caterer / Halwai", "Dhol / Tasha Party", "Tent House",
-    "Photography & Videography", "Anchor", "Home Shifting",
+    "Photography / Videography", "Anchor", "Home Shifting",
     "Intercity Movers & Packers", "Truck / Tempo on Hire",
     "Bike / Car Transport", "Goods Transport Help", "Driver on Demand"
   ];
