@@ -45,6 +45,7 @@ function findCategoryBySkill($skill, $categories) {
 
 $skills = $_GET['skills'] ?? '';
 $category_filter = $_GET['category'] ?? '';
+$available_only = isset($_GET['available']) && $_GET['available'] == 1;
 
 if ($skills) {
     $search_skills = '%' . $conn->real_escape_string($skills) . '%';
@@ -57,6 +58,10 @@ if ($skills) {
         $sql .= " AND category = ?";
         $params[] = $category_filter;
         $types .= "s";
+    }
+
+    if ($available_only) {
+        $sql .= " AND is_available = 1";
     }
 
     $stmt = $conn->prepare($sql);
@@ -273,6 +278,24 @@ $other_services_in_category = $current_category ? $service_categories[$current_c
 <div class="container main-container">
     <div class="sidebar">
         <div class="sidebar-section">
+            <div class="sidebar-section">
+    <h5>Availability</h5>
+    <ul>
+        <li>
+            <a href="?skills=<?php echo urlencode($skills); ?>"
+               class="<?php echo !$available_only ? 'active' : ''; ?>">
+                All Taskers
+            </a>
+        </li>
+        <li>
+            <a href="?skills=<?php echo urlencode($skills); ?>&available=1"
+               class="<?php echo $available_only ? 'active' : ''; ?>">
+                Instant Service (Available Now)
+            </a>
+        </li>
+    </ul>
+</div>
+
             <h5>Filter by Type</h5>
             <ul>
                 <li><a href="?skills=<?php echo htmlspecialchars($skills); ?>&category=all" class="<?php echo (empty($category_filter) || $category_filter == 'all') ? 'active' : ''; ?>">All</a></li>
@@ -311,7 +334,14 @@ $other_services_in_category = $current_category ? $service_categories[$current_c
                             </div>
                             <div class="tasker-details-col">
                                 <div>
-                                    <h5 class="text-green"><?php echo htmlspecialchars($row['fullname']); ?></h5>
+                                    <h5 class="text-green">
+                                        <?php echo htmlspecialchars($row['fullname']); ?>
+                                        <?php if ($row['is_available']): ?>
+                                            <span class="badge bg-success ms-2">Online</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-secondary ms-2">Offline</span>
+                                        <?php endif; ?>
+                                    </h5>
                                     <p class="mb-1"><strong>Experience:</strong> <?php echo htmlspecialchars($row['experience_years']); ?> years</p>
                                     <p class="mb-2"><strong>Location:</strong> <?php echo htmlspecialchars($row['preferred_location']); ?></p>
                                 </div>

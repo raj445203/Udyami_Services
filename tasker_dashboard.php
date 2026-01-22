@@ -290,7 +290,7 @@ $conn->close();
             background-color: #e9ecef;
         }
 
-         @media (max-width: 768px) {
+        @media (max-width: 768px) {
             .sidebar {
                 display: none;
             }
@@ -350,6 +350,29 @@ $conn->close();
 
             <?php if ($active_tab === 'dashboard'): ?>
                 <h4 class="text-custom-green mb-4">Welcome, <?php echo $tasker_fullname; ?>! </h4>
+                <br>
+                <div class="card mb-4 shadow-sm border-0">
+    <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-1 text-custom-green">Instant Service Status</h5>
+            <p class="mb-0 text-muted">
+                <?php if ($tasker_data['is_available']): ?>
+                    You are currently <strong class="text-success">ONLINE</strong>
+                <?php else: ?>
+                    You are currently <strong class="text-danger">OFFLINE</strong>
+                <?php endif; ?>
+            </p>
+        </div>
+
+        <form method="POST" action="toggle_availability.php">
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <button type="submit" class="btn <?php echo $tasker_data['is_available'] ? 'btn-danger' : 'btn-success'; ?>">
+                <?php echo $tasker_data['is_available'] ? 'Go Offline' : 'I’m Free Now'; ?>
+            </button>
+        </form>
+    </div>
+</div>
+
                 <div class="row g-4 mt-3">
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 border-0 shadow-sm rounded-3">
@@ -382,6 +405,7 @@ $conn->close();
                         </div>
                     </div>
                 </div>
+                
 
             <?php elseif ($active_tab === 'profile'): ?>
                 <h4 class="text-custom-green">Edit Profile</h4>
@@ -506,12 +530,14 @@ $conn->close();
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-     // Sidebar toggle for mobile
+        // Sidebar toggle for mobile
         const sidebar = document.getElementById('dashboard-sidebar');
         const toggleBtn = document.getElementById('sidebar-toggle-btn');
+
         function closeSidebar() {
             sidebar.classList.remove('open');
         }
+
         function openSidebar() {
             sidebar.classList.add('open');
         }
