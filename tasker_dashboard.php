@@ -39,46 +39,98 @@ if (!$tasker_data) {
 $message = '';
 $message_type = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
-    // CSRF Token validation
+
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        $message = "CSRF token validation failed. Please try again.";
+        $message = "CSRF token validation failed.";
         $message_type = 'danger';
     } else {
-        // Sanitize and validate input
-        $fullname = trim($_POST['fullname'] ?? '');
-        $email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
-        $phone = trim($_POST['phone'] ?? '');
-        $address = trim($_POST['address'] ?? '');
-        $gender = trim($_POST['gender'] ?? '');
-        $category = trim($_POST['category'] ?? '');
-        $skills = trim($_POST['skills'] ?? '');
-        $experience = (int)($_POST['experience_years'] ?? 0);
-        $location = trim($_POST['preferred_location'] ?? '');
 
-        // Use a more secure password hashing if implementing password change
+        // Sanitize inputs
+        $fullname = trim($_POST['fullname']);
+        $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+        $phone = trim($_POST['phone']);
+        $address = trim($_POST['address']);
+        $gender = trim($_POST['gender']);
+        $category = trim($_POST['category']);
+        $skills = trim($_POST['skills']);
+        $experience = (int)$_POST['experience_years'];
+        $location = trim($_POST['preferred_location']);
 
-        $update_stmt = $conn->prepare("
-            UPDATE taskers 
-            SET fullname = ?, email = ?, phone = ?, address = ?, gender = ?, category = ?, skills = ?, experience_years = ?, preferred_location = ?
-            WHERE id = ?
-        ");
+        // ================= IMAGE UPLOAD LOGIC =================
+        $profile_image_path = $tasker_data['profile_image']; // default old image
 
-        if (!$update_stmt) {
-            $message = "Database prepare error: " . $conn->error;
-            $message_type = 'danger';
-        } else {
-            $update_stmt->bind_param("ssssssisi", $fullname, $email, $phone, $address, $gender, $category, $skills, $experience, $location, $tasker_id);
+        if (!empty($_FILES['profile_image']['name'])) {
+
+            $allowed_types = ['jpg', 'jpeg', 'png', 'webp'];
+            $file_name = $_FILES['profile_image']['name'];
+            $file_tmp = $_FILES['profile_image']['tmp_name'];
+            $file_size = $_FILES['profile_image']['size'];
+
+            $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+            if (!in_array($ext, $allowed_types)) {
+                $message = "Only JPG, PNG, WEBP images are allowed.";
+                $message_type = 'danger';
+            } elseif ($file_size > 2 * 1024 * 1024) {
+                $message = "Image size must be less than 2MB.";
+                $message_type = 'danger';
+            } else {
+
+                // Rename image (secure)
+                $new_file_name = "tasker_" . $tasker_id . "_" . time() . "." . $ext;
+                $upload_path = "uploads/taskers/" . $new_file_name;
+
+                if (move_uploaded_file($file_tmp, $upload_path)) {
+
+                    // Delete old image if exists
+                    if (!empty($tasker_data['profile_image']) && file_exists($tasker_data['profile_image'])) {
+                        unlink($tasker_data['profile_image']);
+                    }
+
+                    $profile_image_path = $upload_path;
+                } else {
+                    $message = "Failed to upload image.";
+                    $message_type = 'danger';
+                }
+            }
+        }
+        // ================= IMAGE UPLOAD LOGIC END =================
+
+        if (empty($message)) {
+
+            $update_stmt = $conn->prepare("
+                UPDATE taskers SET
+                fullname = ?, email = ?, phone = ?, address = ?, gender = ?,
+                category = ?, skills = ?, experience_years = ?, preferred_location = ?, profile_image = ?
+                WHERE id = ?
+            ");
+
+            $update_stmt->bind_param(
+                "sssssssissi",
+                $fullname,
+                $email,
+                $phone,
+                $address,
+                $gender,
+                $category,
+                $skills,
+                $experience,
+                $location,
+                $profile_image_path,
+                $tasker_id
+            );
 
             if ($update_stmt->execute()) {
                 $message = "Profile updated successfully!";
                 $message_type = 'success';
-                // Re-fetch tasker data to display latest changes
-                $tasker_result = $conn->query("SELECT * FROM taskers WHERE id = $tasker_id");
-                $tasker_data = $tasker_result->fetch_assoc();
+
+                // Refresh data
+                $tasker_data = $conn->query("SELECT * FROM taskers WHERE id = $tasker_id")->fetch_assoc();
             } else {
-                $message = "Error updating profile: " . $conn->error;
+                $message = "Profile update failed.";
                 $message_type = 'danger';
             }
+
             $update_stmt->close();
         }
     }
@@ -134,7 +186,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HandyHelp - Tasker Dashboard</title>
+    <title>Udyami Services - Tasker Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">

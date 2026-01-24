@@ -163,8 +163,8 @@ $is_tasker_logged_in = isset($_SESSION['tasker_logged_in']) && $_SESSION['tasker
         .profile-image-circle {
             background-color: var(--primary-color);
             color: #fff;
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -177,10 +177,10 @@ $is_tasker_logged_in = isset($_SESSION['tasker_logged_in']) && $_SESSION['tasker
             background-position: center;
         }
 
-        .profile-image-circle:empty::before {
+        /* .profile-image-circle:empty::before {
             content: '<?php echo htmlspecialchars(substr($tasker['fullname'], 0, 1) . (strpos($tasker['fullname'], ' ') !== false ? substr($tasker['fullname'], strpos($tasker['fullname'], ' ') + 1, 1) : '')); ?>';
             color: white;
-        }
+        } */
 
         .profile-info h1 {
             margin: 0;
