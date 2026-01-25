@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errors)) {
       // Prepare SQL (adjust table/columns as per your DB)
       $hashed_password = password_hash($user_password, PASSWORD_DEFAULT);
-      $stmt = $conn->prepare("INSERT INTO taskers (fullname, dob, gender, email,password, phone, address, category, skills, experience_years, preferred_location, id_proof_path, professional_cert_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      $stmt = $conn->prepare("INSERT INTO taskers (fullname, dob, gender, email, password, phone, address, category, skills, experience_years, preferred_location, id_proof_path, professional_cert_path, registration_status, verification_status, verified_badge) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', 'pending', 0)");
       if ($stmt === false) {
         die("Prepare failed: " . $conn->error);
       }

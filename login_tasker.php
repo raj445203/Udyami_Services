@@ -18,7 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Please enter a valid email address.";
     } else {
-        $stmt = $conn->prepare("SELECT id, password FROM taskers WHERE email = ?");
+        $stmt = $conn->prepare("
+    SELECT id, password, registration_status, verified_badge 
+    FROM taskers 
+    WHERE email = ?
+");
+
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -26,34 +31,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result->num_rows === 1) {
             $tasker = $result->fetch_assoc();
 
-            if (password_verify($password, $tasker['password'])) {
+if (password_verify($password, $tasker['password'])) {
 
-                // ===== REMEMBER ME LOGIC START =====
-                if (!empty($_POST['remember'])) {
-                    setcookie(
-                        "remember_tasker",
-                        $email,
-                        time() + (30 * 24 * 60 * 60), // 30 days
-                        "/",
-                        "",
-                        false,
-                        true
-                    );
-                } else {
-                    setcookie("remember_tasker", "", time() - 3600, "/");
-                }
-                // ===== REMEMBER ME LOGIC END =====
+    // ===== REMEMBER ME LOGIC =====
+    if (!empty($_POST['remember'])) {
+        setcookie(
+            "remember_tasker",
+            $email,
+            time() + (30 * 24 * 60 * 60),
+            "/",
+            "",
+            false,
+            true
+        );
+    } else {
+        setcookie("remember_tasker", "", time() - 3600, "/");
+    }
 
-                $_SESSION['tasker_id'] = $tasker['id'];
-                $_SESSION['tasker_email'] = $email;
-                $_SESSION['tasker_logged_in'] = true;
-                $_SESSION['success'] = "Welcome back! Login successful.";
+    // ===== SESSION =====
+    $_SESSION['tasker_id'] = $tasker['id'];
+    $_SESSION['tasker_email'] = $email;
+    $_SESSION['tasker_logged_in'] = true;
+    $_SESSION['verified_badge'] = $tasker['verified_badge'];
 
-                header("Location: tasker_dashboard.php");
-                exit();
-            } else {
-                $errors[] = "Incorrect password.";
-            }
+    $_SESSION['success'] = "Welcome back!";
+    header("Location: tasker_dashboard.php");
+    exit();
+
+} else {
+    $errors[] = "Incorrect password.";
+}
+
+
         } else {
             $errors[] = "Account not found with this email.";
         }
