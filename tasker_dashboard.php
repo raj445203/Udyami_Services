@@ -96,6 +96,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
         }
         // ================= IMAGE UPLOAD LOGIC END =================
 
+        // ================= GALLERY IMAGE UPLOAD LOGIC =================
+        if (!empty($_FILES['gallery_image']['name'])) {
+
+            $allowed_types = ['jpg', 'jpeg', 'png', 'webp'];
+            $upload_dir = "uploads/taskers/";
+
+            $image_name = $_FILES['gallery_image']['name'];
+            $tmp_name = $_FILES['gallery_image']['tmp_name'];
+            $size = $_FILES['gallery_image']['size'];
+            $ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
+
+            if (in_array($ext, $allowed_types) && $size <= 2 * 1024 * 1024) {
+                $new_name = "gallery_" . $tasker_id . "_" . time() . "." . $ext;
+                $path = $upload_dir . $new_name;
+
+                if (move_uploaded_file($tmp_name, $path)) {
+                    $stmt = $conn->prepare("INSERT INTO tasker_photos (tasker_id, photo_url) VALUES (?, ?)");
+                    $stmt->bind_param("is", $tasker_id, $new_name);
+                    $stmt->execute();
+                    $stmt->close();
+                } else {
+                    $message = "Failed to upload image.";
+                    $message_type = 'danger';
+                }
+            } elseif ($size > 2 * 1024 * 1024) {
+                $message = "Image size must be less than 2MB.";
+                $message_type = 'danger';
+            } else {
+                $message = "Only JPG, PNG, WEBP images are allowed.";
+                $message_type = 'danger';
+            }
+        }
+        // ================= GALLERY IMAGE UPLOAD LOGIC END =================
+
         if (empty($message)) {
 
             $update_stmt = $conn->prepare("
@@ -476,6 +510,19 @@ $conn->close();
                             <input type="file" id="profile_image_upload" name="profile_image" class="d-none">
                             <small class="text-muted">Click the image to upload a new one.</small>
                         </div>
+
+                        <hr>
+
+                        <h5 class="text-custom-green mb-3">Upload Gallery Image</h5>
+
+                        <div class="mb-3">
+                            <input type="file"
+                                   name="gallery_image"
+                                   class="form-control"
+                                   accept="image/*">
+                            <small class="text-muted">Upload a single image (max 2MB).</small>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="fullname" class="form-label">Full Name</label>
