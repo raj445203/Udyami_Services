@@ -1,0 +1,188 @@
+/* ===== GLOBAL ===== */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fa;
+    padding-top: 80px;
+}
+
+/* ===== HERO ===== */
+.hero-section {
+    min-height: 90vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                url('images/background-house.avif') center/cover;
+    display: flex;
+    align-items: center;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: white;
+}
+
+.highlight {
+    color: #2cb0ca;
+}
+
+.hero-subtext {
+    color: #ddd;
+    margin: 15px 0 30px;
+}
+
+/* SEARCH */
+.search-wrapper {
+    max-width: 600px;
+    position: relative;
+}
+
+.search-bar {
+    background: white;
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    padding: 15px;
+}
+
+.search-bar button {
+    background: #2cb0ca;
+    color: white;
+    border: none;
+    padding: 0 25px;
+}
+
+/* Suggestions */
+#suggestionsList {
+    position: absolute;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    margin-top: 5px;
+    list-style: none;
+    padding: 0;
+    display: none;
+    z-index: 1000;
+}
+
+/* TRUST */
+.trust-badges span {
+    background: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    margin: 5px;
+    display: inline-block;
+}
+
+/* ===== CATEGORIES ===== */
+.categories-section {
+    padding: 80px 20px;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.category-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    transition: 0.3s;
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.category-card i {
+    font-size: 28px;
+    color: #2cb0ca;
+}
+
+/* ===== HOW SECTION PROFESSIONAL ===== */
+.how-section {
+    padding: 80px 20px;
+    background: #ffffff;
+}
+
+.section-subtitle {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+/* Image */
+.how-img {
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    max-height: 400px;
+    object-fit: cover;
+}
+
+/* Step Card */
+.step-card {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #f8fbfd;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    align-items: flex-start;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+}
+
+/* Icon */
+.step-icon {
+    width: 50px;
+    height: 50px;
+    background: #2cb0ca;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* Text */
+.step-card h5 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.step-card p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-section {
+        padding: 60px 20px;
+        text-align: center;
+    }
+}
