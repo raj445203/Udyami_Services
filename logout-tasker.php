@@ -1,26 +1,23 @@
 <?php
+// logout-tasker.php
+session_start();
 
+// Store tasker info for message before clearing
+$tasker_name = $_SESSION['tasker_name'] ?? 'Tasker';
 
-// Unset all of the session variables.
-$_SESSION = array();
+// Unset tasker-specific session variables
+unset($_SESSION['tasker_id']);
+unset($_SESSION['tasker_logged_in']);
+unset($_SESSION['tasker_name']);
+unset($_SESSION['tasker_email']);
 
-// If it's desired to kill the session, also delete the session cookie.
-if (ini_get("session.use_cookies")) {
-    $params = session_get_cookie_params();
-    setcookie(
-        session_name(),
-        '',
-        time() - 42000,
-        $params["path"],
-        $params["domain"],
-        $params["secure"],
-        $params["httponly"]
-    );
-}
+// Keep user session if exists
+// Do NOT use session_destroy()
 
-// Destroy the session.
-session_destroy();
+// Set success message for tasker
+$_SESSION['tasker_logout_message'] = "Goodbye, $tasker_name! You have been logged out from tasker account.";
 
-// Redirect to the login page.
+// Redirect to tasker login page
 header("Location: login_tasker.php");
 exit();
+?>

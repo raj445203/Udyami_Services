@@ -81,6 +81,7 @@ function findCategoryBySkill($skill, $categories)
 }
 
 $skills = $_GET['skills'] ?? '';
+$location = $_GET['location'] ?? '';
 $category_filter = $_GET['category'] ?? '';
 $available_only = isset($_GET['available']) && $_GET['available'] == 1;
 
@@ -90,6 +91,13 @@ if ($skills) {
     $sql = "SELECT * FROM taskers WHERE skills LIKE ?";
     $params = [$search_skills];
     $types = "s";
+
+    if ($location) {
+        $search_location = '%' . $conn->real_escape_string($location) . '%';
+        $sql .= " AND preferred_location LIKE ?";
+        $params[] = $search_location;
+        $types .= "s";
+    }
 
     if ($category_filter && $category_filter !== 'all') {
         $sql .= " AND category = ?";
@@ -342,13 +350,13 @@ $other_services_in_category = $current_category ? $service_categories[$current_c
                     <h5>Availability</h5>
                     <ul>
                         <li>
-                            <a href="?skills=<?php echo urlencode($skills); ?>"
+                            <a href="?skills=<?php echo urlencode($skills); ?><?php echo $location ? '&location=' . urlencode($location) : ''; ?>"
                                 class="<?php echo !$available_only ? 'active' : ''; ?>">
                                 All Taskers
                             </a>
                         </li>
                         <li>
-                            <a href="?skills=<?php echo urlencode($skills); ?>&available=1"
+                            <a href="?skills=<?php echo urlencode($skills); ?>&available=1<?php echo $location ? '&location=' . urlencode($location) : ''; ?>"
                                 class="<?php echo $available_only ? 'active' : ''; ?>">
                                 Instant Service (Available Now)
                             </a>
@@ -358,10 +366,24 @@ $other_services_in_category = $current_category ? $service_categories[$current_c
 
                 <h5>Filter by Type</h5>
                 <ul>
-                    <li><a href="?skills=<?php echo htmlspecialchars($skills); ?>&category=all" class="<?php echo (empty($category_filter) || $category_filter == 'all') ? 'active' : ''; ?>">All</a></li>
-                    <li><a href="?skills=<?php echo htmlspecialchars($skills); ?>&category=professional" class="<?php echo ($category_filter == 'professional') ? 'active' : ''; ?>">Professional</a></li>
-                    <li><a href="?skills=<?php echo htmlspecialchars($skills); ?>&category=semi-professional" class="<?php echo ($category_filter == 'semi-professional') ? 'active' : ''; ?>">Semi-Professional</a></li>
+                    <li><a href="?skills=<?php echo htmlspecialchars($skills); ?><?php echo $location ? '&location=' . urlencode($location) : ''; ?>&category=all" class="<?php echo (empty($category_filter) || $category_filter == 'all') ? 'active' : ''; ?>">All</a></li>
+                    <li><a href="?skills=<?php echo htmlspecialchars($skills); ?><?php echo $location ? '&location=' . urlencode($location) : ''; ?>&category=professional" class="<?php echo ($category_filter == 'professional') ? 'active' : ''; ?>">Professional</a></li>
+                    <li><a href="?skills=<?php echo htmlspecialchars($skills); ?><?php echo $location ? '&location=' . urlencode($location) : ''; ?>&category=semi-professional" class="<?php echo ($category_filter == 'semi-professional') ? 'active' : ''; ?>">Semi-Professional</a></li>
                 </ul>
+            </div>
+            <div class="sidebar-section">
+                <h5>Filter by Location</h5>
+                <form method="GET" action="taskers.php">
+                    <input type="hidden" name="skills" value="<?php echo htmlspecialchars($skills); ?>">
+                    <input type="hidden" name="category" value="<?php echo htmlspecialchars($category_filter); ?>">
+                    <?php if ($available_only): ?>
+                        <input type="hidden" name="available" value="1">
+                    <?php endif; ?>
+                    <div class="input-group mb-2">
+                        <input type="text" name="location" class="form-control" placeholder="Enter location" value="<?php echo htmlspecialchars($location); ?>">
+                        <button class="btn btn-outline-secondary" type="submit">Filter</button>
+                    </div>
+                </form>
             </div>
             <div class="sidebar-divider"></div>
             <div class="sidebar-section">
@@ -369,7 +391,7 @@ $other_services_in_category = $current_category ? $service_categories[$current_c
                 <ul>
                     <?php if ($current_category && isset($service_categories[$current_category])): ?>
                         <?php foreach ($service_categories[$current_category] as $service): ?>
-                            <li><a href="?skills=<?php echo urlencode($service); ?>"><?php echo htmlspecialchars($service); ?></a></li>
+                            <li><a href="?skills=<?php echo urlencode($service); ?><?php echo $location ? '&location=' . urlencode($location) : ''; ?>"><?php echo htmlspecialchars($service); ?></a></li>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <li>
@@ -381,7 +403,7 @@ $other_services_in_category = $current_category ? $service_categories[$current_c
         </div>
 
         <div class="content-area">
-            <h2 class="mb-4 text-dark">Taskers for "<?php echo htmlspecialchars($skills); ?>"</h2>
+            <h2 class="mb-4 text-dark">Taskers for "<?php echo htmlspecialchars($skills); ?>"<?php echo $location ? ' in "' . htmlspecialchars($location) . '"' : ''; ?></h2>
 
             <div class="row">
                 <?php

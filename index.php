@@ -1,21 +1,17 @@
 <?php
-
 session_start();
-
-
 require 'db.php';
-
 include('header.php');
-
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Udyami Services</title>
+    <title>Udyami Services - Find Trusted Professionals Near You</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css" />
@@ -58,6 +54,7 @@ $conn->close();
             width: 220px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .category-card:hover {
@@ -165,6 +162,36 @@ $conn->close();
             animation: float 3s ease-in-out infinite;
         }
 
+        /* Modal custom styles */
+        .location-modal-content {
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .location-icon-animation {
+            animation: bounce 1s ease infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .benefit-item {
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-item:hover {
+            background: #f8f9fa;
+            border-radius: 10px;
+            transform: translateX(5px);
+        }
+
         /* Responsive adjustments */
         @media (max-width: 991px) {
             .hero-section-custom {
@@ -178,7 +205,7 @@ $conn->close();
             }
             
             .hero-section-custom .search-bar {
-                width: 90%; /* Adjust width for better mobile fit */
+                width: 90%;
                 margin: 0 auto;
             }
 
@@ -238,6 +265,14 @@ $conn->close();
                         <ul id="suggestionsList" class="list-group position-absolute mt-1 w-100 rounded-3 overflow-hidden"
                             style="z-index: 1000; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></ul>
                     </div>
+                    
+                    <?php if(isset($_SESSION['user_id'])): ?>
+                    <div class="mt-4">
+                        <a href="live-map.php" class="btn btn-outline-light rounded-pill px-4 py-2">
+                            <i class="fas fa-map-marked-alt me-2"></i> View Nearby Taskers on Map
+                        </a>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -341,18 +376,66 @@ $conn->close();
             <a href="Services2.php" class="btn btn-light btn-lg rounded-pill px-5 py-3 fw-bold">
                 Get Help Today <i class="fas fa-arrow-right ms-2"></i>
             </a>
-
-
         </div>
     </section>
 
-    
+    <?php include('footer.php'); ?>
 
-    <?php
-    include('footer.php');
-    ?>
+    <!-- Location Permission Modal -->
+    <div class="modal fade" id="locationModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content location-modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4 p-md-5">
+                    <div class="mb-4">
+                        <i class="fas fa-map-marker-alt fa-5x text-primary location-icon-animation" style="color: #0f5a5e !important;"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Enable Location Services</h3>
+                    <p class="text-muted mb-4">To help you find the best taskers near you, we need access to your location.</p>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="benefit-item">
+                                <i class="fas fa-search-location fa-2x mb-2" style="color: #0f5a5e;"></i>
+                                <p class="small mb-0">Find nearby professionals</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="benefit-item">
+                                <i class="fas fa-clock fa-2x mb-2" style="color: #0f5a5e;"></i>
+                                <p class="small mb-0">Faster response times</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="benefit-item">
+                                <i class="fas fa-tachometer-alt fa-2x mb-2" style="color: #0f5a5e;"></i>
+                                <p class="small mb-0">Accurate distance estimates</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-muted small mb-4">
+                        <i class="fas fa-lock me-1"></i> We'll only use this to show nearby service providers and will never share your exact location.
+                    </p>
+                    
+                    <div class="d-flex gap-3 justify-content-center">
+                        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal" id="skipLocationBtn">
+                            Not Now
+                        </button>
+                        <button type="button" class="btn btn-primary px-4" id="enableLocationBtn" style="background-color: #0f5a5e; border-color: #0f5a5e;">
+                            <i class="fas fa-location-dot me-2"></i> Enable Location
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
     <script>
         // Service list
         const services = [
@@ -407,7 +490,7 @@ $conn->close();
 
         // Redirect when search button clicked or form submitted
         document.getElementById("searchForm").addEventListener("submit", function(e) {
-            e.preventDefault(); // Prevent default form submission
+            e.preventDefault();
             const service = searchInput.value.trim();
             if (service !== "") {
                 window.location.href = `taskers.php?skills=${encodeURIComponent(service)}`;
@@ -433,8 +516,183 @@ $conn->close();
         });
 
         document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-    </script>
 
+        // Location Management
+        let locationModal;
+        
+        // Function to save location to server
+        function saveLocationToServer(latitude, longitude) {
+            $.ajax({
+                url: 'update_location.php',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    latitude: latitude,
+                    longitude: longitude
+                }),
+                success: function(response) {
+                    console.log('Location saved to server:', response);
+                    localStorage.setItem('locationSaved', 'true');
+                    localStorage.setItem('locationPermissionGranted', 'true');
+                    
+                    // Show success message
+                    if (locationModal) {
+                        locationModal.hide();
+                    }
+                    
+                    // Optional: Show a temporary success message
+                    showToast('Location enabled! You can now see nearby taskers.', 'success');
+                    
+                    // Redirect to map if user wants to see nearby taskers
+                    <?php if(isset($_SESSION['user_id'])): ?>
+                    setTimeout(function() {
+                        if (confirm('Would you like to see nearby taskers on the map?')) {
+                            window.location.href = 'live-map.php';
+                        }
+                    }, 1000);
+                    <?php endif; ?>
+                },
+                error: function(error) {
+                    console.error('Error saving location:', error);
+                }
+            });
+        }
+        
+        // Function to get user location
+        function getUserLocation() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        saveLocationToServer(lat, lng);
+                    },
+                    function(error) {
+                        console.error('Geolocation error:', error);
+                        let errorMessage = '';
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage = 'Location permission denied. You can enable it later from browser settings.';
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage = 'Location information unavailable.';
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage = 'Location request timed out.';
+                                break;
+                        }
+                        showToast(errorMessage, 'warning');
+                        localStorage.setItem('locationPermissionGranted', 'false');
+                        if (locationModal) locationModal.hide();
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                showToast('Geolocation is not supported by your browser', 'error');
+                if (locationModal) locationModal.hide();
+            }
+        }
+        
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.querySelector('.toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+                toastContainer.style.zIndex = '9999';
+                document.body.appendChild(toastContainer);
+            }
+            
+            // Create toast element
+            const toastId = 'toast-' + Date.now();
+            const bgClass = type === 'success' ? 'bg-success' : (type === 'warning' ? 'bg-warning' : 'bg-info');
+            const icon = type === 'success' ? 'fa-check-circle' : (type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle');
+            
+            const toastHTML = `
+                <div id="${toastId}" class="toast align-items-center text-white ${bgClass} border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="fas ${icon} me-2"></i> ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            `;
+            
+            toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+            const toastElement = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+            
+            // Remove toast after it's hidden
+            toastElement.addEventListener('hidden.bs.toast', function() {
+                this.remove();
+            });
+        }
+        
+        // Check if user is logged in and handle location permission
+        <?php if(isset($_SESSION['user_id'])): ?>
+        $(document).ready(function() {
+            locationModal = new bootstrap.Modal(document.getElementById('locationModal'));
+            
+            // Check if location permission has been asked before
+            const locationPermissionAsked = localStorage.getItem('locationPermissionAsked');
+            const locationPermissionGranted = localStorage.getItem('locationPermissionGranted');
+            
+            // If location not saved and permission not asked yet, show modal
+            if (localStorage.getItem('locationSaved') !== 'true' && locationPermissionAsked !== 'true') {
+                setTimeout(function() {
+                    locationModal.show();
+                }, 1500);
+            } else if (locationPermissionGranted === 'true' && localStorage.getItem('locationSaved') !== 'true') {
+                // If permission was granted but location not saved, try to get location
+                getUserLocation();
+            }
+            
+            // Enable location button handler
+            $('#enableLocationBtn').on('click', function() {
+                localStorage.setItem('locationPermissionAsked', 'true');
+                getUserLocation();
+            });
+            
+            // Skip button handler
+            $('#skipLocationBtn').on('click', function() {
+                localStorage.setItem('locationPermissionAsked', 'skipped');
+                localStorage.setItem('locationPermissionGranted', 'false');
+                showToast('You can enable location later from your profile settings.', 'info');
+            });
+        });
+        <?php endif; ?>
+        
+        // Function to check if location is already saved and update if needed (for returning users)
+        <?php if(isset($_SESSION['user_id'])): ?>
+        function checkAndUpdateLocation() {
+            if (localStorage.getItem('locationSaved') === 'true' && localStorage.getItem('locationPermissionGranted') === 'true') {
+                // Periodically update location (every 5 minutes)
+                setInterval(function() {
+                    if ("geolocation" in navigator) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            saveLocationToServer(position.coords.latitude, position.coords.longitude);
+                        }, function(error) {
+                            console.log('Periodic location update failed:', error);
+                        });
+                    }
+                }, 300000); // Update every 5 minutes
+            }
+        }
+        
+        // Start periodic updates if location is enabled
+        if (localStorage.getItem('locationSaved') === 'true') {
+            checkAndUpdateLocation();
+        }
+        <?php endif; ?>
+    </script>
+    
     <script id="omnidimension-web-widget" async src="https://backend.omnidim.io/web_widget.js?secret_key=68f0ba12eab69e9266647d3102b367a6"></script>
 </body>
 

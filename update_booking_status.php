@@ -1,45 +1,65 @@
 <?php
 session_start();
-require 'db.php';
+require_once 'db.php';
 
-// Check if a tasker is logged in
+// Check if tasker is logged in
 if (!isset($_SESSION['tasker_id'])) {
-    header("Location: login-tasker.php");
+    header("Location: login_tasker.php");
     exit();
 }
 
-// Ensure the request is a POST request and all necessary data is present
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['booking_id'], $_POST['status'])) {
-    $booking_id = $_POST['booking_id'];
-    $new_status = $_POST['status'];
-    $tasker_id = $_SESSION['tasker_id'];
-
-    // Validate the new status to prevent invalid data
-    $allowed_statuses = ['Accepted', 'Rejected', 'Completed'];
-    if (!in_array($new_status, $allowed_statuses)) {
-        header("Location: tasker_dashboard.php?status=error&message=Invalid status.");
-        exit();
-    }
-
-    // Prepare and execute the query to update the booking status
-    // The WHERE clause is critical to prevent a malicious user from updating another tasker's bookings
-    $stmt = $conn->prepare("UPDATE bookings SET status = ? WHERE id = ? AND tasker_id = ?");
-    $stmt->bind_param("sii", $new_status, $booking_id, $tasker_id);
-
-    if ($stmt->execute()) {
-        // Success: Redirect back to the tasker dashboard with a success message
-        header("Location: tasker_dashboard.php?status=success&message=Booking status updated!");
-        exit();
-    } else {
-        // Error: Redirect with an error message
-        header("Location: tasker_dashboard.php?status=error&message=Update failed.");
-        exit();
-    }
-
-    $stmt->close();
-} else {
-    // If accessed directly without POST data
+// CSRF Protection
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    $_SESSION['error_message'] = "Invalid request";
     header("Location: tasker_dashboard.php");
     exit();
 }
-$conn->close();
+
+$booking_id = intval($_POST['booking_id']);
+$new_status = $_POST['status'];
+$tasker_id = $_SESSION['tasker_id'];
+
+// Verify booking belongs to this tasker
+$check_sql = "SELECT id, status FROM bookings WHERE id = ? AND tasker_id = ?";
+$check_stmt = $conn->prepare($check_sql);
+$check_stmt->bind_param("ii", $booking_id, $tasker_id);
+$check_stmt->execute();
+$check_result = $check_stmt->get_result();
+
+if ($check_result->num_rows == 0) {
+    $_SESSION['error_message'] = "Booking not found or unauthorized";
+    header("Location: tasker_dashboard.php");
+    exit();
+}
+
+$booking = $check_result->fetch_assoc();
+$old_status = $booking['status'];
+
+// Update booking status
+$update_sql = "UPDATE bookings SET status = ? WHERE id = ?";
+$update_stmt = $conn->prepare($update_sql);
+$update_stmt->bind_param("si", $new_status, $booking_id);
+
+if ($update_stmt->execute()) {
+    // If status is changed to Accepted, enable tracking
+    if ($new_status == 'Accepted' && $old_status != 'Accepted') {
+        $tracking_sql = "UPDATE bookings SET tracking_enabled = TRUE, tracking_started_at = NOW() WHERE id = ?";
+        $tracking_stmt = $conn->prepare($tracking_sql);
+        $tracking_stmt->bind_param("i", $booking_id);
+        $tracking_stmt->execute();
+        $tracking_stmt->close();
+        
+        $_SESSION['success_message'] = "Booking accepted! Tracking enabled. The user can now see your location.";
+    } else {
+        $_SESSION['success_message'] = "Booking status updated to: " . $new_status;
+    }
+} else {
+    $_SESSION['error_message'] = "Failed to update booking status";
+}
+
+$update_stmt->close();
+$check_stmt->close();
+
+header("Location: " . $_SERVER['HTTP_REFERER']);
+exit();
+?>

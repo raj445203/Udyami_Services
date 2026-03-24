@@ -138,14 +138,21 @@ include('header.php');
                     <p class="lead">Explore a wide range of services tailored to your needs, from home repairs to personal care.</p>
 
                     <!-- Hero Search Bar with Suggestions -->
-                    <div class="hero-search-bar mt-4 position-relative mx-auto" style="max-width: 600px;">
-                        <form id="searchForm" class="d-flex rounded-pill overflow-hidden">
-                            <input type="search" id="serviceSearch" name="skills" placeholder="Search for a service (e.g., 'AC repair')" class="form-control border-0 py-3 ps-4 pe-5">
-                            <button class="search-button btn position-absolute end-0 top-50 translate-middle-y rounded-circle me-1" type="submit">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </button>
+                    <div class="hero-search-bar mt-4 position-relative mx-auto" style="max-width: 800px;">
+                        <form id="searchForm" method="GET" action="taskers.php" class="row g-2">
+                            <div class="col-md-6">
+                                <input type="search" id="serviceSearch" name="skills" placeholder="Search for a service (e.g., 'AC repair')" class="form-control rounded-pill py-3 ps-4" required>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" id="locationSearch" name="location" placeholder="Enter your location (e.g., 'Delhi')" class="form-control rounded-pill py-3 ps-4">
+                            </div>
+                            <div class="col-md-1">
+                                <button class="search-button btn w-100 rounded-circle" type="submit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </form>
                         <ul id="suggestionsList" class="list-group position-absolute mt-1 w-100 rounded-3 overflow-hidden"
                             style="z-index: 1000; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></ul>
@@ -848,6 +855,7 @@ include('header.php');
         // Show suggestions while typing
         searchInput.addEventListener("input", function() {
             const query = this.value.toLowerCase();
+            const location = document.getElementById("locationSearch").value.trim();
             suggestionsList.innerHTML = "";
 
             if (query.trim() === "") {
@@ -866,7 +874,11 @@ include('header.php');
                     li.style.transition = "all 0.2s ease";
                     li.innerHTML = `<i class="fa-solid fa-magnifying-glass me-2 text-muted"></i> ${service}`;
                     li.addEventListener("click", function() {
-                        window.location.href = `taskers.php?skills=${encodeURIComponent(service)}`;
+                        let url = `taskers.php?skills=${encodeURIComponent(service)}`;
+                        if (location) {
+                            url += `&location=${encodeURIComponent(location)}`;
+                        }
+                        window.location.href = url;
                     });
                     suggestionsList.appendChild(li);
                 });
@@ -877,11 +889,7 @@ include('header.php');
 
         // Redirect when search button clicked or form submitted
         document.getElementById("searchForm").addEventListener("submit", function(e) {
-            e.preventDefault(); // Prevent default form submission
-            const service = searchInput.value.trim();
-            if (service !== "") {
-                window.location.href = `taskers.php?skills=${encodeURIComponent(service)}`;
-            }
+            // Allow form to submit normally
         });
 
         // Hide suggestions when clicking outside

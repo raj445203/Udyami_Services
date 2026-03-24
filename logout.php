@@ -1,22 +1,24 @@
 <?php
+// logout.php
+session_start();
 
+// Store user info for message before clearing
+$user_name = $_SESSION['user_name'] ?? 'User';
 
-// Unset all of the session variables.
-$_SESSION = array();
+// Unset user-specific session variables
+unset($_SESSION['user_id']);
+unset($_SESSION['user_logged_in']);
+unset($_SESSION['user_name']);
+unset($_SESSION['user_email']);
+unset($_SESSION['fullname']);
 
-// If it's desired to kill the session, also delete the session cookie.
-if (ini_get("session.use_cookies")) {
-    $params = session_get_cookie_params();
-    setcookie(session_name(), '', time() - 42000,
-        $params["path"], $params["domain"],
-        $params["secure"], $params["httponly"]
-    );
-}
+// Keep tasker session if exists
+// Do NOT use session_destroy()
 
-// Destroy the session.
-session_destroy();
+// Set success message
+$_SESSION['user_logout_message'] = "Goodbye, $user_name! You have been logged out successfully.";
 
-// Redirect to the login page.
+// Redirect to login page
 header("Location: login.html");
 exit();
 ?>

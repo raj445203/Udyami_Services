@@ -47,28 +47,53 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="nav-item">
                         <a class="nav-link text-dark fw-semibold" href="contact/contact.php">Contact Us</a>
                     </li>
+                    
                     <?php if (isset($_SESSION['user_id'])): ?>
+                        <!-- User Dashboard -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-semibold" href="dashboard.php">Dashboard</a>
+                            <a class="nav-link text-dark fw-semibold" href="dashboard.php">
+                                <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+                            </a>
                         </li>
+                        
+                        <!-- REMOVED: Live Map link - Now integrated in dashboard -->
+                        
                         <?php if (isset($_SESSION['tasker_logged_in']) && $_SESSION['tasker_logged_in'] === true): ?>
+                            <!-- Tasker Dashboard -->
                             <li class="nav-item">
-                                <a href="tasker_dashboard.php"><button class="btn btn-outline-success">Tasker Dashboard</button></a>
+                                <a class="nav-link text-dark fw-semibold" href="tasker_dashboard.php">
+                                    <i class="fas fa-briefcase me-1"></i> Tasker Dashboard
+                                </a>
                             </li>
+                            <!-- REMOVED: My Location link - Now integrated in tasker dashboard -->
                         <?php else: ?>
                             <li class="nav-item">
-                                <a href="become-a-tasker.php"><button class="btn btn-outline-success">Become a Tasker</button></a>
+                                <a href="become-a-tasker.php">
+                                    <button class="btn btn-outline-success">
+                                        <i class="fas fa-user-plus me-1"></i> Become a Tasker
+                                    </button>
+                                </a>
                             </li>
                         <?php endif; ?>
+                        
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-semibold" href="logout.php">Logout</a>
+                            <a class="nav-link text-dark fw-semibold" href="logout.php">
+                                <i class="fas fa-sign-out-alt me-1"></i> Logout
+                            </a>
                         </li>
                     <?php else: ?>
+                        <!-- Non-logged in users -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-semibold" href="login.html">Sign up / Log in</a>
+                            <a class="nav-link text-dark fw-semibold" href="login.html">
+                                <i class="fas fa-sign-in-alt me-1"></i> Sign up / Log in
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a href="become-a-tasker.php"><button class="btn btn-outline-success">Become a Tasker</button></a>
+                            <a href="become-a-tasker.php">
+                                <button class="btn btn-outline-success">
+                                    <i class="fas fa-user-plus me-1"></i> Become a Tasker
+                                </button>
+                            </a>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -77,56 +102,119 @@ if (session_status() === PHP_SESSION_NONE) {
     </nav>
     
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Udyami Services</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-                <a class="nav-link active text-dark fw-semibold" aria-current="page" href="index.php">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark fw-semibold" href="Services2.php">Services</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-dark fw-semibold" href="contact.php">Contact Us</a>
-            </li>
-            <?php if (isset($_SESSION['user_id'])): ?>
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+                <img src="images/logo2.png" alt="HandyHelp" height="30"> Udyami Services
+            </h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                 <li class="nav-item">
-                    <a class="nav-link text-dark fw-semibold" href="dashboard.php">Dashboard</a>
+                    <a class="nav-link active text-dark fw-semibold" aria-current="page" href="index.php">
+                        <i class="fas fa-home me-2"></i> Home
+                    </a>
                 </li>
-                <?php if (isset($_SESSION['tasker_logged_in']) && $_SESSION['tasker_logged_in'] === true): ?>
+                <li class="nav-item">
+                    <a class="nav-link text-dark fw-semibold" href="Services2.php">
+                        <i class="fas fa-tools me-2"></i> Services
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark fw-semibold" href="contact/contact.php">
+                        <i class="fas fa-envelope me-2"></i> Contact Us
+                    </a>
+                </li>
+                
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <!-- User Menu Items -->
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-semibold" href="tasker_dashboard.php">Tasker Dashboard</a>
+                        <a class="nav-link text-dark fw-semibold" href="dashboard.php">
+                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                        </a>
+                    </li>
+                    <!-- REMOVED: Live Map from offcanvas -->
+                    
+                    <?php if (isset($_SESSION['tasker_logged_in']) && $_SESSION['tasker_logged_in'] === true): ?>
+                        <!-- Tasker Menu Items -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-semibold" href="tasker_dashboard.php">
+                                <i class="fas fa-briefcase me-2"></i> Tasker Dashboard
+                            </a>
+                        </li>
+                        <!-- REMOVED: My Location from offcanvas -->
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-semibold" href="become-a-tasker.php">
+                                <i class="fas fa-user-plus me-2"></i> Become a Tasker
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-semibold" href="history.php">
+                            <i class="fas fa-history me-2"></i> History
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-semibold" href="logout.php">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </a>
                     </li>
                 <?php else: ?>
+                    <!-- Non-logged in users menu items -->
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-semibold" href="become-a-tasker.php">Become a Tasker</a>
+                        <a class="nav-link text-dark fw-semibold" href="login.html">
+                            <i class="fas fa-sign-in-alt me-2"></i> Sign up / Log in
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-semibold" href="become-a-tasker.php">
+                            <i class="fas fa-user-plus me-2"></i> Become a Tasker
+                        </a>
                     </li>
                 <?php endif; ?>
-                <li class="nav-item">
-                    <a class="nav-link text-dark fw-semibold" href="history.php">History</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark fw-semibold" href="logout.php">Logout</a>
-                </li>
-            <?php else: ?>
-                <li class="nav-item">
-                    <a class="nav-link text-dark fw-semibold" href="login.html">Sign up / Log in</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark fw-semibold" href="become-a-tasker.php">Become a Tasker</a>
-                </li>
+            </ul>
+            
+            <!-- Optional: User profile summary in offcanvas -->
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <hr class="my-3">
+                <div class="d-flex align-items-center p-2 bg-light rounded">
+                    <i class="fas fa-user-circle fa-2x me-2 text-primary"></i>
+                    <div>
+                        <small class="text-muted">Logged in as</small>
+                        <div class="fw-bold">
+                            <?php 
+                            if (isset($_SESSION['user_name'])) {
+                                echo htmlspecialchars($_SESSION['user_name']);
+                            } else if (isset($_SESSION['fullname'])) {
+                                echo htmlspecialchars($_SESSION['fullname']);
+                            } else {
+                                echo 'User';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
             <?php endif; ?>
-        </ul>
-      </div>
+        </div>
     </div>
 
     <?php if (isset($_SESSION['error_message'])): ?>
         <div class="container mt-2">
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
                 <?php echo htmlspecialchars($_SESSION['error_message']); unset($_SESSION['error_message']); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    <?php endif; ?>
+    
+    <?php if (isset($_SESSION['success_message'])): ?>
+        <div class="container mt-2">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <?php echo htmlspecialchars($_SESSION['success_message']); unset($_SESSION['success_message']); ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
@@ -136,5 +224,39 @@ if (session_status() === PHP_SESSION_NONE) {
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Global JavaScript for location handling -->
+    <script>
+    // Function to check if user is logged in (available globally)
+    function isUserLoggedIn() {
+        return <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;
+    }
+    
+    // Function to get user role
+    function getUserRole() {
+        <?php if (isset($_SESSION['tasker_logged_in']) && $_SESSION['tasker_logged_in'] === true): ?>
+        return 'tasker';
+        <?php elseif (isset($_SESSION['user_id'])): ?>
+        return 'user';
+        <?php else: ?>
+        return 'guest';
+        <?php endif; ?>
+    }
+    
+    // Add active class to current nav item
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPage = window.location.pathname.split('/').pop();
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && href === currentPage) {
+                link.classList.add('active');
+                link.style.fontWeight = 'bold';
+                link.style.color = '#0f5a5e';
+            }
+        });
+    });
+    </script>
 </body>
 </html>
