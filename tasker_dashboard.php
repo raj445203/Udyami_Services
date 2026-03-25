@@ -315,6 +315,7 @@ $conn->close();
         .dashboard-wrapper {
             display: flex;
             min-height: calc(100vh - 76px);
+            margin-top: 76px;
         }
 
         .sidebar {
@@ -324,6 +325,11 @@ $conn->close();
             padding: 20px;
             transition: transform 0.3s ease-in-out;
             transform: translateX(0);
+            position: fixed;
+            left: 0;
+            top: 76px;
+            bottom: 0;
+            overflow-y: auto;
         }
 
         .sidebar.collapsed {
@@ -333,6 +339,8 @@ $conn->close();
         .main-content {
             flex-grow: 1;
             padding: 30px;
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
         }
 
         .text-custom-green {
@@ -576,20 +584,20 @@ $conn->close();
 
         @media (max-width: 768px) {
             .sidebar {
-                display: none;
+                transform: translateX(-100%);
+                z-index: 1040;
             }
-
+            
             .sidebar.open {
-                display: block;
-                position: absolute;
-                z-index: 1050;
-                background: #fff;
-                width: 80%;
-                left: 0;
-                top: 0;
-                height: 100vh;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s;
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .dashboard-wrapper {
+                margin-top: 60px;
             }
         }
     </style>
@@ -619,9 +627,20 @@ $conn->close();
                 <a href="tasker_dashboard.php?tab=all-orders" class="sidebar-link <?php echo ($active_tab === 'all-orders' ? 'active' : ''); ?>">
                     <i class="bi bi-list-check"></i> All Orders
                 </a>
-                <a href="tasker_dashboard.php?tab=pending-orders" class="sidebar-link <?php echo ($active_tab === 'pending-orders' ? 'active' : ''); ?>">
-                    <i class="bi bi-hourglass-split"></i> Pending Orders
-                </a>
+               <a href="tasker_dashboard.php?tab=pending-orders" class="sidebar-link <?php echo ($active_tab === 'pending-orders' ? 'active' : ''); ?>">
+    <i class="bi bi-hourglass-split"></i> Pending Orders
+    <?php
+    // Count pending orders
+    $pending_count = 0;
+    foreach ($bookings as $b) {
+        if ($b['status'] == 'Pending') $pending_count++;
+    }
+    if ($pending_count > 0): ?>
+        <span class="badge bg-danger ms-2" style="font-size: 10px; padding: 3px 6px; border-radius: 20px;">
+            <?php echo $pending_count; ?>
+        </span>
+    <?php endif; ?>
+</a>
                 <a href="tasker_dashboard.php?tab=history" class="sidebar-link <?php echo ($active_tab === 'history' ? 'active' : ''); ?>">
                     <i class="bi bi-clock-history"></i> History
                 </a>
@@ -637,7 +656,7 @@ $conn->close();
                 <button class="btn toggle-btn d-md-none" id="sidebar-toggle-btn">
                     <i class="bi bi-list"></i> Menu
                 </button>
-              <h3 class="h4 mb-0 text-custom-green"><?php echo safe_html(ucfirst(str_replace('-', ' ', $active_tab))); ?></h3>
+                <h3 class="h4 mb-0 text-custom-green"><?php echo safe_html(ucfirst(str_replace('-', ' ', $active_tab))); ?></h3>
                 <div>
                     <a href="logout-tasker.php" class="btn btn-logout d-md-none">Logout</a>
                 </div>
@@ -737,8 +756,8 @@ $conn->close();
                                             <div class="d-flex align-items-center mb-3">
                                                 <i class="bi bi-person-circle fs-1 me-3 text-custom-green"></i>
                                                 <div>
-                                                   <h6 class="mb-0"><?php echo safe_html($active_booking['user_name'] ?? 'Customer'); ?></h6>
-<small class="text-muted"><?php echo safe_html($active_booking['service_type'] ?? 'Service'); ?></small>
+                                                    <h6 class="mb-0"><?php echo safe_html($active_booking['user_name'] ?? 'Customer'); ?></h6>
+                                                    <small class="text-muted"><?php echo safe_html($active_booking['service_type'] ?? 'Service'); ?></small>
                                                 </div>
                                                 <div class="ms-auto">
                                                     <span class="live-badge">
@@ -764,7 +783,7 @@ $conn->close();
                         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                         <div class="d-flex flex-column align-items-center mb-4">
                             <label for="profile_image_upload" class="profile-img-container mb-3">
-                               <img src="<?php echo safe_html($tasker_data['profile_image'] ?? 'https://placehold.co/150x150/d1e7dd/084650?text=Profile'); ?>" alt="Profile Image" class="rounded">
+                                <img src="<?php echo safe_html($tasker_data['profile_image'] ?? 'https://placehold.co/150x150/d1e7dd/084650?text=Profile'); ?>" alt="Profile Image" class="rounded">
                             </label>
                             <input type="file" id="profile_image_upload" name="profile_image" class="d-none">
                             <small class="text-muted">Click the image to upload a new one.</small>
@@ -782,15 +801,15 @@ $conn->close();
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="fullname" class="form-label">Full Name</label>
-                                <input type="text" name="fullname" class="form-control" id="fullname" value="<?php echo htmlspecialchars($tasker_data['fullname']); ?>">
+                                <input type="text" name="fullname" class="form-control" id="fullname" value="<?php echo safe_html($tasker_data['fullname'] ?? ''); ?>">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label">Email address</label>
-                                <input type="email" name="email" class="form-control" id="email" value="<?php echo htmlspecialchars($tasker_data['email']); ?>">
+                                <input type="email" name="email" class="form-control" id="email" value="<?php echo safe_html($tasker_data['email'] ?? ''); ?>">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="phone" class="form-label">Phone Number</label>
-                                <input type="tel" name="phone" class="form-control" id="phone" value="<?php echo htmlspecialchars($tasker_data['phone'] ?? ''); ?>">
+                                <input type="tel" name="phone" class="form-control" id="phone" value="<?php echo safe_html($tasker_data['phone'] ?? ''); ?>">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="gender" class="form-label">Gender</label>
@@ -802,23 +821,23 @@ $conn->close();
                             </div>
                             <div class="col-12 mb-3">
                                 <label for="address" class="form-label">Address</label>
-                                <textarea name="address" class="form-control" id="address" rows="3"><?php echo htmlspecialchars($tasker_data['address']); ?></textarea>
+                                <textarea name="address" class="form-control" id="address" rows="3"><?php echo safe_html($tasker_data['address'] ?? ''); ?></textarea>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="category" class="form-label">Category</label>
-                                <input type="text" name="category" class="form-control" id="category" value="<?php echo htmlspecialchars($tasker_data['category']); ?>">
+                                <input type="text" name="category" class="form-control" id="category" value="<?php echo safe_html($tasker_data['category'] ?? ''); ?>">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="skills" class="form-label">Skills</label>
-                                <input type="text" name="skills" class="form-control" id="skills" value="<?php echo htmlspecialchars($tasker_data['skills']); ?>">
+                                <input type="text" name="skills" class="form-control" id="skills" value="<?php echo safe_html($tasker_data['skills'] ?? ''); ?>">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="experience_years" class="form-label">Experience (Years)</label>
-                                <input type="number" name="experience_years" class="form-control" id="experience_years" value="<?php echo htmlspecialchars($tasker_data['experience_years']); ?>">
+                                <input type="number" name="experience_years" class="form-control" id="experience_years" value="<?php echo safe_html($tasker_data['experience_years'] ?? ''); ?>">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="preferred_location" class="form-label">Preferred Location</label>
-                                <input type="text" name="preferred_location" class="form-control" id="preferred_location" value="<?php echo htmlspecialchars($tasker_data['preferred_location']); ?>">
+                                <input type="text" name="preferred_location" class="form-control" id="preferred_location" value="<?php echo safe_html($tasker_data['preferred_location'] ?? ''); ?>">
                             </div>
                         </div>
                         <button type="submit" name="update_profile" class="btn btn-primary mt-3">Save Changes</button>
@@ -826,7 +845,7 @@ $conn->close();
                 </div>
 
             <?php elseif ($active_tab === 'all-orders' || $active_tab === 'pending-orders' || $active_tab === 'history'): ?>
-                <h4 class="text-custom-green"><?php echo htmlspecialchars(ucfirst(str_replace('-', ' ', $active_tab))); ?></h4>
+                <h4 class="text-custom-green"><?php echo safe_html(ucfirst(str_replace('-', ' ', $active_tab))); ?></h4>
                 <div class="mt-4">
                     <?php if (!empty($bookings)): ?>
                         <div class="table-responsive">
@@ -847,35 +866,35 @@ $conn->close();
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <i class="bi bi-person-circle fs-4 me-2"></i>
-                                                    <?php echo htmlspecialchars($booking['user_name']); ?>
+                                                    <?php echo safe_html($booking['user_name'] ?? 'Unknown'); ?>
                                                 </div>
                                             </td>
-                                            <td><?php echo htmlspecialchars($booking['user_phone'] ?? 'N/A'); ?></td>
-                                            <td><?php echo date('M d, Y \a\t h:i A', strtotime($booking['scheduled_datetime'])); ?></td>
-                                            <td><?php echo htmlspecialchars($booking['service_type'] ?? 'General Service'); ?></td>
+                                            <td><?php echo safe_html($booking['user_phone'] ?? 'N/A'); ?></td>
+                                            <td><?php echo date('M d, Y \a\t h:i A', strtotime($booking['scheduled_datetime'] ?? 'now')); ?></td>
+                                            <td><?php echo safe_html($booking['service_type'] ?? 'General Service'); ?></td>
                                             <td>
-                                                <span class="status-badge status-<?php echo strtolower($booking['status']); ?>">
-                                                    <?php echo ucfirst(str_replace('_', ' ', $booking['status'])); ?>
+                                                <span class="status-badge status-<?php echo strtolower($booking['status'] ?? 'pending'); ?>">
+                                                    <?php echo ucfirst(str_replace('_', ' ', $booking['status'] ?? 'Pending')); ?>
                                                 </span>
                                             </td>
                                             <td>
                                                 <form action="update_booking_status.php" method="POST" class="d-flex gap-2 flex-wrap">
-                                                    <input type="hidden" name="booking_id" value="<?php echo htmlspecialchars($booking['id']); ?>">
+                                                    <input type="hidden" name="booking_id" value="<?php echo safe_html($booking['id'] ?? ''); ?>">
                                                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                                     <select name="status" class="form-select form-select-sm" style="width: auto;" onchange="this.form.submit()">
-                                                        <option value="Pending" <?php echo ($booking['status'] == 'Pending') ? 'selected' : ''; ?>>Pending</option>
-                                                        <option value="Accepted" <?php echo ($booking['status'] == 'Accepted') ? 'selected' : ''; ?>>Accepted</option>
-                                                        <option value="Rejected" <?php echo ($booking['status'] == 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
-                                                        <option value="Completed" <?php echo ($booking['status'] == 'Completed') ? 'selected' : ''; ?>>Completed</option>
+                                                        <option value="Pending" <?php echo (($booking['status'] ?? '') == 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                                                        <option value="Accepted" <?php echo (($booking['status'] ?? '') == 'Accepted') ? 'selected' : ''; ?>>Accepted</option>
+                                                        <option value="Rejected" <?php echo (($booking['status'] ?? '') == 'Rejected') ? 'selected' : ''; ?>>Rejected</option>
+                                                        <option value="Completed" <?php echo (($booking['status'] ?? '') == 'Completed') ? 'selected' : ''; ?>>Completed</option>
                                                     </select>
                                                     
-                                                    <?php if (in_array($booking['status'], ['Accepted', 'in_progress'])): ?>
-                                                        <button type="button" class="btn btn-sm btn-info" onclick="showCustomerLocation(<?php echo $booking['id']; ?>, '<?php echo addslashes($booking['user_name']); ?>')">
+                                                    <?php if (in_array($booking['status'] ?? '', ['Accepted', 'in_progress'])): ?>
+                                                        <button type="button" class="btn btn-sm btn-info" onclick="showCustomerLocation(<?php echo $booking['id'] ?? 0; ?>, '<?php echo addslashes($booking['user_name'] ?? 'Customer'); ?>')">
                                                             <i class="bi bi-geo-alt-fill"></i> View Location
                                                         </button>
                                                     <?php endif; ?>
                                                 </form>
-                                            </td>
+                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -970,10 +989,13 @@ $conn->close();
             });
         }
 
-        document.querySelectorAll('#dashboard-sidebar .sidebar-link').forEach(link => {
-            link.addEventListener('click', function() {
-                if (window.innerWidth <= 768) closeSidebar();
-            });
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+                    closeSidebar();
+                }
+            }
         });
 
         // Profile image upload
@@ -1220,7 +1242,165 @@ $conn->close();
         
         // Debug: Check if function is available
         console.log("showCustomerLocation function defined:", typeof window.showCustomerLocation === 'function');
-    </script>
-</body>
+  
+        // Add this at the end of your JavaScript, before the closing 
 
+// ========== BROWSER NOTIFICATIONS FOR NEW BOOKINGS ==========
+
+// Request notification permission when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if browser supports notifications
+    if ("Notification" in window) {
+        // Request permission if not already granted
+        if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+            Notification.requestPermission().then(function(permission) {
+                if (permission === "granted") {
+                    console.log("Notification permission granted");
+                }
+            });
+        }
+    }
+});
+
+// Store last known booking count
+let lastBookingCount = <?php echo count($bookings); ?>;
+let notificationInterval;
+
+// Function to check for new bookings
+function checkNewBookings() {
+    $.ajax({
+        url: 'check_new_bookings.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                const currentCount = response.total_pending;
+                const newBookings = response.new_bookings;
+                
+                // Check if there are new bookings
+                if (newBookings > 0) {
+                    // Play notification sound (optional)
+                    playNotificationSound();
+                    
+                    // Show browser notification
+                    if (Notification.permission === "granted") {
+                        const notification = new Notification("🔔 New Booking Request!", {
+                            body: `You have ${newBookings} new booking request${newBookings > 1 ? 's' : ''}. Total pending: ${currentCount}`,
+                            icon: "images/logo2.png",
+                            badge: "images/logo2.png",
+                            vibrate: [200, 100, 200],
+                            silent: false
+                        });
+                        
+                        // Handle notification click
+                        notification.onclick = function() {
+                            window.focus();
+                            window.location.href = 'tasker_dashboard.php?tab=pending-orders';
+                            notification.close();
+                        };
+                        
+                        // Auto close after 5 seconds
+                        setTimeout(() => notification.close(), 5000);
+                    }
+                    
+                    // Update the pending orders badge in the sidebar
+                    updatePendingOrdersBadge(currentCount);
+                    
+                    // Show an in-page alert for new bookings
+                    showNewBookingAlert(newBookings);
+                }
+                
+                // Update last booking count
+                lastBookingCount = currentCount;
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log("Error checking bookings:", error);
+        }
+    });
+}
+
+// Play notification sound (optional)
+function playNotificationSound() {
+    try {
+        // Create audio element dynamically
+        const audio = new Audio('data:audio/wav;base64,U3RlYWx0aCBub3RpZmljYXRpb24gc291bmQ=');
+        audio.play().catch(e => console.log("Audio play failed:", e));
+    } catch(e) {
+        console.log("Sound not supported");
+    }
+}
+
+// Update pending orders badge in sidebar
+function updatePendingOrdersBadge(count) {
+    // Find the pending orders link
+    const pendingLink = document.querySelector('a[href*="tab=pending-orders"]');
+    if (pendingLink) {
+        // Remove existing badge
+        const existingBadge = pendingLink.querySelector('.badge');
+        if (existingBadge) {
+            existingBadge.remove();
+        }
+        
+        // Add new badge if count > 0
+        if (count > 0) {
+            const badge = document.createElement('span');
+            badge.className = 'badge bg-danger ms-2';
+            badge.style.fontSize = '10px';
+            badge.style.padding = '3px 6px';
+            badge.style.borderRadius = '20px';
+            badge.textContent = count;
+            pendingLink.appendChild(badge);
+        }
+    }
+}
+
+// Show in-page alert for new bookings
+function showNewBookingAlert(count) {
+    // Check if alert already exists
+    if ($('#newBookingAlert').length) {
+        return;
+    }
+    
+    const alertHtml = `
+        <div id="newBookingAlert" class="alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3" style="z-index: 9999; max-width: 350px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" role="alert">
+            <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                    <i class="bi bi-bell-fill fs-4 me-2 text-success"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <strong>New Booking Request!</strong>
+                    <div class="small">You have ${count} new booking request${count > 1 ? 's' : ''}</div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    `;
+    
+    $('body').append(alertHtml);
+    
+    // Auto remove after 8 seconds
+    setTimeout(() => {
+        $('#newBookingAlert').fadeOut(500, function() {
+            $(this).remove();
+        });
+    }, 8000);
+}
+
+// Start checking for new bookings every 30 seconds
+// Only start if tasker is online
+<?php if ($tasker_data['is_available'] == 1): ?>
+notificationInterval = setInterval(checkNewBookings, 30000);
+// Also check immediately on page load
+setTimeout(checkNewBookings, 2000);
+<?php endif; ?>
+
+// Stop checking when tasker goes offline (clean up on page unload)
+$(window).on('beforeunload', function() {
+    if (notificationInterval) {
+        clearInterval(notificationInterval);
+    }
+});
+  </script>
+</body>
 </html>

@@ -154,6 +154,7 @@ $conn->close();
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
+        /* Remove body padding-top since header already has it */
         body {
             background-color: #f9fdfc;
             font-family: 'Segoe UI', sans-serif;
@@ -163,6 +164,7 @@ $conn->close();
         .dashboard-wrapper {
             display: flex;
             min-height: calc(100vh - 76px);
+            margin-top: 76px; /* Add margin to account for fixed header */
         }
 
         .sidebar {
@@ -172,6 +174,11 @@ $conn->close();
             padding: 20px;
             transition: transform 0.3s ease-in-out;
             transform: translateX(0);
+            position: fixed;
+            left: 0;
+            top: 76px;
+            bottom: 0;
+            overflow-y: auto;
         }
 
         .sidebar.collapsed {
@@ -181,6 +188,27 @@ $conn->close();
         .main-content {
             flex-grow: 1;
             padding: 30px;
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1040;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .dashboard-wrapper {
+                margin-top: 60px;
+            }
         }
 
         .text-custom-green {
@@ -367,21 +395,8 @@ $conn->close();
         }
 
         @media (max-width: 768px) {
-            .sidebar {
-                display: none;
-            }
-
-            .sidebar.open {
-                display: block;
-                position: absolute;
-                z-index: 1050;
-                background: #fff;
-                width: 80%;
-                left: 0;
-                top: 0;
-                height: 100vh;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s;
+            .main-content {
+                padding: 20px;
             }
         }
     </style>
@@ -468,18 +483,6 @@ $conn->close();
                                 <h5 class="card-title text-custom-green">Find a Tasker</h5>
                                 <p class="card-text text-muted">Browse for new taskers for your next project.</p>
                                 <a href="Services2.php" class="btn btn-link-action w-100 mt-3">Browse Services</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 border-0 shadow-sm rounded-3 urgent-card">
-                            <div class="card-body text-center d-flex flex-column justify-content-between">
-                                <i class="bi bi-bell-fill card-icon mb-3"></i>
-                                <h5 class="card-title">Urgent Service</h5>
-                                <p class="card-text">Need immediate help? Get a tasker right now!</p>
-                                <a href="urgent-booking.php" class="btn btn-light w-100 mt-3">
-                                    <i class="bi bi-bolt"></i> Request Urgent Service
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -744,10 +747,13 @@ $conn->close();
             });
         }
 
-        document.querySelectorAll('#dashboard-sidebar .sidebar-link').forEach(link => {
-            link.addEventListener('click', function() {
-                if (window.innerWidth <= 768) closeSidebar();
-            });
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('open')) {
+                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+                    closeSidebar();
+                }
+            }
         });
 
         // Profile image upload
